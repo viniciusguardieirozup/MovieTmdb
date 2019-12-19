@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/favorites"
+        android:icon="@drawable/ic_favorite_border_white_24dp"
+        android:title="favorite" />
+    <item
+        android:id="@+id/register"
+        android:icon="@android:drawable/ic_search_category_default"
+        android:title="search" />
+    <item
+        android:id="@+id/registered"
+        android:icon="@android:drawable/ic_menu_add"
+        android:title="Movies" />
+</menu>
