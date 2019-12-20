@@ -6,8 +6,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 class RetrofitInitializer {
     val retrofitServices: MoviesServices
         get() {
-            return Retrofit.Builder().baseUrl("https://www.themoviedb.org/").addConverterFactory(GsonConverterFactory.create())
-                .build().create(MoviesServices::class.java)
-
+            val retrofit: Retrofit = Retrofit.Builder().baseUrl("https://api.themoviedb.org/3/")
+                .addConverterFactory(GsonConverterFactory.create()).build()
+            return retrofit.create(MoviesServices::class.java)
         }
 }
