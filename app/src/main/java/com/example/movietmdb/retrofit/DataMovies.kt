@@ -6,30 +6,30 @@ data class DataMovies(
     @SerializedName("poster_path")
     val posterPath: String?,
     @SerializedName("adult")
-    val adult: Boolean,
+    val adult: Boolean?,
     @SerializedName("overview")
-    val overView: String,
+    val overView: String?,
     @SerializedName("release_data")
-    val releaseData: String,
+    val releaseData: String?,
     @SerializedName("genre_ids")
-    val genreIds: ArrayList<Int>,
+    val genreIds: ArrayList<Int>?,
     @SerializedName("id")
-    val id: Int,
+    val id: Int?,
     @SerializedName("original_title")
-    val originalTitle: String,
+    val originalTitle: String?,
     @SerializedName("original_language")
-    val originalLanguage: String,
+    val originalLanguage: String?,
     @SerializedName("title")
-    val title: String,
+    val title: String?,
     @SerializedName("backdrop_path")
     val backdropPath: String?,
     @SerializedName("popularity")
-    val popularity: Int,
+    val popularity: Double?,
     @SerializedName("vote_count")
-    val voteCount: Int,
+    val voteCount: Int?,
     @SerializedName("video")
-    val video: Boolean,
+    val video: Boolean?,
     @SerializedName("vote_average")
-    val voteAverage: Int
+    val voteAverage: Double?
 
 )

@@ -9,6 +9,9 @@ import android.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.movietmdb.R
+import com.example.movietmdb.mapper.DataMoviesMapper
+import com.example.movietmdb.recycler.CostumAdapter
+import com.example.movietmdb.recycler.MoviePresentation
 import com.example.movietmdb.retrofit.RetrofitInitializer
 import com.example.movietmdb.retrofit.SearchResults
 import kotlinx.android.synthetic.main.search_movies_layout.*
@@ -61,10 +64,22 @@ class SearchFragment : Fragment() {
 
             override fun onResponse(call: Call<SearchResults>, response: Response<SearchResults>) {
                 val results = response.body()
-                Toast.makeText(context, results?.totalResults.toString(), Toast.LENGTH_SHORT).show()
+                results?.let {
+                    configureRecycler(results)
+                }
             }
 
         })
+    }
+
+    private fun configureRecycler(results: SearchResults) {
+        val size = results.results.size - 1
+        val movieList = ArrayList<MoviePresentation>()
+        for (i in 0..size) {
+            movieList.add(DataMoviesMapper().mapInMoviePresentation(results.results[i]))
+        }
+        recylerSearchMovie.adapter = CostumAdapter(movieList)
+
     }
 
 }
