@@ -1,6 +1,7 @@
 package com.example.movietmdb.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,7 +9,12 @@ import android.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.movietmdb.R
+import com.example.movietmdb.retrofit.RetrofitInitializer
+import com.example.movietmdb.retrofit.SearchResults
 import kotlinx.android.synthetic.main.search_movies_layout.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class SearchFragment : Fragment() {
 
@@ -43,7 +49,22 @@ class SearchFragment : Fragment() {
         searchMovie.clearFocus()
         val movieName = searchMovie.query.toString()
         searchMovie.setQuery("", false)
-        Toast.makeText(context, movieName, Toast.LENGTH_SHORT).show()
+        getResultRetrofit(movieName)
+    }
+
+    private fun getResultRetrofit(movieName: String) {
+        val call = RetrofitInitializer().retrofitServices.searchMoviesByUser(movieName)
+        call.enqueue(object : Callback<SearchResults> {
+            override fun onFailure(call: Call<SearchResults>, t: Throwable) {
+                Log.v("erro", t.message.toString())
+            }
+
+            override fun onResponse(call: Call<SearchResults>, response: Response<SearchResults>) {
+                val results = response.body()
+                Toast.makeText(context, results?.totalResults.toString(), Toast.LENGTH_SHORT).show()
+            }
+
+        })
     }
 
 }
