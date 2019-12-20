@@ -17,6 +17,9 @@
         android:elevation="2dp"
         android:gravity="center"
         android:textColor="@color/colorWhite"
+        android:textSize="20sp"
+        android:textStyle="bold"
+
         app:layout_constraintBottom_toBottomOf="@id/moviePoster"
         app:layout_constraintEnd_toEndOf="@id/moviePoster" />
 
@@ -56,6 +59,8 @@
         android:id="@+id/movieDescription"
         android:layout_width="0dp"
         android:layout_height="100dp"
+        android:textColor="@color/colorWhite"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@id/moviePoster"

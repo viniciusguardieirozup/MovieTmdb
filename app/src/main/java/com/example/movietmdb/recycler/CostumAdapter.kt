@@ -26,6 +26,7 @@ class CostumAdapter(val lista: ArrayList<MoviePresentation>) : RecyclerView.Adap
         val item = lista[position]
         holder.movieTitle.text = item.title
         holder.noteText.text = item.voteAverage.toString()
+        holder.movieDescription.text = item.overView
 
     }
 
@@ -34,4 +35,5 @@ class CostumAdapter(val lista: ArrayList<MoviePresentation>) : RecyclerView.Adap
 class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val movieTitle = itemView.movieTitle
     val noteText = itemView.movieNote
+    val movieDescription = itemView.movieDescription
 }
