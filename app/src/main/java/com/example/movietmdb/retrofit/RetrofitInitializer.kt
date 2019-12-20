@@ -10,4 +10,4 @@ class RetrofitInitializer {
                 .addConverterFactory(GsonConverterFactory.create()).build()
             return retrofit.create(MoviesServices::class.java)
         }
-}
+}g
