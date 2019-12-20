@@ -7,4 +7,8 @@
     <color name="colorBlack">#000</color>
     <color name="colorBackground">#CC000000</color>
     <color name="colorRecycler">#80000000</color>
+    <color name="colorYellow">#99FFFF00</color>
+    <color name="colorBorderYellow">#ffff00</color>
+
+
 </resources>
