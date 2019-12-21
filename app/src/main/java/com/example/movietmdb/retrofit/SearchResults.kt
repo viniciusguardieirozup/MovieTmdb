@@ -6,7 +6,7 @@ data class SearchResults(
     @SerializedName("page")
     val page: Int,
     @SerializedName("results")
-    val results: ArrayList<DataMovies>,
+    val results: ArrayList<MovieService>,
     @SerializedName("total_results")
     val totalResults: Int,
     @SerializedName("total_pages")

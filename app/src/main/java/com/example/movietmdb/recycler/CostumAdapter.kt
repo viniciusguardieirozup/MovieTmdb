@@ -27,7 +27,7 @@ class CostumAdapter(val lista: ArrayList<MoviePresentation>) : RecyclerView.Adap
         holder.movieTitle.text = item.title
         holder.noteText.text = item.voteAverage.toString()
         holder.movieDescription.text = item.overView
-
+        
     }
 
 }

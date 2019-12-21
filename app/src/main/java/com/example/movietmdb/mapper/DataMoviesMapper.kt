@@ -1,10 +1,10 @@
 package com.example.movietmdb.mapper
 
 import com.example.movietmdb.recycler.MoviePresentation
-import com.example.movietmdb.retrofit.DataMovies
+import com.example.movietmdb.retrofit.MovieService
 
 class DataMoviesMapper {
-    fun mapInMoviePresentation(dataMovies: DataMovies): MoviePresentation {
+    fun mapInMoviePresentation(dataMovies: MovieService): MoviePresentation {
         return MoviePresentation(
             dataMovies.posterPath,
             dataMovies.adult,
