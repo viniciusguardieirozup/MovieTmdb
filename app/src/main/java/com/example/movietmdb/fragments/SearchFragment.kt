@@ -50,9 +50,7 @@ class SearchFragment : Fragment() {
 
     private fun getTextToSearch() {
         searchMovie.clearFocus()
-        val movieName = searchMovie.query.toString()
-        searchMovie.setQuery("", false)
-        getResultRetrofit(movieName)
+        getResultRetrofit(searchMovie.query.toString())
     }
 
     private fun getResultRetrofit(movieName: String) {
