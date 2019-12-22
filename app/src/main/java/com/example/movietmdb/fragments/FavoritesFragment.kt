@@ -8,11 +8,13 @@ import androidx.fragment.app.Fragment
 import com.example.movietmdb.R
 
 class FavoritesFragment : Fragment() {
+
     companion object{
         fun newInstance() : FavoritesFragment{
             return FavoritesFragment()
         }
     }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

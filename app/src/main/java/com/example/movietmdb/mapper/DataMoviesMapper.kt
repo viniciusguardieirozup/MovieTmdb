@@ -3,7 +3,10 @@ package com.example.movietmdb.mapper
 import com.example.movietmdb.recycler.MoviePresentation
 import com.example.movietmdb.retrofit.MovieService
 
+//Mapper for DataMovies
 class DataMoviesMapper {
+
+    //MovieService to MoviePresentation converter
     fun mapInMoviePresentation(dataMovies: MovieService): MoviePresentation {
         return MoviePresentation(
             dataMovies.posterPath,

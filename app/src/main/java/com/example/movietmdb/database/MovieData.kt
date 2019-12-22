@@ -2,7 +2,7 @@ package com.example.movietmdb.database
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-
+//data class for database
 @Entity
 data class MovieData(
     val posterPath: String?,

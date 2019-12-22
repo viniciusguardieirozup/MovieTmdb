@@ -1,7 +1,7 @@
 package com.example.movietmdb.retrofit
 
 import com.google.gson.annotations.SerializedName
-
+//data class with retrofit results
 data class SearchResults(
     @SerializedName("page")
     val page: Int,

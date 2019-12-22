@@ -1,7 +1,7 @@
 package com.example.movietmdb.retrofit
 
 import com.google.gson.annotations.SerializedName
-
+//data clas with details about one movie
 data class MovieService(
     @SerializedName("poster_path")
     val posterPath: String?,

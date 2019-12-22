@@ -4,13 +4,13 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.movietmdb.fragments.FavoritesFragment
-import com.example.movietmdb.fragments.SearchFragment
 import com.example.movietmdb.fragments.RegisteredFragment
+import com.example.movietmdb.fragments.SearchFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
-
+class MainActivity : AppCompatActivity(){
+    //listener for bottom navegation
     private val mOnNavigationItemSelectedListener =
         BottomNavigationView.OnNavigationItemSelectedListener { item ->
             when (item.itemId) {
@@ -30,6 +30,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -38,6 +39,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    //function to change the fragments
     private fun replaceFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction().replace(R.id.content_changer, fragment).commit()
     }

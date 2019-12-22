@@ -1,5 +1,5 @@
 package com.example.movietmdb.recycler
-
+//data class for the object that will be displayed on the recyclerView
 data class MoviePresentation(
     val posterPath: String?,
     val adult: Boolean?,
