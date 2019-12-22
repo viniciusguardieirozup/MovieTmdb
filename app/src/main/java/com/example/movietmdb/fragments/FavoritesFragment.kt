@@ -9,8 +9,8 @@ import com.example.movietmdb.R
 
 class FavoritesFragment : Fragment() {
 
-    companion object{
-        fun newInstance() : FavoritesFragment{
+    companion object {
+        fun newInstance(): FavoritesFragment {
             return FavoritesFragment()
         }
     }
@@ -20,6 +20,6 @@ class FavoritesFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return View.inflate(context, R.layout.favorites_layout,null)
+        return View.inflate(context, R.layout.favorites_layout, null)
     }
 }

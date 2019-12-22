@@ -1,5 +1,6 @@
 package com.example.movietmdb.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,19 +8,31 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.room.Room
 import com.example.movietmdb.R
+import com.example.movietmdb.database.AppDatabase
+import com.example.movietmdb.database.MovieData
 import com.example.movietmdb.mapper.DataMoviesMapper
 import com.example.movietmdb.recycler.CostumAdapter
 import com.example.movietmdb.recycler.MoviePresentation
 import com.example.movietmdb.retrofit.RetrofitInitializer
 import com.example.movietmdb.retrofit.SearchResults
 import kotlinx.android.synthetic.main.search_movies_layout.*
+import kotlinx.coroutines.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import kotlin.coroutines.CoroutineContext
 
 //fragment for  searchMovies
-class SearchFragment : Fragment() {
+class SearchFragment : Fragment(), CoroutineScope {
+    private lateinit var job: Job
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main + job
+
+
+    private var favMovies: List<MovieData> = ArrayList()
+
     //static function
     companion object {
         fun newInstance(): SearchFragment {
@@ -38,6 +51,11 @@ class SearchFragment : Fragment() {
 
     //function called when this fragment was created
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        job = Job()
+        favMovies = getAllFavoritesMovies()
+
+
+
         searchMovie.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 getTextToSearch()
@@ -49,6 +67,7 @@ class SearchFragment : Fragment() {
             }
         })
     }
+
 
     //function to get the movie name typed by the user and call getResultsRetrofit
     private fun getTextToSearch() {
@@ -83,6 +102,23 @@ class SearchFragment : Fragment() {
         }
         recylerSearchMovie.adapter = CostumAdapter(movieList)
 
+    }
+
+
+    fun getAllFavoritesMovies(): List<MovieData> {
+
+        var databaseData: List<MovieData> = ArrayList()
+        launch {
+
+            databaseData = withContext(Dispatchers.IO) { auxAllFavoritesMovies() }
+        }
+        return databaseData
+    }
+
+    private fun auxAllFavoritesMovies(): List<MovieData> {
+        val db =
+            Room.databaseBuilder(context as Context, AppDatabase::class.java, "fav_movies").build()
+        return db.roomInterfaceDao().getAll()
     }
 
 }

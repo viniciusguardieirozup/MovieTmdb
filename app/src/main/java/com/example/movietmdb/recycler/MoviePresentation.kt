@@ -5,7 +5,7 @@ data class MoviePresentation(
     val adult: Boolean?,
     val overView: String?,
     val releaseData: String?,
-    val genreIds: ArrayList<Int>?,
+    val genreIds: ArrayList<Int>,
     val id: Int?,
     val originalTitle: String?,
     val originalLanguage: String?,
