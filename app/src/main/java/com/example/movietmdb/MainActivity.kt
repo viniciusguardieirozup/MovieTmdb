@@ -3,6 +3,9 @@ package com.example.movietmdb
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.room.Room
+import com.example.movietmdb.database.AppDatabase
+import com.example.movietmdb.database.MovieDao
 import com.example.movietmdb.fragments.FavoritesFragment
 import com.example.movietmdb.fragments.RegisteredFragment
 import com.example.movietmdb.fragments.SearchFragment

@@ -3,13 +3,16 @@ package com.example.movietmdb.database
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 //data class for database
-@Entity
+@Entity(
+    tableName = "fav_movies"
+
+)
 data class MovieData(
     val posterPath: String?,
     val adult: Boolean?,
     val overView: String?,
     val releaseData: String?,
-    val genreIds:  Int,
+    val genreIds:  String,
     @PrimaryKey val id: Int?,
     val originalTitle: String?,
     val originalLanguage: String?,

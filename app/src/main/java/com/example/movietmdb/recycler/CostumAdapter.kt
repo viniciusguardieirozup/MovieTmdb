@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movietmdb.R
 import kotlinx.android.synthetic.main.recycler_layout.view.*
+
 //A costum adapter for the recyclerView
 class CostumAdapter(val lista: ArrayList<MoviePresentation>) : RecyclerView.Adapter<ViewHolder>() {
 
@@ -20,6 +21,8 @@ class CostumAdapter(val lista: ArrayList<MoviePresentation>) : RecyclerView.Adap
         )
     }
 
+
+
     override fun getItemCount(): Int {
         return lista.size
     }
@@ -33,7 +36,9 @@ class CostumAdapter(val lista: ArrayList<MoviePresentation>) : RecyclerView.Adap
 
     }
 
+
 }
+
 //a costum viewHolder
 class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val movieTitle = itemView.movieTitle

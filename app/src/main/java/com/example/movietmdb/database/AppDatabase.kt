@@ -3,9 +3,9 @@ package com.example.movietmdb.database
 import androidx.room.Database
 import androidx.room.RoomDatabase
 
-//dataabase creator
-@Database(entities = arrayOf(MovieData::class), version = 1)
+//database creator
+@Database(entities = [MovieData::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun roomInterfaceDao(): RoomInterface
+    abstract fun movieDao(): MovieDao
 
 }
