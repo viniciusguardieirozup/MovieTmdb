@@ -9,14 +9,13 @@ class MovieDataMapper {
 
     //MovieService to MoviePresentation converter
 
-    fun mapFromMovieService(seacrhMovie: MovieService): MovieData {
-        var aux = seacrhMovie.genreIds.toString()
+    private fun mapFromMovieService(seacrhMovie: MovieService): MovieData {
         return MovieData(
             seacrhMovie.posterPath,
             seacrhMovie.adult,
             seacrhMovie.overView,
             seacrhMovie.releaseData,
-            aux,
+            seacrhMovie.genreIds.toString(),
             seacrhMovie.id,
             seacrhMovie.originalTitle,
             seacrhMovie.originalLanguage,
@@ -29,6 +28,34 @@ class MovieDataMapper {
         )
     }
 
+    fun mapFromPresentation(moviePresentation: MoviePresentation): MovieData {
+        return MovieData(
+            moviePresentation.posterPath,
+            moviePresentation.adult,
+            moviePresentation.overView,
+            moviePresentation.releaseData,
+            moviePresentation.genreIds.toString(),
+            moviePresentation.id,
+            moviePresentation.originalTitle,
+            moviePresentation.originalLanguage,
+            moviePresentation.title,
+            moviePresentation.backdropPath,
+            moviePresentation.popularity,
+            moviePresentation.voteCount,
+            moviePresentation.video,
+            moviePresentation.voteAverage
+
+        )
+    }
+
+    fun convertListMovieService(movies: List<MovieService>): ArrayList<MovieData> {
+        val moviesList = ArrayList<MovieData>()
+        val size = movies.size - 1
+        for (i in 0..size) {
+            moviesList.add(mapFromMovieService(movies[i]))
+        }
+        return moviesList
+    }
 
 
 }

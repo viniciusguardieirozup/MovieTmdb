@@ -1,31 +1,39 @@
 package com.example.movietmdb.fragments
 
-import com.example.movietmdb.coroutines.DataBaseThread
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.util.Base64
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.transition.Transition
 import com.example.movietmdb.MovieTmdbApplication
 import com.example.movietmdb.R
+import com.example.movietmdb.coroutines.DataBaseThread
 import com.example.movietmdb.database.MovieData
-import com.example.movietmdb.mapper.MovieDataMapper
 import com.example.movietmdb.mapper.MoviePresentationMapper
 import com.example.movietmdb.recycler.CostumAdapter
-import com.example.movietmdb.recycler.MoviePresentation
+import com.example.movietmdb.retrofit.MovieService
 import com.example.movietmdb.retrofit.RetrofitInitializer
 import com.example.movietmdb.retrofit.SearchResults
 import kotlinx.android.synthetic.main.search_movies_layout.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.launch
+import java.io.ByteArrayOutputStream
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 //fragment for  searchMovies
 class SearchFragment : Fragment() {
 
     private var favMovies: List<MovieData> = ArrayList()
+    private var thread = DataBaseThread()
+    private var db = MovieTmdbApplication.db.movieDao()
 
     //static function
     companion object {
@@ -45,6 +53,11 @@ class SearchFragment : Fragment() {
 
     //function called when this fragment was created
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        thread.launch {
+            progressBar3.visibility = View.VISIBLE
+            favMovies = db.getAll()
+            progressBar3.visibility = View.GONE
+        }
         searchMovie.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 getTextToSearch()
@@ -58,7 +71,6 @@ class SearchFragment : Fragment() {
     }
 
 
-
     //function to get the movie name typed by the user and call getResultsRetrofit
     private fun getTextToSearch() {
         searchMovie.clearFocus()
@@ -67,34 +79,60 @@ class SearchFragment : Fragment() {
 
     //function to get the results from retrofit
     private fun getResultRetrofit(movieName: String) {
-        val call = RetrofitInitializer().retrofitServices.searchMoviesByUser(movieName)
-        call.enqueue(object : Callback<SearchResults> {
-            override fun onFailure(call: Call<SearchResults>, t: Throwable) {
-                Log.v("erro", t.message.toString())
+        var results: SearchResults
+        thread.launch {
+            progressBar3.visibility = View.VISIBLE
+
+            try {
+                results = RetrofitInitializer().retrofitServices.searchMoviesByUser(movieName)
+                val moviesResults = results.results
+
+                configureImagesGlide(moviesResults)
+                configureRecycler(moviesResults)
+
+            } catch (e: Throwable) {
+                Log.e("error", e.message.toString())
+                Toast.makeText(context, "Movies not found", Toast.LENGTH_SHORT).show()
             }
 
-            override fun onResponse(call: Call<SearchResults>, response: Response<SearchResults>) {
-                val results = response.body()
-                results?.let {
-                    configureRecycler(results)
-                }
-            }
+        }
+    }
 
-        })
+    private suspend fun configureImagesGlide(moviesResults: ArrayList<MovieService>) {
+        val size = moviesResults.size - 1
+        for (i in 0..size) {
+            suspendCoroutine<MovieService> { continuation ->
+                Glide.with(context).asBitmap()
+                    .load("http://image.tmdb.org/t/p/w185/" + moviesResults[i].posterPath)
+                    .into(object : SimpleTarget<Bitmap>(100, 100) {
+                        override fun onResourceReady(
+                            resource: Bitmap?,
+                            transition: Transition<in Bitmap>?
+                        ) {
+                            val stream = ByteArrayOutputStream()
+                            resource?.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+                            moviesResults[i].posterPath =
+                                Base64.encodeToString(stream.toByteArray(), Base64.DEFAULT)
+                            continuation.resume(moviesResults[i])
+                        }
+                    })
+            }
+        }
     }
 
     //function to configure the recycler view
-    private fun configureRecycler(results: SearchResults) {
-        val size = results.results.size - 1
-        val movieList = ArrayList<MoviePresentation>()
-        for (i in 0..size) {
-            DataBaseThread(MovieTmdbApplication.db.movieDao())
-                .saveFavoritesMovie(MovieDataMapper().mapFromMovieService(results.results[i]))
-            movieList.add(MoviePresentationMapper().mapFromService(results.results[i]))
+    private fun configureRecycler(results: ArrayList<MovieService>?) {
+        progressBar3.visibility = View.GONE
+        results?.let {
+            val moviesSearched =
+                MoviePresentationMapper().convertListMovieService(results, favMovies)
+
+            recylerSearchMovie.adapter = CostumAdapter(moviesSearched)
         }
-        recylerSearchMovie.adapter = CostumAdapter(movieList)
+
+
 
     }
-
-
 }
+
+

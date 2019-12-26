@@ -3,10 +3,7 @@ package com.example.movietmdb.database
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 //data class for database
-@Entity(
-    tableName = "fav_movies"
-
-)
+@Entity(tableName = "fav_movies")
 data class MovieData(
     val posterPath: String?,
     val adult: Boolean?,
@@ -22,4 +19,12 @@ data class MovieData(
     val voteCount: Int?,
     val video: Boolean?,
     val voteAverage: Double?
-)
+) {
+    override fun equals(other: Any?): Boolean {
+        return (other as MovieData).id == id
+    }
+
+    override fun hashCode(): Int {
+        return id ?: 0
+    }
+}

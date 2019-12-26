@@ -1,9 +1,6 @@
 package com.example.movietmdb.database
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 
 //interface for database
 @Dao
@@ -13,5 +10,8 @@ interface MovieDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertMovie(movie: MovieData)
+
+    @Delete
+    suspend fun removeMovie(movie : MovieData)
 
 }
