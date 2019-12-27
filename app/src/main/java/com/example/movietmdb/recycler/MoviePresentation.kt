@@ -1,4 +1,7 @@
 package com.example.movietmdb.recycler
+
+import java.io.Serializable
+
 //data class for the object that will be displayed on the recyclerView
 data class MoviePresentation(
     val posterPath: String?,
@@ -16,4 +19,4 @@ data class MoviePresentation(
     val video: Boolean?,
     val voteAverage: Double?,
     val favorite: Boolean
-)
+) : Serializable

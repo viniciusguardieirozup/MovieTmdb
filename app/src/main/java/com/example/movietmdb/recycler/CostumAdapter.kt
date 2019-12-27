@@ -17,8 +17,10 @@ import kotlinx.coroutines.launch
 
 
 //A costum adapter for the recyclerView
-class CostumAdapter(val lista: ArrayList<MoviePresentation>) : RecyclerView.Adapter<ViewHolder>() {
-    private lateinit var listener: View.OnClickListener
+class CostumAdapter() : RecyclerView.Adapter<ViewHolder>() {
+
+    private var lista: ArrayList<MoviePresentation> = ArrayList()
+
     //inflate the recycler layout
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(
@@ -33,16 +35,23 @@ class CostumAdapter(val lista: ArrayList<MoviePresentation>) : RecyclerView.Adap
         return lista.size
     }
 
-    //cobifigure one item on ViewHolder
+    fun addAll(newMovies: ArrayList<MoviePresentation>) {
+        val oldSize = lista.size
+        lista.addAll(newMovies)
+        notifyItemRangeChanged(oldSize, newMovies.size)
+
+    }
+
+    //configure one item on ViewHolder
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = lista[position]
         holder.bind(item)
     }
-
-
 }
 
 //a costum viewHolder
+
+
 class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val movieTitle = itemView.movieTitle
     private val noteText = itemView.movieNote
@@ -59,9 +68,12 @@ class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         movieTitle.text = moviePresentation.title
         noteText.text = moviePresentation.voteAverage.toString()
         movieDescription.text = moviePresentation.overView
-        val aux = Base64.decode(moviePresentation.posterPath, Base64.DEFAULT)
-        val exibir = BitmapFactory.decodeByteArray(aux, 0, aux.size)
-        moviePoster.setImageBitmap(exibir)
+        moviePresentation.posterPath?.let {
+            val aux = Base64.decode(moviePresentation.posterPath, Base64.DEFAULT)
+            val exibir = BitmapFactory.decodeByteArray(aux, 0, aux.size)
+            moviePoster.setImageBitmap(exibir)
+        }
+
         if (moviePresentation.favorite) {
             movieFav.setBackgroundResource(R.drawable.ic_favorite_white_24dp)
             this.fav = true

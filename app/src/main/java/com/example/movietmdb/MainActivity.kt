@@ -3,11 +3,9 @@ package com.example.movietmdb
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.room.Room
-import com.example.movietmdb.database.AppDatabase
-import com.example.movietmdb.database.MovieDao
+import androidx.fragment.app.FragmentManager
 import com.example.movietmdb.fragments.FavoritesFragment
-import com.example.movietmdb.fragments.RegisteredFragment
+import com.example.movietmdb.fragments.MovieByGenresFragment
 import com.example.movietmdb.fragments.SearchFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
@@ -22,7 +20,7 @@ class MainActivity : AppCompatActivity() {
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.registered -> {
-                    replaceFragment(RegisteredFragment())
+                    replaceFragment(MovieByGenresFragment())
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.register -> {

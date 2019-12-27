@@ -51,7 +51,8 @@ class FavoritesFragment : Fragment() {
 
     private fun configRecycler() {
         progressBar.visibility = View.GONE
-        val adapter = CostumAdapter(favMovies)
+        val adapter = CostumAdapter()
+        adapter.addAll(favMovies)
         rc.adapter = adapter
     }
 }

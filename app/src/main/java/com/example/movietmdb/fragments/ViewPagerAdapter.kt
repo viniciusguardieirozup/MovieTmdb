@@ -10,7 +10,7 @@ class ViewPagerAdapter(fm: FragmentManager) :
         return when (position) {
             0 -> FavoritesFragment.newInstance()
             1 -> SearchFragment.newInstance()
-            else -> RegisteredFragment.newInstance()
+            else -> MovieByGenresFragment.newInstance()
         }
     }
 

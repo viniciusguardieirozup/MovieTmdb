@@ -7,10 +7,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
@@ -23,86 +21,44 @@ import com.example.movietmdb.recycler.CostumAdapter
 import com.example.movietmdb.retrofit.MovieService
 import com.example.movietmdb.retrofit.RetrofitInitializer
 import com.example.movietmdb.retrofit.SearchResults
+import kotlinx.android.synthetic.main.genres_layout.*
 import kotlinx.android.synthetic.main.search_movies_layout.*
 import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-//fragment for  searchMovies
-class SearchFragment : Fragment() {
+class GenreFragment : Fragment() {
 
-    private var favMovies: List<MovieData> = ArrayList()
-    private var thread = DataBaseThread()
-    private var db = MovieTmdbApplication.db.movieDao()
-    private lateinit var adapter: CostumAdapter
-    private lateinit var movieName: String
-    private var page = 1
-    private var lastPage = false
-    private var loading = false
+    lateinit var id: String
 
-    //static function
-    companion object {
-        fun newInstance(): SearchFragment {
-            return SearchFragment()
-        }
-    }
-
-    //function to inflate layout into this fragment
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return View.inflate(context, R.layout.search_movies_layout, null)
+        return View.inflate(context, R.layout.genres_layout, null)
     }
 
-    //function called when this fragment was created
+    private var favMovies: List<MovieData> = ArrayList()
+    private var thread = DataBaseThread()
+    private var db = MovieTmdbApplication.db.movieDao()
+    val adapter = CostumAdapter()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        adapter = CostumAdapter()
-        recylerSearchMovie.adapter = adapter
+
+        rcGenre.adapter = adapter
+        thread = DataBaseThread()
         thread.launch {
-            progressBar3.visibility = View.VISIBLE
             favMovies = db.getAll()
-            progressBar3.visibility = View.GONE
         }
-
-        searchMovie.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                getTextToSearch()
-                return true
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                return false
-            }
-        })
-
-
-    }
-
-
-    //function to get the movie name typed by the user and call getResultsRetrofit
-    private fun getTextToSearch() {
-        searchMovie.clearFocus()
-        movieName = searchMovie.query.toString()
-        page = 1
-        getResultRetrofit(movieName, page)
-    }
-
-    //function to get the results from retrofit
-    private fun getResultRetrofit(movieName: String, page: Int) {
-        loading = true
         var resultsRetrofit: SearchResults
         thread.launch {
-            progressBar3.visibility = View.VISIBLE
-
             try {
                 resultsRetrofit =
-                    RetrofitInitializer().retrofitServices.searchMoviesByUser(movieName, page)
+                    RetrofitInitializer().retrofitServices.getMoviesByGenres(id.toInt())
                 val moviesResults = resultsRetrofit.results
-                if (page == resultsRetrofit.totalPages)
-                    lastPage = true
+//                if (page == resultsRetrofit.totalPages)
+//                    lastPage = true
                 configureImagesGlide(moviesResults)
                 configureRecycler(moviesResults)
 
@@ -110,7 +66,6 @@ class SearchFragment : Fragment() {
                 Log.e("error", e.message.toString())
                 Toast.makeText(context, "Movies not found", Toast.LENGTH_SHORT).show()
             }
-
         }
     }
 
@@ -143,32 +98,13 @@ class SearchFragment : Fragment() {
 
     //function to configure the recycler view
     private fun configureRecycler(results: ArrayList<MovieService>?) {
-        progressBar3.visibility = View.GONE
-
         results?.let {
 
             val moviesSearched =
                 MoviePresentationMapper().convertListMovieService(results, favMovies)
             adapter.addAll(moviesSearched)
         }
-        loading = false
-        pagination()
-    }
 
-    fun pagination() {
-        recylerSearchMovie.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
-                if (!recyclerView.canScrollVertically(1) && !lastPage && !loading) {
-                    page++
-                    Log.v("teste", page.toString())
-                    getResultRetrofit(movieName, page)
-
-                }
-            }
-        })
     }
 
 }
-
-
