@@ -34,6 +34,7 @@ class SearchFragment : Fragment() {
     private var favMovies: List<MovieData> = ArrayList()
     private var thread = DataBaseThread()
     private var db = MovieTmdbApplication.db.movieDao()
+    private lateinit var adapter: CostumAdapter
 
     //static function
     companion object {
@@ -68,6 +69,8 @@ class SearchFragment : Fragment() {
                 return false
             }
         })
+
+
     }
 
 
@@ -123,14 +126,14 @@ class SearchFragment : Fragment() {
     //function to configure the recycler view
     private fun configureRecycler(results: ArrayList<MovieService>?) {
         progressBar3.visibility = View.GONE
+
         results?.let {
+
             val moviesSearched =
                 MoviePresentationMapper().convertListMovieService(results, favMovies)
-
-            recylerSearchMovie.adapter = CostumAdapter(moviesSearched)
+            adapter = CostumAdapter(moviesSearched)
+            recylerSearchMovie.adapter = adapter
         }
-
-
 
     }
 }

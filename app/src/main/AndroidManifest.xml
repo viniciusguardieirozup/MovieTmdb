@@ -3,6 +3,7 @@
     package="com.example.movietmdb">
 
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".MovieTmdbApplication"
         android:allowBackup="false"
@@ -12,6 +13,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity
+            android:name=".DescriptionActivity"
+            android:label="@string/title_activity_description"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

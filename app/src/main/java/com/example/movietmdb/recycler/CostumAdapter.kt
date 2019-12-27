@@ -1,11 +1,14 @@
 package com.example.movietmdb.recycler
 
+import android.content.Intent
 import android.graphics.BitmapFactory
 import android.util.Base64
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.movietmdb.DescriptionActivity
 import com.example.movietmdb.MovieTmdbApplication
 import com.example.movietmdb.R
 import com.example.movietmdb.coroutines.DataBaseThread
@@ -15,18 +18,16 @@ import kotlinx.coroutines.launch
 
 //A costum adapter for the recyclerView
 class CostumAdapter(val lista: ArrayList<MoviePresentation>) : RecyclerView.Adapter<ViewHolder>() {
-
+    private lateinit var listener: View.OnClickListener
     //inflate the recycler layout
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(
-            LayoutInflater.from(parent.context).inflate(
-                R.layout.recycler_layout,
-                parent,
-                false
-            )
+        val view = LayoutInflater.from(parent.context).inflate(
+            R.layout.recycler_layout,
+            parent,
+            false
         )
+        return ViewHolder(view)
     }
-
 
     override fun getItemCount(): Int {
         return lista.size
@@ -35,8 +36,12 @@ class CostumAdapter(val lista: ArrayList<MoviePresentation>) : RecyclerView.Adap
     //cobifigure one item on ViewHolder
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = lista[position]
+
         holder.bind(item)
     }
+
+
+
 
 }
 
@@ -69,6 +74,11 @@ class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     }
 
     init {
+        itemView.setOnClickListener{
+            val intent = Intent(itemView.context,DescriptionActivity::class.java)
+            intent.putExtra("movie",moviePresentation)
+            itemView.context.startActivity(intent)
+        }
         movieFav.setOnClickListener {
             val thread = DataBaseThread()
             val db = MovieTmdbApplication.db.movieDao()
