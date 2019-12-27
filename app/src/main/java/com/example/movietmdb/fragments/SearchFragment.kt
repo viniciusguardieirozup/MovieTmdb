@@ -87,7 +87,7 @@ class SearchFragment : Fragment() {
             progressBar3.visibility = View.VISIBLE
 
             try {
-                results = RetrofitInitializer().retrofitServices.searchMoviesByUser(movieName)
+                results = RetrofitInitializer().retrofitServices.searchMoviesByUser(movieName,1)
                 val moviesResults = results.results
 
                 configureImagesGlide(moviesResults)

@@ -6,46 +6,54 @@
     android:background="@color/colorBackground"
     android:orientation="vertical">
 
+    <Toolbar
+        android:id="@+id/toolBarDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/goBackButton"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:background="@drawable/ic_arrow_back_black_24dp"/>
+
+        <TextView
+            android:id="@+id/titleDescriptionLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@color/colorWhite"
+            android:textSize="24sp" />
+    </Toolbar>
+
     <ImageView
         android:id="@+id/imageDescriptionLayout"
         android:layout_width="200dp"
         android:layout_height="250dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/titleDescriptionLayout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textColor="@color/colorWhite"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@id/overviewDescriptionLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/imageDescriptionLayout"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolBarDescription" />
+
 
     <TextView
         android:id="@+id/overviewDescriptionLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_margin="15dp"
         android:textColor="@color/colorWhite"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageDescriptionLayout" />
+        app:layout_constraintTop_toBottomOf="@id/favoriteButtonDescriptionActivity" />
 
-    <TextView
-        android:id="@+id/descriptionDescriptionLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageDescriptionLayout" />
 
     <ImageButton
-        android:id="@+id/favoriteButtonDesriptionActivity"
+        android:id="@+id/favoriteButtonDescriptionActivity"
         android:layout_width="30dp"
         android:layout_height="30dp"
+        app:layout_constraintEnd_toEndOf="@id/imageDescriptionLayout"
         app:layout_constraintStart_toStartOf="@id/imageDescriptionLayout"
         app:layout_constraintTop_toBottomOf="@id/imageDescriptionLayout" />
 

@@ -3,7 +3,6 @@ package com.example.movietmdb.recycler
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.util.Base64
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +14,7 @@ import com.example.movietmdb.coroutines.DataBaseThread
 import com.example.movietmdb.mapper.MovieDataMapper
 import kotlinx.android.synthetic.main.recycler_layout.view.*
 import kotlinx.coroutines.launch
+
 
 //A costum adapter for the recyclerView
 class CostumAdapter(val lista: ArrayList<MoviePresentation>) : RecyclerView.Adapter<ViewHolder>() {
@@ -36,11 +36,8 @@ class CostumAdapter(val lista: ArrayList<MoviePresentation>) : RecyclerView.Adap
     //cobifigure one item on ViewHolder
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = lista[position]
-
         holder.bind(item)
     }
-
-
 
 
 }
@@ -54,6 +51,7 @@ class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val movieFav = itemView.favoriteButton
     private var fav = false
     private lateinit var moviePresentation: MoviePresentation
+
 
     fun bind(moviePresentation: MoviePresentation) {
 
@@ -74,9 +72,9 @@ class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     }
 
     init {
-        itemView.setOnClickListener{
-            val intent = Intent(itemView.context,DescriptionActivity::class.java)
-            intent.putExtra("movie",moviePresentation)
+        itemView.setOnClickListener {
+            val intent = Intent(itemView.context, DescriptionActivity::class.java)
+            intent.putExtra("movie", moviePresentation)
             itemView.context.startActivity(intent)
         }
         movieFav.setOnClickListener {
