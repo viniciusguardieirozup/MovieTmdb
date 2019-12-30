@@ -37,8 +37,8 @@ class GenreFragment : Fragment() {
     private var loading = false
     private lateinit var favMovies: List<MovieData>
     private lateinit var thread: DataBaseThread
-    private lateinit var db : MovieDao
-    private lateinit var adapter : CostumAdapter
+    private lateinit var db: MovieDao
+    private lateinit var adapter: CostumAdapter
 
     companion object {
         private const val favoritesMoviesListKEY = "fav_movies"
@@ -46,13 +46,20 @@ class GenreFragment : Fragment() {
         private const val dbKEY = "db"
         private const val adapterKEY = "adapter"
 
-        fun newInstance(favMovies: List<MovieData> ,thread: DataBaseThread, db : MovieDao, adapter: CostumAdapter) = GenreFragment().apply {
+        fun newInstance(
+            favMovies: List<MovieData>,
+            thread: DataBaseThread,
+            db: MovieDao,
+            adapter: CostumAdapter
+        ) = GenreFragment().apply {
             arguments = bundleOf(
                 favoritesMoviesListKEY to favMovies,
-                threadKEY to thread, dbKEY to db, adapterKEY to adapter)
+                threadKEY to thread,
+                dbKEY to db,
+                adapterKEY to adapter
+            )
         }
     }
-
 
 
     override fun onCreateView(
@@ -60,12 +67,12 @@ class GenreFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        favMovies = savedInstanceState?.get(favoritesMoviesListKEY) as List<MovieData>
-        thread = savedInstanceState.get(threadKEY) as DataBaseThread
-        db = savedInstanceState.get(dbKEY) as MovieDao
-        adapter = savedInstanceState.get(adapterKEY) as CostumAdapter
-
+        arguments?.let {
+            favMovies = arguments?.get(favoritesMoviesListKEY) as List<MovieData>
+            thread = arguments?.get(threadKEY) as DataBaseThread
+            db = arguments?.get(dbKEY) as MovieDao
+            adapter = arguments?.get(adapterKEY) as CostumAdapter
+        }
         return View.inflate(context, R.layout.genres_layout, null)
     }
 
