@@ -1,6 +1,8 @@
 package com.example.movietmdb.database
 
+import android.os.Parcelable
 import androidx.room.*
+import kotlinx.android.parcel.Parcelize
 
 //interface for database
 @Dao

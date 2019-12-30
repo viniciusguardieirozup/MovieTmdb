@@ -15,9 +15,7 @@ class GenresViewPagerAdapter(fm: FragmentManager, val list: GenresList) :
     override fun getItem(position: Int): Fragment {
         val frag = GenreFragment.newInstance(
             ArrayList(),
-            DataBaseThread(),
-            MovieTmdbApplication.db.movieDao(),
-            CostumAdapter()
+            DataBaseThread()
         )
         frag.id = list.genres[position].id.toString()
         return frag

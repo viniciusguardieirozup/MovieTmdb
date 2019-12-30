@@ -15,8 +15,6 @@ import com.example.movietmdb.mapper.MovieDataMapper
 import kotlinx.android.synthetic.main.recycler_layout.view.*
 import kotlinx.coroutines.launch
 
-
-//A costum adapter for the recyclerView
 class CostumAdapter() : RecyclerView.Adapter<ViewHolder>() {
 
     private var lista: ArrayList<MoviePresentation> = ArrayList()
@@ -42,11 +40,11 @@ class CostumAdapter() : RecyclerView.Adapter<ViewHolder>() {
 
     }
 
-    //configure one item on ViewHolder
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = lista[position]
         holder.bind(item)
     }
+
 }
 
 //a costum viewHolder

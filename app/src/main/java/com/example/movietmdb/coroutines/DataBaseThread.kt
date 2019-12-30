@@ -1,11 +1,14 @@
 package com.example.movietmdb.coroutines
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlin.coroutines.CoroutineContext
 
-class DataBaseThread() : CoroutineScope {
+@Parcelize
+class DataBaseThread() : CoroutineScope, Parcelable {
 
     private val job: Job = Job()
 

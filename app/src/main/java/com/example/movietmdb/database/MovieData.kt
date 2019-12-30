@@ -1,6 +1,5 @@
 package com.example.movietmdb.database
 
-import android.os.Parcel
 import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -14,7 +13,7 @@ data class MovieData(
     val adult: Boolean?,
     val overView: String?,
     val releaseData: String?,
-    val genreIds:  String,
+    val genreIds: String,
     @PrimaryKey val id: Int?,
     val originalTitle: String?,
     val originalLanguage: String?,
@@ -24,7 +23,7 @@ data class MovieData(
     val voteCount: Int?,
     val video: Boolean?,
     val voteAverage: Double?
-): Parcelable {
+) : Parcelable {
     override fun equals(other: Any?): Boolean {
         return (other as MovieData).id == id
     }

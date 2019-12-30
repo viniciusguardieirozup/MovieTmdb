@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
+import com.example.movietmdb.MovieTmdbApplication
 import com.example.movietmdb.R
 import com.example.movietmdb.coroutines.DataBaseThread
 import com.example.movietmdb.database.MovieDao
@@ -38,29 +39,22 @@ class GenreFragment : Fragment() {
     private lateinit var favMovies: List<MovieData>
     private lateinit var thread: DataBaseThread
     private lateinit var db: MovieDao
-    private lateinit var adapter: CostumAdapter
+    private var adapter: CostumAdapter = CostumAdapter()
 
     companion object {
         private const val favoritesMoviesListKEY = "fav_movies"
         private const val threadKEY = "thread"
-        private const val dbKEY = "db"
-        private const val adapterKEY = "adapter"
 
         fun newInstance(
             favMovies: List<MovieData>,
-            thread: DataBaseThread,
-            db: MovieDao,
-            adapter: CostumAdapter
+            thread: DataBaseThread
         ) = GenreFragment().apply {
             arguments = bundleOf(
                 favoritesMoviesListKEY to favMovies,
-                threadKEY to thread,
-                dbKEY to db,
-                adapterKEY to adapter
+                threadKEY to thread
             )
         }
     }
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -68,17 +62,16 @@ class GenreFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         arguments?.let {
-            favMovies = arguments?.get(favoritesMoviesListKEY) as List<MovieData>
+            @Suppress("UNCHECKED_CAST")
+            favMovies =
+                arguments?.get(favoritesMoviesListKEY) as? ArrayList<MovieData> ?: return null
             thread = arguments?.get(threadKEY) as DataBaseThread
-            db = arguments?.get(dbKEY) as MovieDao
-            adapter = arguments?.get(adapterKEY) as CostumAdapter
+            db = MovieTmdbApplication.db.movieDao()
         }
         return View.inflate(context, R.layout.genres_layout, null)
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         rcGenre.adapter = adapter
         thread = DataBaseThread()
         thread.launch {
@@ -86,9 +79,7 @@ class GenreFragment : Fragment() {
             favMovies = db.getAll()
             progressBarGenre.visibility = View.GONE
         }
-
         configRetrofit(page)
-
     }
 
     fun configRetrofit(page: Int) {
@@ -104,7 +95,6 @@ class GenreFragment : Fragment() {
                     lastPage = true
                 configureImagesGlide(moviesResults)
                 configureRecycler(moviesResults)
-
             } catch (e: Throwable) {
                 Log.e("error", e.message.toString())
                 Toast.makeText(context, "Movies not found", Toast.LENGTH_SHORT).show()
@@ -129,12 +119,10 @@ class GenreFragment : Fragment() {
                                 resource?.compress(Bitmap.CompressFormat.JPEG, 100, stream)
                                 moviesResults[i].posterPath =
                                     Base64.encodeToString(stream.toByteArray(), Base64.DEFAULT)
-
                                 continuation.resume(moviesResults[i])
                             }
                         })
                 }
-
             }
         }
     }
@@ -143,14 +131,12 @@ class GenreFragment : Fragment() {
     private fun configureRecycler(results: ArrayList<MovieService>?) {
         progressBarGenre.visibility = View.GONE
         results?.let {
-
             val moviesSearched =
                 MoviePresentationMapper().convertListMovieService(results, favMovies)
             adapter.addAll(moviesSearched)
         }
         loading = false
         pagination()
-
     }
 
     fun pagination() {
@@ -161,7 +147,6 @@ class GenreFragment : Fragment() {
                     page++
                     Log.v("teste", page.toString())
                     configRetrofit(page)
-
                 }
             }
         })
