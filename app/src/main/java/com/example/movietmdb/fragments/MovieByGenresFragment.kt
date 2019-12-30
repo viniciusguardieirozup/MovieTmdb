@@ -14,6 +14,7 @@ import com.example.movietmdb.retrofit.GenresList
 import com.example.movietmdb.retrofit.RetrofitInitializer
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.movies_by_genre_layout.*
+import kotlinx.android.synthetic.main.search_movies_layout.*
 import kotlinx.coroutines.launch
 
 class MovieByGenresFragment : Fragment() {
@@ -37,6 +38,7 @@ class MovieByGenresFragment : Fragment() {
         val thread = DataBaseThread()
         val fm = fragmentManager
         thread.launch {
+            progressBar2.visibility = View.VISIBLE
             genresList = RetrofitInitializer().retrofitServices.getGenres()
             Log.v("search", genresList.genres.size.toString())
 
@@ -44,6 +46,7 @@ class MovieByGenresFragment : Fragment() {
                 vpGenres.adapter = GenresViewPagerAdapter(fm, genresList)
             }
             tbMovies.setupWithViewPager(vpGenres)
+            progressBar2.visibility = View.VISIBLE
         }
     }
 }

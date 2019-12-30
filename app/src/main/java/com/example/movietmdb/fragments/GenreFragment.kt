@@ -8,13 +8,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
-import com.example.movietmdb.MovieTmdbApplication
 import com.example.movietmdb.R
 import com.example.movietmdb.coroutines.DataBaseThread
+import com.example.movietmdb.database.MovieDao
 import com.example.movietmdb.database.MovieData
 import com.example.movietmdb.mapper.MoviePresentationMapper
 import com.example.movietmdb.recycler.CostumAdapter
@@ -22,7 +24,6 @@ import com.example.movietmdb.retrofit.MovieService
 import com.example.movietmdb.retrofit.RetrofitInitializer
 import com.example.movietmdb.retrofit.SearchResults
 import kotlinx.android.synthetic.main.genres_layout.*
-import kotlinx.android.synthetic.main.search_movies_layout.*
 import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
 import kotlin.coroutines.resume
@@ -31,34 +32,69 @@ import kotlin.coroutines.suspendCoroutine
 class GenreFragment : Fragment() {
 
     lateinit var id: String
+    private var page = 1
+    private var lastPage = false
+    private var loading = false
+    private lateinit var favMovies: List<MovieData>
+    private lateinit var thread: DataBaseThread
+    private lateinit var db : MovieDao
+    private lateinit var adapter : CostumAdapter
+
+    companion object {
+        private const val favoritesMoviesListKEY = "fav_movies"
+        private const val threadKEY = "thread"
+        private const val dbKEY = "db"
+        private const val adapterKEY = "adapter"
+
+        fun newInstance(favMovies: List<MovieData> ,thread: DataBaseThread, db : MovieDao, adapter: CostumAdapter) = GenreFragment().apply {
+            arguments = bundleOf(
+                favoritesMoviesListKEY to favMovies,
+                threadKEY to thread, dbKEY to db, adapterKEY to adapter)
+        }
+    }
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        favMovies = savedInstanceState?.get(favoritesMoviesListKEY) as List<MovieData>
+        thread = savedInstanceState.get(threadKEY) as DataBaseThread
+        db = savedInstanceState.get(dbKEY) as MovieDao
+        adapter = savedInstanceState.get(adapterKEY) as CostumAdapter
+
         return View.inflate(context, R.layout.genres_layout, null)
     }
 
-    private var favMovies: List<MovieData> = ArrayList()
-    private var thread = DataBaseThread()
-    private var db = MovieTmdbApplication.db.movieDao()
-    val adapter = CostumAdapter()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         rcGenre.adapter = adapter
         thread = DataBaseThread()
         thread.launch {
+            progressBarGenre.visibility = View.VISIBLE
             favMovies = db.getAll()
+            progressBarGenre.visibility = View.GONE
         }
+
+        configRetrofit(page)
+
+    }
+
+    fun configRetrofit(page: Int) {
+        loading = true
         var resultsRetrofit: SearchResults
         thread.launch {
+            progressBarGenre.visibility = View.VISIBLE
             try {
                 resultsRetrofit =
-                    RetrofitInitializer().retrofitServices.getMoviesByGenres(id.toInt())
+                    RetrofitInitializer().retrofitServices.getMoviesByGenres(id.toInt(), page)
                 val moviesResults = resultsRetrofit.results
-//                if (page == resultsRetrofit.totalPages)
-//                    lastPage = true
+                if (page == resultsRetrofit.totalPages)
+                    lastPage = true
                 configureImagesGlide(moviesResults)
                 configureRecycler(moviesResults)
 
@@ -98,13 +134,30 @@ class GenreFragment : Fragment() {
 
     //function to configure the recycler view
     private fun configureRecycler(results: ArrayList<MovieService>?) {
+        progressBarGenre.visibility = View.GONE
         results?.let {
 
             val moviesSearched =
                 MoviePresentationMapper().convertListMovieService(results, favMovies)
             adapter.addAll(moviesSearched)
         }
+        loading = false
+        pagination()
 
+    }
+
+    fun pagination() {
+        rcGenre.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (!recyclerView.canScrollVertically(1) && !lastPage && !loading) {
+                    page++
+                    Log.v("teste", page.toString())
+                    configRetrofit(page)
+
+                }
+            }
+        })
     }
 
 }

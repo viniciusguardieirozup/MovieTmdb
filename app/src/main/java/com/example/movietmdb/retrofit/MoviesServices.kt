@@ -12,5 +12,5 @@ interface MoviesServices {
     suspend fun getGenres() : GenresList
 
     @GET("discover/movie?api_key=d272326e467344029e68e3c4ff0b4059")
-    suspend fun getMoviesByGenres(@Query("with_genres")id : Int): SearchResults
+    suspend fun getMoviesByGenres(@Query("with_genres")id : Int, @Query("page") page :Int): SearchResults
 }
