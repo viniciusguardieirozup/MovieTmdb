@@ -1,4 +1,4 @@
-package com.example.movietmdb.retrofit
+package com.example.movietmdb.repository.retrofit
 
 import com.google.gson.annotations.SerializedName
 //data class with retrofit results

@@ -2,11 +2,7 @@ package com.example.movietmdb
 
 import android.app.Application
 import androidx.room.Room
-import com.example.movietmdb.coroutines.DataBaseThread
-import com.example.movietmdb.database.AppDatabase
-import com.example.movietmdb.retrofit.GenresList
-import com.example.movietmdb.retrofit.RetrofitInitializer
-import kotlinx.coroutines.launch
+import com.example.movietmdb.repository.database.AppDatabase
 
 class MovieTmdbApplication : Application() {
 

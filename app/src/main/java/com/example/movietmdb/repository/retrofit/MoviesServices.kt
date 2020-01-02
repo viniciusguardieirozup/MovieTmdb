@@ -1,4 +1,4 @@
-package com.example.movietmdb.retrofit
+package com.example.movietmdb.repository.retrofit
 
 import retrofit2.http.GET
 import retrofit2.http.Query

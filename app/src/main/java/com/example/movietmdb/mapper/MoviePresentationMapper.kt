@@ -1,15 +1,12 @@
 package com.example.movietmdb.mapper
 
 import android.util.Log
-import com.bumptech.glide.Glide
-import com.example.movietmdb.coroutines.DataBaseThread
-import com.example.movietmdb.database.MovieData
-import com.example.movietmdb.recycler.MoviePresentation
-import com.example.movietmdb.retrofit.MovieService
-import kotlinx.coroutines.launch
+import com.example.movietmdb.repository.database.MovieData
+import com.example.movietmdb.ui.recycler.MoviePresentation
+import com.example.movietmdb.repository.retrofit.MovieService
 
 class MoviePresentationMapper {
-    fun mapFromService(seacrhMovie: MovieService,fav : Boolean): MoviePresentation {
+    fun mapFromService(seacrhMovie: MovieService, fav : Boolean): MoviePresentation {
         return MoviePresentation(
             seacrhMovie.posterPath,
             seacrhMovie.adult,

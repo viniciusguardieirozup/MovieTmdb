@@ -1,4 +1,4 @@
-package com.example.movietmdb.fragments
+package com.example.movietmdb.ui.fragments
 
 import android.graphics.Bitmap
 import android.os.Bundle
@@ -17,13 +17,13 @@ import com.bumptech.glide.request.transition.Transition
 import com.example.movietmdb.MovieTmdbApplication
 import com.example.movietmdb.R
 import com.example.movietmdb.coroutines.DataBaseThread
-import com.example.movietmdb.database.MovieDao
-import com.example.movietmdb.database.MovieData
+import com.example.movietmdb.repository.database.MovieDao
+import com.example.movietmdb.repository.database.MovieData
 import com.example.movietmdb.mapper.MoviePresentationMapper
-import com.example.movietmdb.recycler.CostumAdapter
-import com.example.movietmdb.retrofit.MovieService
-import com.example.movietmdb.retrofit.RetrofitInitializer
-import com.example.movietmdb.retrofit.SearchResults
+import com.example.movietmdb.ui.recycler.CostumAdapter
+import com.example.movietmdb.repository.retrofit.MovieService
+import com.example.movietmdb.repository.retrofit.RetrofitInitializer
+import com.example.movietmdb.repository.retrofit.SearchResults
 import kotlinx.android.synthetic.main.genres_layout.*
 import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
@@ -39,7 +39,8 @@ class GenreFragment : Fragment() {
     private lateinit var favMovies: List<MovieData>
     private lateinit var thread: DataBaseThread
     private lateinit var db: MovieDao
-    private var adapter: CostumAdapter = CostumAdapter()
+    private var adapter: CostumAdapter =
+        CostumAdapter()
 
     companion object {
         private const val favoritesMoviesListKEY = "fav_movies"
@@ -89,7 +90,8 @@ class GenreFragment : Fragment() {
             progressBarGenre.visibility = View.VISIBLE
             try {
                 resultsRetrofit =
-                    RetrofitInitializer().retrofitServices.getMoviesByGenres(id.toInt(), page)
+                    RetrofitInitializer()
+                        .retrofitServices.getMoviesByGenres(id.toInt(), page)
                 val moviesResults = resultsRetrofit.results
                 if (page == resultsRetrofit.totalPages)
                     lastPage = true

@@ -1,4 +1,4 @@
-package com.example.movietmdb.recycler
+package com.example.movietmdb.ui.recycler
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView

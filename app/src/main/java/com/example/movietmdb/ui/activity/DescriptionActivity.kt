@@ -1,13 +1,15 @@
-package com.example.movietmdb
+package com.example.movietmdb.ui.activity
 
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Base64
 import androidx.appcompat.app.AppCompatActivity
+import com.example.movietmdb.MovieTmdbApplication
+import com.example.movietmdb.R
 import com.example.movietmdb.coroutines.DataBaseThread
 import com.example.movietmdb.mapper.MovieDataMapper
-import com.example.movietmdb.recycler.MoviePresentation
+import com.example.movietmdb.ui.recycler.MoviePresentation
 import kotlinx.android.synthetic.main.activity_description.*
 import kotlinx.coroutines.launch
 
@@ -21,6 +23,10 @@ class DescriptionActivity : AppCompatActivity() {
         setContentView(R.layout.activity_description)
         goBackButton.setOnClickListener {
             startActivity(Intent(applicationContext, MainActivity::class.java))
+            overridePendingTransition(
+                R.anim.slide_to_right_enter,
+                R.anim.slide_to_right_exit
+            )
         }
         val movieFromActivity = intent.extras
         configScreen(movieFromActivity)

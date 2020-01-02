@@ -1,12 +1,12 @@
-package com.example.movietmdb
+package com.example.movietmdb.ui.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import com.example.movietmdb.fragments.FavoritesFragment
-import com.example.movietmdb.fragments.MovieByGenresFragment
-import com.example.movietmdb.fragments.SearchFragment
+import com.example.movietmdb.R
+import com.example.movietmdb.ui.fragments.FavoritesFragment
+import com.example.movietmdb.ui.fragments.MovieByGenresFragment
+import com.example.movietmdb.ui.fragments.SearchFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 

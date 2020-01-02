@@ -1,8 +1,8 @@
 package com.example.movietmdb.mapper
 
-import com.example.movietmdb.database.MovieData
-import com.example.movietmdb.recycler.MoviePresentation
-import com.example.movietmdb.retrofit.MovieService
+import com.example.movietmdb.repository.database.MovieData
+import com.example.movietmdb.ui.recycler.MoviePresentation
+import com.example.movietmdb.repository.retrofit.MovieService
 
 //Mapper for DataMovies
 class MovieDataMapper {

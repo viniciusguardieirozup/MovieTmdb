@@ -1,4 +1,4 @@
-package com.example.movietmdb.recycler
+package com.example.movietmdb.ui.recycler
 
 import java.io.Serializable
 

@@ -1,4 +1,4 @@
-package com.example.movietmdb.fragments
+package com.example.movietmdb.ui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,8 +9,8 @@ import com.example.movietmdb.MovieTmdbApplication
 import com.example.movietmdb.R
 import com.example.movietmdb.coroutines.DataBaseThread
 import com.example.movietmdb.mapper.MoviePresentationMapper
-import com.example.movietmdb.recycler.CostumAdapter
-import com.example.movietmdb.recycler.MoviePresentation
+import com.example.movietmdb.ui.recycler.CostumAdapter
+import com.example.movietmdb.ui.recycler.MoviePresentation
 import kotlinx.android.synthetic.main.favorites_layout.*
 import kotlinx.coroutines.launch
 

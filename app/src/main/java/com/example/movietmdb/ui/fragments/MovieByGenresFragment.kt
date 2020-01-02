@@ -1,4 +1,4 @@
-package com.example.movietmdb.fragments
+package com.example.movietmdb.ui.fragments
 
 import android.os.Bundle
 import android.util.Log
@@ -6,15 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.viewpager.widget.ViewPager
 import com.example.movietmdb.R
 import com.example.movietmdb.coroutines.DataBaseThread
-import com.example.movietmdb.retrofit.GenresList
-import com.example.movietmdb.retrofit.RetrofitInitializer
-import com.google.android.material.tabs.TabLayout
+import com.example.movietmdb.repository.retrofit.GenresList
+import com.example.movietmdb.repository.retrofit.RetrofitInitializer
 import kotlinx.android.synthetic.main.movies_by_genre_layout.*
-import kotlinx.android.synthetic.main.search_movies_layout.*
 import kotlinx.coroutines.launch
 
 class MovieByGenresFragment : Fragment() {
@@ -39,11 +35,16 @@ class MovieByGenresFragment : Fragment() {
         val fm = fragmentManager
         thread.launch {
             progressBar2.visibility = View.VISIBLE
-            genresList = RetrofitInitializer().retrofitServices.getGenres()
+            genresList = RetrofitInitializer()
+                .retrofitServices.getGenres()
             Log.v("search", genresList.genres.size.toString())
 
             fm?.let {
-                vpGenres.adapter = GenresViewPagerAdapter(fm, genresList)
+                vpGenres.adapter =
+                    GenresViewPagerAdapter(
+                        fm,
+                        genresList
+                    )
             }
             tbMovies.setupWithViewPager(vpGenres)
             progressBar2.visibility = View.VISIBLE

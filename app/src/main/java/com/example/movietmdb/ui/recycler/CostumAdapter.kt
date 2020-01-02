@@ -1,5 +1,6 @@
-package com.example.movietmdb.recycler
+package com.example.movietmdb.ui.recycler
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.util.Base64
@@ -7,7 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.movietmdb.DescriptionActivity
+import com.example.movietmdb.ui.activity.DescriptionActivity
 import com.example.movietmdb.MovieTmdbApplication
 import com.example.movietmdb.R
 import com.example.movietmdb.coroutines.DataBaseThread
@@ -86,6 +87,7 @@ class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             val intent = Intent(itemView.context, DescriptionActivity::class.java)
             intent.putExtra("movie", moviePresentation)
             itemView.context.startActivity(intent)
+            (itemView.context as Activity).overridePendingTransition(R.anim.slide_to_left_enter,R.anim.slide_to_left_exit)
         }
         movieFav.setOnClickListener {
             val thread = DataBaseThread()
