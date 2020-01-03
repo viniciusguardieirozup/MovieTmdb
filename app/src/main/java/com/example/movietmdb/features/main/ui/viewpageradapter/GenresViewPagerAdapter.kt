@@ -1,9 +1,9 @@
-package com.example.movietmdb.feature.main.ui.viewpageradapter
+package com.example.movietmdb.features.main.ui.viewpageradapter
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
-import com.example.movietmdb.feature.main.ui.fragments.GenreFragment
+import com.example.movietmdb.features.main.ui.fragments.GenreFragment
 import com.example.movietmdb.repository.retrofit.GenresList
 import com.example.movietmdb.DataBaseThread
 

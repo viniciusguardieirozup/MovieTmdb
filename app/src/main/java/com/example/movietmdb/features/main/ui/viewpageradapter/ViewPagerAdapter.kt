@@ -1,11 +1,11 @@
-package com.example.movietmdb.feature.main.ui.viewpageradapter
+package com.example.movietmdb.features.main.ui.viewpageradapter
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
-import com.example.movietmdb.feature.main.ui.fragments.FavoritesFragment
-import com.example.movietmdb.feature.main.ui.fragments.MovieByGenresFragment
-import com.example.movietmdb.feature.main.ui.fragments.SearchFragment
+import com.example.movietmdb.features.main.ui.fragments.FavoritesFragment
+import com.example.movietmdb.features.main.ui.fragments.MovieByGenresFragment
+import com.example.movietmdb.features.main.ui.fragments.SearchFragment
 
 class ViewPagerAdapter(fm: FragmentManager) :
     FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {

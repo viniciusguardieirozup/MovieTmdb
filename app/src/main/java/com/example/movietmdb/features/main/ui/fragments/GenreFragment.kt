@@ -1,4 +1,4 @@
-package com.example.movietmdb.feature.main.ui.fragments
+package com.example.movietmdb.features.main.ui.fragments
 
 import android.graphics.Bitmap
 import android.os.Bundle

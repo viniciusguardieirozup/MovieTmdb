@@ -13,7 +13,7 @@ import com.bumptech.glide.request.transition.Transition
 import com.example.movietmdb.R
 import com.example.movietmdb.mapper.MovieDataMapper
 import com.example.movietmdb.repository.RepositoryRules
-import com.example.movietmdb.feature.description.ui.DescriptionActivity
+import com.example.movietmdb.features.description.ui.DescriptionActivity
 import com.example.movietmdb.DataBaseThread
 import kotlinx.android.synthetic.main.recycler_layout.view.*
 import kotlinx.coroutines.CoroutineScope

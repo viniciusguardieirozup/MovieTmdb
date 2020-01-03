@@ -14,10 +14,10 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
-            android:name="com.example.movietmdb.feature.description.ui.DescriptionActivity"
+            android:name="com.example.movietmdb.features.description.ui.DescriptionActivity"
             android:label="@string/title_activity_description"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name="com.example.movietmdb.feature.main.ui.activity.MainActivity">
+        <activity android:name="com.example.movietmdb.features.main.ui.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />

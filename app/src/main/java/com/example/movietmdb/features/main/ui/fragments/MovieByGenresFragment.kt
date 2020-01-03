@@ -1,4 +1,4 @@
-package com.example.movietmdb.feature.main.ui.fragments
+package com.example.movietmdb.features.main.ui.fragments
 
 import android.os.Bundle
 import android.util.Log
@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.movietmdb.R
-import com.example.movietmdb.feature.main.ui.viewpageradapter.GenresViewPagerAdapter
+import com.example.movietmdb.features.main.ui.viewpageradapter.GenresViewPagerAdapter
 import com.example.movietmdb.repository.retrofit.GenresList
 import com.example.movietmdb.repository.retrofit.RetrofitInitializer
 import com.example.movietmdb.DataBaseThread

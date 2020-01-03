@@ -1,4 +1,4 @@
-package com.example.movietmdb.feature.main.ui.fragments
+package com.example.movietmdb.features.main.ui.fragments
 
 import android.os.Bundle
 import android.util.Log
@@ -11,8 +11,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movietmdb.R
-import com.example.movietmdb.feature.main.viewmodel.SearchFragmentViewModel
-import com.example.movietmdb.feature.main.viewmodel.ViewState
+import com.example.movietmdb.features.main.viewmodel.SearchFragmentViewModel
+import com.example.movietmdb.features.main.viewmodel.ViewState
 import com.example.movietmdb.recycler.CostumAdapter
 import com.example.movietmdb.recycler.MoviePresentation
 import kotlinx.android.synthetic.main.search_movies_layout.*

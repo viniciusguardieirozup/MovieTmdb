@@ -1,4 +1,4 @@
-package com.example.movietmdb.feature.description.ui
+package com.example.movietmdb.features.description.ui
 
 import android.content.Intent
 import android.graphics.BitmapFactory
@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.movietmdb.DataBaseThread
 import com.example.movietmdb.MovieTmdbApplication
 import com.example.movietmdb.R
-import com.example.movietmdb.feature.main.ui.activity.MainActivity
+import com.example.movietmdb.features.main.ui.activity.MainActivity
 import com.example.movietmdb.mapper.MovieDataMapper
 import com.example.movietmdb.recycler.MoviePresentation
 import kotlinx.android.synthetic.main.activity_description.*
