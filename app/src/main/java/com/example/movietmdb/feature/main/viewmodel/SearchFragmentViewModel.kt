@@ -1,4 +1,4 @@
-package com.example.movietmdb.feature.main.ui.fragments.searchmovies.viewmodel
+package com.example.movietmdb.feature.main.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

@@ -1,4 +1,4 @@
-package com.example.movietmdb.feature.main.ui.fragments.favoritesmovies.ui
+package com.example.movietmdb.feature.main.ui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,8 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.movietmdb.R
-import com.example.movietmdb.feature.main.ui.fragments.favoritesmovies.viewmodel.FavoritesFragmentViewModel
-import com.example.movietmdb.feature.main.ui.fragments.searchmovies.viewmodel.ViewState
+import com.example.movietmdb.feature.main.viewmodel.FavoritesFragmentViewModel
+import com.example.movietmdb.feature.main.viewmodel.ViewState
 import com.example.movietmdb.recycler.CostumAdapter
 import com.example.movietmdb.recycler.MoviePresentation
 import kotlinx.android.synthetic.main.favorites_layout.*

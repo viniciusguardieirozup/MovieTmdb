@@ -1,8 +1,7 @@
-package com.example.movietmdb.feature.main.ui.fragments.favoritesmovies.viewmodel
+package com.example.movietmdb.feature.main.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.movietmdb.feature.main.ui.fragments.searchmovies.viewmodel.ViewState
 import com.example.movietmdb.repository.RepositoryRules
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

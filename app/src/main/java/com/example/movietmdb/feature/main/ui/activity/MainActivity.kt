@@ -4,9 +4,9 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.movietmdb.R
-import com.example.movietmdb.feature.main.ui.fragments.favoritesmovies.ui.FavoritesFragment
-import com.example.movietmdb.feature.main.ui.fragments.moviesbygenres.ui.MovieByGenresFragment
-import com.example.movietmdb.feature.main.ui.fragments.searchmovies.ui.SearchFragment
+import com.example.movietmdb.feature.main.ui.fragments.FavoritesFragment
+import com.example.movietmdb.feature.main.ui.fragments.MovieByGenresFragment
+import com.example.movietmdb.feature.main.ui.fragments.SearchFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 
