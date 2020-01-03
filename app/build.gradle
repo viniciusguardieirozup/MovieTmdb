@@ -53,6 +53,7 @@ dependencies {
     kapt "androidx.room:room-compiler:2.2.3"
     implementation 'com.github.bumptech.glide:glide:4.4.0'
     kapt 'com.github.bumptech.glide:compiler:4.4.0'
-    implementation 'androidx.viewpager2:viewpager2:1.0.0'
-    implementation 'com.github.mohammadatif:Animatoo:master'
+    implementation 'android.arch.lifecycle:runtime:1.1.1'
+    implementation 'android.arch.lifecycle:extensions:1.1.1'
+    implementation 'androidx.lifecycle:lifecycle-livedata-core:2.1.0@aar'
 }

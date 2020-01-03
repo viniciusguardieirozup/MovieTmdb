@@ -2,7 +2,7 @@ package com.example.movietmdb
 
 import android.app.Application
 import androidx.room.Room
-import com.example.movietmdb.repository.database.AppDatabase
+import com.example.movietmdb.repository.db.AppDatabase
 
 class MovieTmdbApplication : Application() {
 

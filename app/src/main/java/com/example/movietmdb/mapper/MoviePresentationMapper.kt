@@ -1,14 +1,14 @@
 package com.example.movietmdb.mapper
 
 import android.util.Log
-import com.example.movietmdb.repository.database.MovieData
-import com.example.movietmdb.ui.recycler.MoviePresentation
+import com.example.movietmdb.repository.db.entity.MovieData
+import com.example.movietmdb.recycler.MoviePresentation
 import com.example.movietmdb.repository.retrofit.MovieService
 
 class MoviePresentationMapper {
     fun mapFromService(seacrhMovie: MovieService, fav : Boolean): MoviePresentation {
         return MoviePresentation(
-            seacrhMovie.posterPath,
+            "http://image.tmdb.org/t/p/w185/"+seacrhMovie.posterPath,
             seacrhMovie.adult,
             seacrhMovie.overView,
             seacrhMovie.releaseData,

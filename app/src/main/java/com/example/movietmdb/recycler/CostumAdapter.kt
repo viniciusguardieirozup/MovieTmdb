@@ -1,20 +1,26 @@
-package com.example.movietmdb.ui.recycler
+package com.example.movietmdb.recycler
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.BitmapFactory
-import android.util.Base64
+import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.movietmdb.ui.activity.DescriptionActivity
-import com.example.movietmdb.MovieTmdbApplication
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.transition.Transition
 import com.example.movietmdb.R
-import com.example.movietmdb.coroutines.DataBaseThread
 import com.example.movietmdb.mapper.MovieDataMapper
+import com.example.movietmdb.repository.RepositoryRules
+import com.example.movietmdb.feature.description.ui.DescriptionActivity
+import com.example.movietmdb.DataBaseThread
 import kotlinx.android.synthetic.main.recycler_layout.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import kotlin.coroutines.CoroutineContext
 
 class CostumAdapter() : RecyclerView.Adapter<ViewHolder>() {
 
@@ -51,7 +57,7 @@ class CostumAdapter() : RecyclerView.Adapter<ViewHolder>() {
 //a costum viewHolder
 
 
-class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), CoroutineScope {
     private val movieTitle = itemView.movieTitle
     private val noteText = itemView.movieNote
     private val movieDescription = itemView.movieDescription
@@ -60,19 +66,36 @@ class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private var fav = false
     private lateinit var moviePresentation: MoviePresentation
 
+    private val job: Job = Job()
+
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main + job
+
+    fun stopJob() {
+        job.cancel()
+    }
 
     fun bind(moviePresentation: MoviePresentation) {
-
         this.moviePresentation = moviePresentation
         movieTitle.text = moviePresentation.title
         noteText.text = moviePresentation.voteAverage.toString()
         movieDescription.text = moviePresentation.overView
         moviePresentation.posterPath?.let {
-            val aux = Base64.decode(moviePresentation.posterPath, Base64.DEFAULT)
-            val exibir = BitmapFactory.decodeByteArray(aux, 0, aux.size)
-            moviePoster.setImageBitmap(exibir)
-        }
+            DataBaseThread().launch {
+                Glide.with(itemView.context)
+                    .asBitmap()
+                    .load(moviePresentation.posterPath)
+                    .into(object : SimpleTarget<Bitmap>(100, 100) {
+                        override fun onResourceReady(
+                            resource: Bitmap?,
+                            transition: Transition<in Bitmap>?
+                        ) {
+                            moviePoster.setImageBitmap(resource)
+                        }
 
+                    })
+            }
+        }
         if (moviePresentation.favorite) {
             movieFav.setBackgroundResource(R.drawable.ic_favorite_white_24dp)
             this.fav = true
@@ -87,21 +110,22 @@ class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             val intent = Intent(itemView.context, DescriptionActivity::class.java)
             intent.putExtra("movie", moviePresentation)
             itemView.context.startActivity(intent)
-            (itemView.context as Activity).overridePendingTransition(R.anim.slide_to_left_enter,R.anim.slide_to_left_exit)
+            (itemView.context as Activity).overridePendingTransition(
+                R.anim.slide_to_left_enter,
+                R.anim.slide_to_left_exit
+            )
         }
         movieFav.setOnClickListener {
-            val thread = DataBaseThread()
-            val db = MovieTmdbApplication.db.movieDao()
             val aux = MovieDataMapper().mapFromPresentation(moviePresentation)
             if (!fav) {
-                thread.launch {
-                    db.insertMovie(aux)
+                launch {
+                    RepositoryRules().insertMovie(aux)
                     movieFav.setBackgroundResource(R.drawable.ic_favorite_white_24dp)
                     fav = true
                 }
             } else {
-                thread.launch {
-                    db.removeMovie(aux)
+                launch {
+                    RepositoryRules().removeMovie(aux)
                     movieFav.setBackgroundResource(R.drawable.ic_favorite_border_white_24dp)
                     fav = false
                 }

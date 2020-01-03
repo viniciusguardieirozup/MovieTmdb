@@ -1,4 +1,4 @@
-package com.example.movietmdb.repository.database
+package com.example.movietmdb.repository.db.entity
 
 import android.os.Parcelable
 import androidx.room.Entity
