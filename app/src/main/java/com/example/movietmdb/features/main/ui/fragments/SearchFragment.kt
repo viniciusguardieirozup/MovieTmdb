@@ -79,6 +79,7 @@ class SearchFragment : Fragment() {
         searchMovie.clearFocus()
         movieName = searchMovie.query.toString()
         page = 1
+        adapter.reset()
         viewModel.searchMovies(movieName, page)
     }
 
@@ -95,7 +96,7 @@ class SearchFragment : Fragment() {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (!recyclerView.canScrollVertically(1) && !loading) {
                     page++
-                    Log.v("teste",page.toString())
+                    Log.v("teste", page.toString())
                     viewModel.searchMovies(movieName, page)
                 }
             }

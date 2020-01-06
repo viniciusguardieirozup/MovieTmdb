@@ -1,61 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorBackground"
-    android:orientation="vertical">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="teste"
+            type="com.example.movietmdb.features.description.viewmodel.DescriptionActivityViewModel" />
+    </data>
 
-    <Toolbar
-        android:id="@+id/toolBarDescription"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorBackground"
+        android:orientation="vertical">
 
-        <ImageButton
-            android:id="@+id/goBackButton"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:background="@drawable/ic_arrow_back_black_24dp"/>
+        <Toolbar
+            android:id="@+id/toolBarDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageButton
+                android:id="@+id/goBackButton"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:background="@drawable/ic_arrow_back_black_24dp" />
+
+            <TextView
+                android:id="@+id/titleDescriptionLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@color/colorWhite"
+                android:text="@{teste.movie.title}"
+                android:textSize="24sp" />
+        </Toolbar>
+
+        <ImageView
+            android:id="@+id/imageDescriptionLayout"
+            android:layout_width="200dp"
+            android:layout_height="250dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolBarDescription" />
 
         <TextView
-            android:id="@+id/titleDescriptionLayout"
-            android:layout_width="wrap_content"
+            android:id="@+id/overviewDescriptionLayout"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_margin="15dp"
             android:textColor="@color/colorWhite"
-            android:textSize="24sp" />
-    </Toolbar>
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="@{teste.movie.overView}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/favoriteButtonDescriptionActivity" />
 
-    <ImageView
-        android:id="@+id/imageDescriptionLayout"
-        android:layout_width="200dp"
-        android:layout_height="250dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolBarDescription" />
+        <ImageButton
+            android:id="@+id/favoriteButtonDescriptionActivity"
+            android:background="@color/colorBackground"
+            android:src="@{teste.favMovie}"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            app:layout_constraintEnd_toEndOf="@id/imageDescriptionLayout"
+            app:layout_constraintStart_toStartOf="@id/imageDescriptionLayout"
+            app:layout_constraintTop_toBottomOf="@id/imageDescriptionLayout" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-    <TextView
-        android:id="@+id/overviewDescriptionLayout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        android:textColor="@color/colorWhite"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/favoriteButtonDescriptionActivity" />
-
-
-    <ImageButton
-        android:id="@+id/favoriteButtonDescriptionActivity"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        app:layout_constraintEnd_toEndOf="@id/imageDescriptionLayout"
-        app:layout_constraintStart_toStartOf="@id/imageDescriptionLayout"
-        app:layout_constraintTop_toBottomOf="@id/imageDescriptionLayout" />
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

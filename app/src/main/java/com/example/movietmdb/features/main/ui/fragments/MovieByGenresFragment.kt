@@ -1,21 +1,19 @@
 package com.example.movietmdb.features.main.ui.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.example.movietmdb.R
 import com.example.movietmdb.features.main.ui.viewpageradapter.GenresViewPagerAdapter
-import com.example.movietmdb.repository.retrofit.GenresList
-import com.example.movietmdb.repository.retrofit.RetrofitInitializer
-import com.example.movietmdb.DataBaseThread
+import com.example.movietmdb.features.main.viewmodel.GenreViewModel
+import com.example.movietmdb.features.main.viewmodel.ViewStateGenre
 import kotlinx.android.synthetic.main.movies_by_genre_layout.*
-import kotlinx.coroutines.launch
 
 class MovieByGenresFragment : Fragment() {
-    lateinit var genresList: GenresList
 
     companion object {
         fun newInstance(): MovieByGenresFragment {
@@ -32,24 +30,27 @@ class MovieByGenresFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val thread =
-            DataBaseThread()
-        val fm = fragmentManager
-        thread.launch {
-            progressBar2.visibility = View.VISIBLE
-            genresList = RetrofitInitializer()
-                .retrofitServices.getGenres()
-            Log.v("search", genresList.genres.size.toString())
-
-            fm?.let {
-                vpGenres.adapter =
-                    GenresViewPagerAdapter(
-                        fm,
-                        genresList
-                    )
+        val viewModel = ViewModelProviders.of(this).get(GenreViewModel::class.java)
+        viewModel.movieListData.observe(viewLifecycleOwner, Observer {
+            if (it is ViewStateGenre.Loading) {
+                if (it.loading) {
+                    progressBar2.visibility = View.VISIBLE
+                } else {
+                    progressBar2.visibility = View.GONE
+                }
+            } else if (it is ViewStateGenre.Data) {
+                val aux = it.genres
+                val fm = fragmentManager
+                fm?.let {
+                    vpGenres.adapter =
+                        GenresViewPagerAdapter(
+                            fm,
+                            aux
+                        )
+                }
+                tbMovies.setupWithViewPager(vpGenres)
             }
-            tbMovies.setupWithViewPager(vpGenres)
-            progressBar2.visibility = View.VISIBLE
-        }
+        })
+        viewModel.getGenres()
     }
 }

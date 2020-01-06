@@ -1,59 +1,34 @@
 package com.example.movietmdb.features.main.ui.fragments
 
-import android.graphics.Bitmap
 import android.os.Bundle
-import android.util.Base64
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.SimpleTarget
-import com.bumptech.glide.request.transition.Transition
-import com.example.movietmdb.MovieTmdbApplication
 import com.example.movietmdb.R
-import com.example.movietmdb.repository.db.DAO.MovieDao
-import com.example.movietmdb.repository.db.entity.MovieData
-import com.example.movietmdb.mapper.MoviePresentationMapper
+import com.example.movietmdb.features.main.viewmodel.GenreFragmentViewModel
+import com.example.movietmdb.features.main.viewmodel.ViewState
 import com.example.movietmdb.recycler.CostumAdapter
-import com.example.movietmdb.repository.retrofit.MovieService
-import com.example.movietmdb.repository.retrofit.RetrofitInitializer
-import com.example.movietmdb.repository.retrofit.SearchResults
-import com.example.movietmdb.DataBaseThread
+import com.example.movietmdb.recycler.MoviePresentation
 import kotlinx.android.synthetic.main.genres_layout.*
-import kotlinx.coroutines.launch
-import java.io.ByteArrayOutputStream
-import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
 
 class GenreFragment : Fragment() {
 
     lateinit var id: String
     private var page = 1
+    private lateinit var viewModel: GenreFragmentViewModel
     private var lastPage = false
     private var loading = false
-    private lateinit var favMovies: List<MovieData>
-    private lateinit var thread: DataBaseThread
-    private lateinit var db: MovieDao
     private var adapter: CostumAdapter =
         CostumAdapter()
 
     companion object {
-        private const val favoritesMoviesListKEY = "fav_movies"
-        private const val threadKEY = "thread"
-
-        fun newInstance(
-            favMovies: List<MovieData>,
-            thread: DataBaseThread
-        ) = GenreFragment().apply {
-            arguments = bundleOf(
-                favoritesMoviesListKEY to favMovies,
-                threadKEY to thread
-            )
+        fun newInstance(): GenreFragment {
+            return GenreFragment()
         }
     }
 
@@ -62,94 +37,47 @@ class GenreFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        arguments?.let {
-            @Suppress("UNCHECKED_CAST")
-            favMovies =
-                arguments?.get(favoritesMoviesListKEY) as? ArrayList<MovieData> ?: return null
-            thread = arguments?.get(threadKEY) as DataBaseThread
-            db = MovieTmdbApplication.db.movieDao()
-        }
         return View.inflate(context, R.layout.genres_layout, null)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         rcGenre.adapter = adapter
-        thread =
-            DataBaseThread()
-        thread.launch {
-            progressBarGenre.visibility = View.VISIBLE
-            favMovies = db.getAll()
-            progressBarGenre.visibility = View.GONE
-        }
-        configRetrofit(page)
-    }
-
-    fun configRetrofit(page: Int) {
-        loading = true
-        var resultsRetrofit: SearchResults
-        thread.launch {
-            progressBarGenre.visibility = View.VISIBLE
-            try {
-                resultsRetrofit =
-                    RetrofitInitializer()
-                        .retrofitServices.getMoviesByGenres(id.toInt(), page)
-                val moviesResults = resultsRetrofit.results
-                if (page == resultsRetrofit.totalPages)
-                    lastPage = true
-                configureImagesGlide(moviesResults)
-                configureRecycler(moviesResults)
-            } catch (e: Throwable) {
-                Log.e("error", e.message.toString())
-                Toast.makeText(context, "Movies not found", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
-    private suspend fun configureImagesGlide(moviesResults: ArrayList<MovieService>) {
-        val size = moviesResults.size - 1
-        for (i in 0..size) {
-            moviesResults[i].posterPath?.let {
-                Log.v("Teste1", moviesResults[i].posterPath + i.toString())
-                suspendCoroutine<MovieService> { continuation ->
-                    Glide.with(context).asBitmap()
-                        .load("http://image.tmdb.org/t/p/w185/" + moviesResults[i].posterPath)
-                        .into(object : SimpleTarget<Bitmap>(100, 100) {
-                            override fun onResourceReady(
-                                resource: Bitmap?,
-                                transition: Transition<in Bitmap>?
-                            ) {
-                                val stream = ByteArrayOutputStream()
-                                resource?.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-                                moviesResults[i].posterPath =
-                                    Base64.encodeToString(stream.toByteArray(), Base64.DEFAULT)
-                                continuation.resume(moviesResults[i])
-                            }
-                        })
+        viewModel = ViewModelProviders.of(this).get(GenreFragmentViewModel::class.java)
+        viewModel.moviesLiveData.observe(viewLifecycleOwner, Observer {
+            if (it is ViewState.Loading) {
+                if (it.loading) {
+                    loading = true
+                    progressBarGenre.visibility = View.VISIBLE
+                } else {
+                    loading = false
+                    progressBarGenre.visibility = View.GONE
                 }
+            } else if (it is ViewState.Data) {
+                configureRecycler(it.movies as ArrayList<MoviePresentation>)
             }
-        }
+        })
+        viewModel.getMoviesByGenre(id.toInt(), page)
     }
+
 
     //function to configure the recycler view
-    private fun configureRecycler(results: ArrayList<MovieService>?) {
-        progressBarGenre.visibility = View.GONE
-        results?.let {
-            val moviesSearched =
-                MoviePresentationMapper().convertListMovieService(results, favMovies)
-            adapter.addAll(moviesSearched)
+    private fun configureRecycler(results: ArrayList<MoviePresentation>?) {
+        if (results == null) {
+            Toast.makeText(context, "No more movies found", Toast.LENGTH_SHORT).show()
+            lastPage = true
+        } else {
+            adapter.addAll(results)
         }
-        loading = false
         pagination()
     }
 
-    fun pagination() {
+    private fun pagination() {
         rcGenre.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (!recyclerView.canScrollVertically(1) && !lastPage && !loading) {
                     page++
-                    Log.v("teste", page.toString())
-                    configRetrofit(page)
+                    viewModel.getMoviesByGenre(id.toInt(), page)
                 }
             }
         })

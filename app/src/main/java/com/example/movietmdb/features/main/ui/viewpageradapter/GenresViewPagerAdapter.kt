@@ -5,7 +5,6 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import com.example.movietmdb.features.main.ui.fragments.GenreFragment
 import com.example.movietmdb.repository.retrofit.GenresList
-import com.example.movietmdb.DataBaseThread
 
 class GenresViewPagerAdapter(fm: FragmentManager, val list: GenresList) :
     FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
@@ -13,10 +12,7 @@ class GenresViewPagerAdapter(fm: FragmentManager, val list: GenresList) :
 
     override fun getItem(position: Int): Fragment {
         val frag =
-            GenreFragment.newInstance(
-                ArrayList(),
-                DataBaseThread()
-            )
+            GenreFragment.newInstance()
         frag.id = list.genres[position].id.toString()
         return frag
 

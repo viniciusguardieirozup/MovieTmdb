@@ -8,10 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
+import com.bumptech.glide.signature.ObjectKey
 import com.example.movietmdb.R
-import com.example.movietmdb.mapper.MovieDataMapper
+import com.example.movietmdb.mappers.MovieDataMapper
 import com.example.movietmdb.repository.RepositoryRules
 import com.example.movietmdb.features.description.ui.DescriptionActivity
 import com.example.movietmdb.DataBaseThread
@@ -47,15 +50,15 @@ class CostumAdapter() : RecyclerView.Adapter<ViewHolder>() {
 
     }
 
+    fun reset() {
+        lista = ArrayList()
+    }
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = lista[position]
         holder.bind(item)
     }
-
 }
-
-//a costum viewHolder
-
 
 class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), CoroutineScope {
     private val movieTitle = itemView.movieTitle
@@ -76,24 +79,17 @@ class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), CoroutineS
     }
 
     fun bind(moviePresentation: MoviePresentation) {
-        this.moviePresentation = moviePresentation
-        movieTitle.text = moviePresentation.title
-        noteText.text = moviePresentation.voteAverage.toString()
-        movieDescription.text = moviePresentation.overView
-        moviePresentation.posterPath?.let {
-            DataBaseThread().launch {
-                Glide.with(itemView.context)
-                    .asBitmap()
-                    .load(moviePresentation.posterPath)
-                    .into(object : SimpleTarget<Bitmap>(100, 100) {
-                        override fun onResourceReady(
-                            resource: Bitmap?,
-                            transition: Transition<in Bitmap>?
-                        ) {
-                            moviePoster.setImageBitmap(resource)
-                        }
 
-                    })
+        moviePresentation.posterPath?.let {
+            this.moviePresentation = moviePresentation
+            movieTitle.text = moviePresentation.title
+            noteText.text = moviePresentation.voteAverage.toString()
+            movieDescription.text = moviePresentation.overView
+            DataBaseThread().launch {
+                val request = RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL)
+                Glide.with(itemView.context)
+                    .load(moviePresentation.posterPath).apply(request)
+                    .into(moviePoster)
             }
         }
         if (moviePresentation.favorite) {
@@ -132,6 +128,4 @@ class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), CoroutineS
             }
         }
     }
-
-
 }

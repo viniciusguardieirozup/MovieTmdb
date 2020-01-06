@@ -1,4 +1,4 @@
-package com.example.movietmdb.mapper
+package com.example.movietmdb.mappers
 
 import android.util.Log
 import com.example.movietmdb.repository.db.entity.MovieData
@@ -6,28 +6,8 @@ import com.example.movietmdb.recycler.MoviePresentation
 import com.example.movietmdb.repository.retrofit.MovieService
 
 class MoviePresentationMapper {
-    fun mapFromService(seacrhMovie: MovieService, fav : Boolean): MoviePresentation {
-        return MoviePresentation(
-            "http://image.tmdb.org/t/p/w185/"+seacrhMovie.posterPath,
-            seacrhMovie.adult,
-            seacrhMovie.overView,
-            seacrhMovie.releaseData,
-            seacrhMovie.genreIds,
-            seacrhMovie.id,
-            seacrhMovie.originalTitle,
-            seacrhMovie.originalLanguage,
-            seacrhMovie.title,
-            seacrhMovie.backdropPath,
-            seacrhMovie.popularity,
-            seacrhMovie.voteCount,
-            seacrhMovie.video,
-            seacrhMovie.voteAverage,
-            fav
-        )
-    }
 
-    private fun mapFromData(dataMovie: MovieData, fav : Boolean): MoviePresentation {
-
+    private fun mapFromData(dataMovie: MovieData, fav: Boolean): MoviePresentation {
         return MoviePresentation(
             dataMovie.posterPath,
             dataMovie.adult,
@@ -45,7 +25,6 @@ class MoviePresentationMapper {
             dataMovie.voteAverage,
             fav
         )
-
     }
 
     private fun stringToArray(ids: String): ArrayList<Int> {
@@ -57,7 +36,6 @@ class MoviePresentationMapper {
             if (auxS[i].trim() != "")
                 aux.add(auxS[i].trim().toInt())
         }
-
         return aux
     }
 
@@ -65,20 +43,23 @@ class MoviePresentationMapper {
         val moviesList = ArrayList<MoviePresentation>()
         val size = movies.size - 1
         for (i in 0..size) {
-            moviesList.add(mapFromData(movies[i],true))
+            moviesList.add(mapFromData(movies[i], true))
         }
         return moviesList
     }
-    fun convertListMovieService(movies: List<MovieService>, fav: List<MovieData>): ArrayList<MoviePresentation> {
+
+    fun convertListMovieService(
+        movies: List<MovieService>,
+        fav: List<MovieData>
+    ): ArrayList<MoviePresentation> {
         val moviesList = ArrayList<MoviePresentation>()
         val moviesData = MovieDataMapper().convertListMovieService(movies)
-
         val size = movies.size - 1
         for (i in 0..size) {
-            if(fav.contains(moviesData[i])) {
-                moviesList.add(mapFromData(moviesData[i],true))
-            } else{
-                moviesList.add(mapFromData(moviesData[i],false))
+            if (fav.contains(moviesData[i])) {
+                moviesList.add(mapFromData(moviesData[i], true))
+            } else {
+                moviesList.add(mapFromData(moviesData[i], false))
             }
         }
         return moviesList

@@ -1,18 +1,26 @@
 package com.example.movietmdb.repository
 
-import android.util.Log
-import android.view.View
-import android.widget.Toast
 import com.example.movietmdb.MovieTmdbApplication
-import com.example.movietmdb.mapper.MoviePresentationMapper
+import com.example.movietmdb.mappers.MoviePresentationMapper
 import com.example.movietmdb.recycler.MoviePresentation
 import com.example.movietmdb.repository.db.entity.MovieData
 import com.example.movietmdb.repository.retrofit.RetrofitInitializer
 import com.example.movietmdb.repository.retrofit.SearchResults
-import kotlinx.android.synthetic.main.search_movies_layout.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import kotlin.coroutines.CoroutineContext
 
-class RepositoryRules {
+class RepositoryRules : CoroutineScope {
+    private val job: Job = Job()
+
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main + job
+
+    fun stopJob() {
+        job.cancel()
+    }
 
     suspend fun getMovies(name: String, page: Int): ArrayList<MoviePresentation> {
         val resultsRetrofit: SearchResults = RetrofitInitializer()
@@ -36,4 +44,24 @@ class RepositoryRules {
     suspend fun removeMovie(movie: MovieData) {
         MovieTmdbApplication.db.movieDao().removeMovie(movie)
     }
+
+    suspend fun getMoviesByGenres(id: Int, page: Int): ArrayList<MoviePresentation> {
+        return MoviePresentationMapper().convertListMovieService(
+            RetrofitInitializer().retrofitServices.getMoviesByGenres(id, page).results,
+            MovieTmdbApplication.db.movieDao().getAll()
+        )
+    }
+
+    fun saveMovie(movie: MovieData) {
+        launch {
+            MovieTmdbApplication.db.movieDao().insertMovie(movie)
+        }
+    }
+
+    fun deleteMovie(movie: MovieData) {
+        launch {
+            MovieTmdbApplication.db.movieDao().removeMovie(movie)
+        }
+    }
+
 }

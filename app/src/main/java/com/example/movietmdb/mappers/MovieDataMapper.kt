@@ -1,17 +1,15 @@
-package com.example.movietmdb.mapper
+package com.example.movietmdb.mappers
 
-import com.example.movietmdb.repository.db.entity.MovieData
 import com.example.movietmdb.recycler.MoviePresentation
+import com.example.movietmdb.repository.db.entity.MovieData
 import com.example.movietmdb.repository.retrofit.MovieService
 
 //Mapper for DataMovies
 class MovieDataMapper {
 
-    //MovieService to MoviePresentation converter
-
     private fun mapFromMovieService(seacrhMovie: MovieService): MovieData {
         return MovieData(
-            seacrhMovie.posterPath,
+            "http://image.tmdb.org/t/p/w185/" + seacrhMovie.posterPath,
             seacrhMovie.adult,
             seacrhMovie.overView,
             seacrhMovie.releaseData,
