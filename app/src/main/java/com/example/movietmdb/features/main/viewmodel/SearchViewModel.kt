@@ -3,8 +3,8 @@ package com.example.movietmdb.features.main.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.movietmdb.MovieTmdbApplication
 import com.example.movietmdb.recycler.MoviePresentation
-import com.example.movietmdb.repository.RepositoryRules
 import kotlinx.coroutines.launch
 
 sealed class ViewState {
@@ -24,7 +24,7 @@ class SearchFragmentViewModel : ViewModel() {
         viewModelScope.launch {
             moviesLiveData.value =
                 ViewState.Data(
-                    RepositoryRules().getMovies(
+                    MovieTmdbApplication.repository.getMovies(
                         name,
                         page
                     )

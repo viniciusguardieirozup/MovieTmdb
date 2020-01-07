@@ -79,18 +79,16 @@ class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), CoroutineS
     }
 
     fun bind(moviePresentation: MoviePresentation) {
-
         moviePresentation.posterPath?.let {
             this.moviePresentation = moviePresentation
             movieTitle.text = moviePresentation.title
             noteText.text = moviePresentation.voteAverage.toString()
             movieDescription.text = moviePresentation.overView
-            DataBaseThread().launch {
-                val request = RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL)
-                Glide.with(itemView.context)
-                    .load(moviePresentation.posterPath).apply(request)
-                    .into(moviePoster)
-            }
+            val request = RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL)
+            Glide.with(itemView.context)
+                .load(moviePresentation.posterPath).apply(request)
+                .into(moviePoster)
+
         }
         if (moviePresentation.favorite) {
             movieFav.setBackgroundResource(R.drawable.ic_favorite_white_24dp)
