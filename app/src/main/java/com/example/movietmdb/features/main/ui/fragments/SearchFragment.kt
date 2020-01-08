@@ -19,7 +19,6 @@ import com.example.movietmdb.recycler.FavButtonListener
 import com.example.movietmdb.recycler.adapter.CustomAdapter
 import com.example.movietmdb.recycler.data.MoviePresentation
 
-//fragment for  searchMovies
 class SearchFragment : Fragment() {
 
     private lateinit var binding: SearchMoviesFragmentBinding
@@ -27,7 +26,6 @@ class SearchFragment : Fragment() {
     private lateinit var movieName: String
     private lateinit var viewModel: SearchFragmentViewModel
 
-    //static function
     companion object {
         fun newInstance(): SearchFragment {
             return SearchFragment()
@@ -50,7 +48,6 @@ class SearchFragment : Fragment() {
         return binding.root
     }
 
-    //function called when this fragment was created
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         adapter = CustomAdapter()
         adapter.setListener(object : FavButtonListener {
@@ -64,7 +61,6 @@ class SearchFragment : Fragment() {
         configSearchView()
     }
 
-    //function to get the movie name typed by the user and call getResultsRetrofit
     private fun getTextToSearch() {
         binding.searchMovie.clearFocus()
         movieName = binding.searchMovie.query.toString()
