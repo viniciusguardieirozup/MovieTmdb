@@ -2,40 +2,19 @@ package com.example.movietmdb.repository
 
 import com.example.movietmdb.MovieTmdbApplication
 import com.example.movietmdb.mappers.MoviePresentationMapper
-import com.example.movietmdb.recycler.MoviePresentation
+import com.example.movietmdb.recycler.data.MoviePresentation
 import com.example.movietmdb.repository.db.entity.MovieData
 import com.example.movietmdb.repository.retrofit.RetrofitInitializer
 import com.example.movietmdb.repository.retrofit.SearchResults
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
-import kotlin.coroutines.CoroutineContext
+import java.lang.Exception
 
-class RepositoryRules : CoroutineScope {
-    private val job: Job = Job()
+class RepositoryRules {
 
-    override val coroutineContext: CoroutineContext
-        get() = Dispatchers.Main + job
+    suspend fun getMovies(name: String, page: Int) =
+        RetrofitInitializer().retrofitServices.searchMoviesByUser(name, page)
 
-    fun stopJob() {
-        job.cancel()
-    }
 
-    suspend fun getMovies(name: String, page: Int): ArrayList<MoviePresentation> {
-        val resultsRetrofit: SearchResults = RetrofitInitializer()
-            .retrofitServices.searchMoviesByUser(name, page)
-        val moviesResults = resultsRetrofit.results
-        return MoviePresentationMapper().convertListMovieService(
-            moviesResults,
-            MovieTmdbApplication.db.movieDao().getAll()
-        )
-    }
-
-    suspend fun getFavMovies(): ArrayList<MoviePresentation> {
-        val fav = MovieTmdbApplication.db.movieDao().getAll()
-        return MoviePresentationMapper().converterListMovieData(fav)
-    }
+    suspend fun getFavMovies() = MovieTmdbApplication.db.movieDao().getAll()
 
     suspend fun insertMovie(movie: MovieData) {
         MovieTmdbApplication.db.movieDao().insertMovie(movie)
@@ -46,22 +25,13 @@ class RepositoryRules : CoroutineScope {
     }
 
     suspend fun getMoviesByGenres(id: Int, page: Int): ArrayList<MoviePresentation> {
+        val resultsRetrofit: SearchResults =
+            RetrofitInitializer().retrofitServices.getMoviesByGenres(id, page)
+        if (resultsRetrofit.results.size == 0) {
+            throw Exception("Movies not found")
+        }
         return MoviePresentationMapper().convertListMovieService(
-            RetrofitInitializer().retrofitServices.getMoviesByGenres(id, page).results,
-            MovieTmdbApplication.db.movieDao().getAll()
+            resultsRetrofit.results, MovieTmdbApplication.db.movieDao().getAll()
         )
     }
-
-    fun saveMovie(movie: MovieData) {
-        launch {
-            MovieTmdbApplication.db.movieDao().insertMovie(movie)
-        }
-    }
-
-    fun deleteMovie(movie: MovieData) {
-        launch {
-            MovieTmdbApplication.db.movieDao().removeMovie(movie)
-        }
-    }
-
 }

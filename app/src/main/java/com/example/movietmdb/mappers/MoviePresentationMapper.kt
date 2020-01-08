@@ -1,8 +1,8 @@
 package com.example.movietmdb.mappers
 
 import android.util.Log
+import com.example.movietmdb.recycler.data.MoviePresentation
 import com.example.movietmdb.repository.db.entity.MovieData
-import com.example.movietmdb.recycler.MoviePresentation
 import com.example.movietmdb.repository.retrofit.MovieService
 
 class MoviePresentationMapper {

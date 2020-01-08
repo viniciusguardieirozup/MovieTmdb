@@ -5,26 +5,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movietmdb.R
-import com.example.movietmdb.features.main.viewmodel.GenreFragmentViewModel
+import com.example.movietmdb.databinding.GenresFragmentBinding
+import com.example.movietmdb.features.main.viewmodel.GenreViewModel
 import com.example.movietmdb.features.main.viewmodel.ViewState
-import com.example.movietmdb.recycler.CostumAdapter
-import com.example.movietmdb.recycler.MoviePresentation
-import kotlinx.android.synthetic.main.genres_layout.*
+import com.example.movietmdb.recycler.FavButtonListener
+import com.example.movietmdb.recycler.adapter.CustomAdapter
+import com.example.movietmdb.recycler.data.MoviePresentation
 
 class GenreFragment : Fragment() {
 
     lateinit var id: String
-    private var page = 1
-    private lateinit var viewModel: GenreFragmentViewModel
-    private var lastPage = false
-    private var loading = false
-    private var adapter: CostumAdapter =
-        CostumAdapter()
+    private lateinit var viewModel: GenreViewModel
+    private lateinit var adapter: CustomAdapter
+    private lateinit var binding: GenresFragmentBinding
 
     companion object {
         fun newInstance(): GenreFragment {
@@ -37,50 +36,56 @@ class GenreFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return View.inflate(context, R.layout.genres_layout, null)
+        binding =
+            DataBindingUtil.inflate(layoutInflater, R.layout.genres_fragment, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        rcGenre.adapter = adapter
-        viewModel = ViewModelProviders.of(this).get(GenreFragmentViewModel::class.java)
+        adapter = CustomAdapter()
+        adapter.setListener(object : FavButtonListener {
+            override fun favButtonClicked(moviePresentation: MoviePresentation) {
+                viewModel.setFavorite(moviePresentation)
+            }
+        })
+        binding.rcGenre.adapter = adapter
+        viewModel = ViewModelProviders.of(this).get(GenreViewModel::class.java)
+        configObserverViewModel()
+        viewModel.getMoviesByGenre(id.toInt())
+    }
+
+    private fun configObserverViewModel() {
         viewModel.moviesLiveData.observe(viewLifecycleOwner, Observer {
             if (it is ViewState.Loading) {
                 if (it.loading) {
-                    loading = true
-                    progressBarGenre.visibility = View.VISIBLE
+                    binding.progressBarGenre.visibility = View.VISIBLE
                 } else {
-                    loading = false
-                    progressBarGenre.visibility = View.GONE
+                    binding.progressBarGenre.visibility = View.GONE
                 }
             } else if (it is ViewState.Data) {
-                configureRecycler(it.movies as ArrayList<MoviePresentation>)
+                try {
+                    configureRecycler(it.movies as ArrayList<MoviePresentation>)
+                } catch (e: Exception) {
+                    Toast.makeText(context, e.message, Toast.LENGTH_LONG).show()
+                }
             }
         })
-        viewModel.getMoviesByGenre(id.toInt(), page)
     }
 
+    private fun configureRecycler(results: ArrayList<MoviePresentation>) {
 
-    //function to configure the recycler view
-    private fun configureRecycler(results: ArrayList<MoviePresentation>?) {
-        if (results == null) {
-            Toast.makeText(context, "No more movies found", Toast.LENGTH_SHORT).show()
-            lastPage = true
-        } else {
-            adapter.addAll(results)
-        }
+        adapter.addAll(results)
         pagination()
     }
 
     private fun pagination() {
-        rcGenre.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        binding.rcGenre.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
-                if (!recyclerView.canScrollVertically(1) && !lastPage && !loading) {
-                    page++
-                    viewModel.getMoviesByGenre(id.toInt(), page)
+                if (!recyclerView.canScrollVertically(1)) {
+                    viewModel.getMoviesByGenre(id.toInt())
                 }
             }
         })
     }
-
 }

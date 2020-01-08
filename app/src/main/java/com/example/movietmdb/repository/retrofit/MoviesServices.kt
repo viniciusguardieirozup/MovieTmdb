@@ -1,16 +1,17 @@
 package com.example.movietmdb.repository.retrofit
 
+import com.example.movietmdb.BuildConfig
 import retrofit2.http.GET
 import retrofit2.http.Query
 
 //interface to use retrofit
 interface MoviesServices {
-    @GET("search/movie?api_key=d272326e467344029e68e3c4ff0b4059")
+    @GET("search/movie?api_key=" + BuildConfig.TMDB_KEY)
     suspend fun searchMoviesByUser(@Query("query") name: String, @Query("page") number :Int): SearchResults
 
-    @GET("genre/movie/list?api_key=d272326e467344029e68e3c4ff0b4059")
+    @GET("genre/movie/list?api_key=" + BuildConfig.TMDB_KEY)
     suspend fun getGenres() : GenresList
 
-    @GET("discover/movie?api_key=d272326e467344029e68e3c4ff0b4059")
+    @GET("discover/movie?api_key=" + BuildConfig.TMDB_KEY)
     suspend fun getMoviesByGenres(@Query("with_genres")id : Int, @Query("page") page :Int): SearchResults
 }

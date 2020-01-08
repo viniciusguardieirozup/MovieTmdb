@@ -1,8 +1,10 @@
-package com.example.movietmdb.recycler
+package com.example.movietmdb.recycler.data
 
-import java.io.Serializable
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
 //data class for the object that will be displayed on the recyclerView
+@Parcelize
 data class MoviePresentation(
     val posterPath: String?,
     val adult: Boolean?,
@@ -18,5 +20,5 @@ data class MoviePresentation(
     val voteCount: Int?,
     val video: Boolean?,
     val voteAverage: Double?,
-    val favorite: Boolean
-) : Serializable
+    var favorite: Boolean
+) : Parcelable

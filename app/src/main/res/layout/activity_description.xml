@@ -2,8 +2,8 @@
 <layout xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
-            name="teste"
-            type="com.example.movietmdb.features.description.viewmodel.DescriptionActivityViewModel" />
+            name="viewModelDescription"
+            type="com.example.movietmdb.BaseMovieViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:textColor="@color/colorWhite"
-                android:text="@{teste.movie.title}"
+                android:text="@{viewModelDescription.movie.title}"
                 android:textSize="24sp" />
         </Toolbar>
 
@@ -51,16 +51,15 @@
             android:layout_margin="15dp"
             android:textColor="@color/colorWhite"
             app:layout_constraintEnd_toEndOf="parent"
-            android:text="@{teste.movie.overView}"
+            android:text="@{viewModelDescription.movie.overView}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/favoriteButtonDescriptionActivity" />
 
         <ImageButton
             android:id="@+id/favoriteButtonDescriptionActivity"
             android:background="@color/colorBackground"
-            android:src="@{teste.favMovie}"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             app:layout_constraintEnd_toEndOf="@id/imageDescriptionLayout"
             app:layout_constraintStart_toStartOf="@id/imageDescriptionLayout"
             app:layout_constraintTop_toBottomOf="@id/imageDescriptionLayout" />

@@ -1,6 +1,6 @@
 package com.example.movietmdb.mappers
 
-import com.example.movietmdb.recycler.MoviePresentation
+import com.example.movietmdb.recycler.data.MoviePresentation
 import com.example.movietmdb.repository.db.entity.MovieData
 import com.example.movietmdb.repository.retrofit.MovieService
 
@@ -9,7 +9,7 @@ class MovieDataMapper {
 
     private fun mapFromMovieService(seacrhMovie: MovieService): MovieData {
         return MovieData(
-            "http://image.tmdb.org/t/p/w185/" + seacrhMovie.posterPath,
+            "https://image.tmdb.org/t/p/w185/" + seacrhMovie.posterPath,
             seacrhMovie.adult,
             seacrhMovie.overView,
             seacrhMovie.releaseData,

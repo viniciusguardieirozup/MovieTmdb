@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply from: '../keys/properties.gradle'
 
 android {
     compileSdkVersion 29
@@ -13,6 +14,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField "String", "TMDB_KEY", tmbd_key
     }
     buildTypes {
         release {
@@ -30,6 +32,7 @@ android {
     dataBinding{
         enabled = true
     }
+
 }
 
 dependencies {

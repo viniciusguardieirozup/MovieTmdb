@@ -12,7 +12,7 @@ sealed class ViewStateGenre {
     class Data(val genres: GenresList) : ViewStateGenre()
 }
 
-class GenreViewModel : ViewModel() {
+class MovieByGenresViewModel : ViewModel() {
 
     val movieListData = MutableLiveData<ViewStateGenre>()
 

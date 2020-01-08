@@ -4,17 +4,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.movietmdb.R
-import com.example.movietmdb.features.main.viewmodel.FavoritesFragmentViewModel
+import com.example.movietmdb.databinding.FavoritesFragmentBinding
+import com.example.movietmdb.features.main.viewmodel.FavoritesViewModel
 import com.example.movietmdb.features.main.viewmodel.ViewState
-import com.example.movietmdb.recycler.CostumAdapter
-import com.example.movietmdb.recycler.MoviePresentation
-import kotlinx.android.synthetic.main.favorites_layout.*
+import com.example.movietmdb.recycler.FavButtonListener
+import com.example.movietmdb.recycler.adapter.CustomAdapter
+import com.example.movietmdb.recycler.data.MoviePresentation
 
 class FavoritesFragment : Fragment() {
+
+    private lateinit var viewModel: FavoritesViewModel
+    private lateinit var binding: FavoritesFragmentBinding
 
     companion object {
         fun newInstance(): FavoritesFragment {
@@ -27,31 +32,40 @@ class FavoritesFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return View.inflate(context, R.layout.favorites_layout, null)
+        binding =
+            DataBindingUtil.inflate(layoutInflater, R.layout.favorites_fragment, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val viewModel: FavoritesFragmentViewModel =
-            ViewModelProviders.of(this).get(FavoritesFragmentViewModel::class.java)
-        viewModel.moviesLiveData.observe(viewLifecycleOwner, Observer {
-            if (it is ViewState.Loading) {
-                if (it.loading) {
-                    progressBar.visibility = View.VISIBLE
-                } else {
-                    progressBar.visibility = View.GONE
-                }
-            }
-            else if(it is ViewState.Data){
-
-                configRecycler(it.movies as ArrayList<MoviePresentation>)
-            }
-        })
+        viewModel =
+            ViewModelProviders.of(this).get(FavoritesViewModel::class.java)
+        configObserver()
         viewModel.getFavMovies()
     }
 
-    private fun configRecycler(favMovies : ArrayList<MoviePresentation>) {
-        val adapter = CostumAdapter()
+    private fun configObserver() {
+        viewModel.moviesLiveData.observe(viewLifecycleOwner, Observer {
+            if (it is ViewState.Loading) {
+                if (it.loading) {
+                    binding.progressBar.visibility = View.VISIBLE
+                } else {
+                    binding.progressBar.visibility = View.GONE
+                }
+            } else if (it is ViewState.Data) {
+                configRecycler(it.movies as ArrayList<MoviePresentation>)
+            }
+        })
+    }
+
+    private fun configRecycler(favMovies: ArrayList<MoviePresentation>) {
+        val adapter = CustomAdapter()
+        adapter.setListener(object : FavButtonListener {
+            override fun favButtonClicked(moviePresentation: MoviePresentation) {
+                viewModel.setFavorite(moviePresentation)
+            }
+        })
         adapter.addAll(favMovies)
-        rc.adapter = adapter
+        binding.rc.adapter = adapter
     }
 }
