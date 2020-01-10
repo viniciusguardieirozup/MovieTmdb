@@ -40,6 +40,7 @@ class MainActivity : AppCompatActivity() {
         replaceFragment(SearchFragment.newInstance())
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.bnMenu.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+
     }
 
     //function to change the fragments

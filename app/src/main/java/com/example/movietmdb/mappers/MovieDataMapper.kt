@@ -18,7 +18,7 @@ class MovieDataMapper {
             seacrhMovie.originalTitle,
             seacrhMovie.originalLanguage,
             seacrhMovie.title,
-            seacrhMovie.backdropPath,
+            "https://image.tmdb.org/t/p/original/"+seacrhMovie.backdropPath,
             seacrhMovie.popularity,
             seacrhMovie.voteCount,
             seacrhMovie.video,
@@ -41,7 +41,7 @@ class MovieDataMapper {
             moviePresentation.popularity,
             moviePresentation.voteCount,
             moviePresentation.video,
-            moviePresentation.voteAverage
+            moviePresentation.voteAverage.toDouble()
 
         )
     }

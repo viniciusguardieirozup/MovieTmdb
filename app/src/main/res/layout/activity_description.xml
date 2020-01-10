@@ -1,69 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout>
+
     <data>
+
         <variable
             name="viewModelDescription"
             type="com.example.movietmdb.BaseMovieViewModel" />
+
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorBackground"
         android:orientation="vertical">
 
-        <Toolbar
-            android:id="@+id/toolBarDescription"
-            android:layout_width="0dp"
-            android:background="@color/colorToolBar"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageButton
-                android:id="@+id/goBackButton"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:background="@drawable/ic_arrow_back_black_24dp" />
-
-            <TextView
-                android:id="@+id/titleDescriptionLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textColor="@color/colorWhite"
-                android:text="@{viewModelDescription.movie.title}"
-                android:textSize="24sp" />
-        </Toolbar>
-
         <ImageView
-            android:id="@+id/imageDescriptionLayout"
-            android:layout_width="200dp"
-            android:layout_height="250dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolBarDescription" />
+            android:id="@+id/descriptionImage"
+            android:layout_width="match_parent"
+            android:layout_height="250dp" />
 
-        <TextView
-            android:id="@+id/overviewDescriptionLayout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/descriptionNesterScroll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorBackground">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lero_lero" />
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <Toolbar
+            android:id="@+id/descriptionView"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/iconSize"
+            android:alpha="0.2"
+            android:background="@color/colorWhite" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/descriptionBackButton"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_margin="15dp"
-            android:textColor="@color/colorWhite"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:text="@{viewModelDescription.movie.overView}"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/favoriteButtonDescriptionActivity" />
-
-        <ImageButton
-            android:id="@+id/favoriteButtonDescriptionActivity"
-            android:background="@color/colorBackground"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            app:layout_constraintEnd_toEndOf="@id/imageDescriptionLayout"
-            app:layout_constraintStart_toStartOf="@id/imageDescriptionLayout"
-            app:layout_constraintTop_toBottomOf="@id/imageDescriptionLayout" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:background="@drawable/ic_arrow_back_black_24dp" />
+    </FrameLayout>
 
 </layout>

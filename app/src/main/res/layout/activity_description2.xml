@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModelDescription2"
+            type="com.example.movietmdb.BaseMovieViewModel" />
+
+
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".features.description.ui.Description2Activity">
+
+        <ImageView
+            android:id="@+id/description2Image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/description2NestedScroll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="180dp"
+                android:background="@drawable/nestedscroll_background"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/description2MovieTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/scroll_color"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
+                    android:text="@{viewModelDescription2.movie.title}"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="7dp"
+                    android:paddingEnd="7dp"
+                    android:text="@{viewModelDescription2.movie.voteAverage + `% relevance`}"
+                    android:textColor="@color/colorVote"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="7dp"
+                    android:text="@{viewModelDescription2.movie.overView}"
+                    android:textSize="14sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@android:color/transparent"
+                        android:src="@drawable/ic_favorite_white_24dp" />
+
+                    <ImageButton
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@android:color/transparent"
+                        android:src="@drawable/ic_share_white_24dp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/description2SimilarText"
+                    android:textColor="@color/colorAccent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/description_similar"
+                    android:textSize="20sp"
+                    android:layout_marginBottom="2dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lero_lero"/>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <View
+            android:id="@+id/description2View"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:alpha="0.2"
+            android:background="@drawable/toolbar_color" />
+
+        <ImageButton
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="15dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_arrow_back_black_24dp" />
+    </FrameLayout>
+</layout>

@@ -4,6 +4,7 @@ import android.util.Log
 import com.example.movietmdb.recycler.data.MoviePresentation
 import com.example.movietmdb.repository.db.entity.MovieData
 import com.example.movietmdb.repository.retrofit.MovieService
+import kotlin.math.roundToInt
 
 class MoviePresentationMapper {
 
@@ -22,7 +23,7 @@ class MoviePresentationMapper {
             dataMovie.popularity,
             dataMovie.voteCount,
             dataMovie.video,
-            dataMovie.voteAverage,
+            (dataMovie.voteAverage*10).roundToInt().toString(),
             fav
         )
     }

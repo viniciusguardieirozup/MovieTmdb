@@ -27,6 +27,7 @@ class SearchFragmentViewModel : BaseMovieViewModel() {
             moviesLiveData.value = ViewState.Loading(true)
             viewModelScope.launch {
                 loading = true
+
                 val moviesResults = MovieTmdbApplication.repository.getMovies(name, page)
                 val favMovies = MovieTmdbApplication.repository.getFavMovies()
 

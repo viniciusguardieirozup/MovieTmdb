@@ -8,7 +8,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.example.movietmdb.R
 import com.example.movietmdb.databinding.ItemMovieLayoutBinding
-import com.example.movietmdb.features.description.ui.DescriptionActivity
+import com.example.movietmdb.features.description.ui.Description2Activity
 import com.example.movietmdb.recycler.FavButtonListener
 import com.example.movietmdb.recycler.data.MoviePresentation
 import kotlinx.android.synthetic.main.item_movie_layout.view.*
@@ -44,7 +44,7 @@ class ViewHolder(val binding: ItemMovieLayoutBinding) : RecyclerView.ViewHolder(
 
     private fun itemClick() {
         itemView.setOnClickListener {
-            val intent = Intent(itemView.context, DescriptionActivity::class.java)
+            val intent = Intent(itemView.context, Description2Activity::class.java)
             intent.putExtra("movie", movieItem)
             itemView.context.startActivity(intent)
             (itemView.context as Activity).overridePendingTransition(

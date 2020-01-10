@@ -25,10 +25,10 @@
             android:background="@drawable/text_circle_view"
             android:elevation="2dp"
             android:gravity="center"
+            android:text="@{item.voteAverage + `%`}"
             android:textColor="@color/colorWhite"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:text="@{item.voteAverage.toString()}"
             app:layout_constraintBottom_toBottomOf="@id/moviePoster"
             app:layout_constraintEnd_toEndOf="@id/moviePoster" />
 

@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorPrimary">#323232</color>
+    <color name="colorPrimaryDark">#121212</color>
+    <color name="colorAccent">#e00a15</color>
     <color name="colorWhite">#fff</color>
-    <color name="colorBlack">#000</color>
-    <color name="colorBackground">#323232</color>
+    <color name="colorBackground">#1A1A1A</color>
+    <color name="colorGrandientEnd">#030303</color>
     <color name="colorToolBar">#242323</color>
+    <color name="colorVote">#43e368</color>
+    <!--colors to exclude -->
+    <color name="colorBlack">#000</color>
     <color name="colorRecycler">#80000000</color>
     <color name="colorYellow">#99FFFF00</color>
     <color name="colorBorderYellow">#ffff00</color>
-
 
 </resources>

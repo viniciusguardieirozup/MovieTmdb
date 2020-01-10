@@ -22,7 +22,7 @@ data class MovieData(
     val popularity: Double?,
     val voteCount: Int?,
     val video: Boolean?,
-    val voteAverage: Double?
+    val voteAverage: Double
 ) : Parcelable {
     override fun equals(other: Any?): Boolean {
         return (other as MovieData).id == id
