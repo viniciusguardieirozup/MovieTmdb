@@ -8,6 +8,7 @@
     <color name="colorGrandientEnd">#030303</color>
     <color name="colorToolBar">#242323</color>
     <color name="colorVote">#43e368</color>
+    <color name="colorButtonPressed">#5e5e5e</color>
     <!--colors to exclude -->
     <color name="colorBlack">#000</color>
     <color name="colorRecycler">#80000000</color>

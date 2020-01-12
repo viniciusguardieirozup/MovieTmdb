@@ -2,12 +2,7 @@ package com.example.movietmdb.features.description.ui
 
 import android.content.res.Resources
 import android.os.Bundle
-import android.text.SpannableString
-import android.text.TextPaint
-import android.text.style.UnderlineSpan
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
@@ -33,8 +28,15 @@ class Description2Activity : AppCompatActivity() {
         configBinding()
         configNestedScrollListener()
         configImage()
+        configBackButton()
+
     }
 
+    private fun configBackButton() {
+        binding.description2BackButton.setOnClickListener {
+            super.onBackPressed()
+        }
+    }
 
     private fun configNestedScrollListener() {
         binding.description2NestedScroll.viewTreeObserver.addOnScrollChangedListener {
@@ -44,12 +46,8 @@ class Description2Activity : AppCompatActivity() {
             if (alpha > 1)
                 alpha = 1f
             binding.description2View.alpha = alpha
-            val positionSimilar = binding.description2SimilarText.y
-            val positionView = binding.description2View.y
-            Log.v("teste", positionSimilar.toString()+" " +positionView.toString() )
         }
     }
-
 
 
     private fun configViewModel() {
@@ -60,8 +58,6 @@ class Description2Activity : AppCompatActivity() {
     private fun configBinding() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_description2)
         binding.viewModelDescription2 = viewModel
-
-
     }
 
     private fun configImage() {

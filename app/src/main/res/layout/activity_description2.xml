@@ -110,10 +110,11 @@
             android:background="@drawable/toolbar_color" />
 
         <ImageButton
+            android:id="@+id/description2BackButton"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_margin="15dp"
-            android:background="@android:color/transparent"
+            android:background="@drawable/ripple_effect"
             android:src="@drawable/ic_arrow_back_black_24dp" />
     </FrameLayout>
 </layout>
