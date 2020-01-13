@@ -60,11 +60,7 @@ class FavoritesFragment : Fragment() {
 
     private fun configRecycler(favMovies: ArrayList<MoviePresentation>) {
         val adapter = CustomAdapter()
-        adapter.setListener(object : FavButtonListener {
-            override fun favButtonClicked(moviePresentation: MoviePresentation) {
-                viewModel.setFavorite(moviePresentation)
-            }
-        })
+
         adapter.addAll(favMovies)
         binding.rc.adapter = adapter
     }

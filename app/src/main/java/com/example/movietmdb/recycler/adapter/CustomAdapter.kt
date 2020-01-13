@@ -6,14 +6,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movietmdb.R
 import com.example.movietmdb.databinding.ItemMovieLayoutBinding
-import com.example.movietmdb.recycler.FavButtonListener
 import com.example.movietmdb.recycler.data.MoviePresentation
 import com.example.movietmdb.recycler.holder.ViewHolder
 
 class CustomAdapter : RecyclerView.Adapter<ViewHolder>() {
 
     private var list = ArrayList<MoviePresentation>()
-    private lateinit var listener: FavButtonListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding: ItemMovieLayoutBinding =
@@ -42,11 +40,8 @@ class CustomAdapter : RecyclerView.Adapter<ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = list[position]
-        holder.bind(item, listener)
+        holder.bind(item)
     }
 
-    fun setListener(listener: FavButtonListener) {
-        this.listener = listener
-    }
 }
 

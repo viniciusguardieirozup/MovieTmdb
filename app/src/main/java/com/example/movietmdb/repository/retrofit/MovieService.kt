@@ -15,7 +15,7 @@ data class MovieService(
     @SerializedName("genre_ids")
     val genreIds: ArrayList<Int>,
     @SerializedName("id")
-    val id: Int?,
+    val id: Int,
     @SerializedName("original_title")
     val originalTitle: String?,
     @SerializedName("original_language")

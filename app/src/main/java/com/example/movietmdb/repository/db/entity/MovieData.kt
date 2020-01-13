@@ -14,7 +14,7 @@ data class MovieData(
     val overView: String?,
     val releaseData: String?,
     val genreIds: String,
-    @PrimaryKey val id: Int?,
+    @PrimaryKey val id: Int,
     val originalTitle: String?,
     val originalLanguage: String?,
     val title: String?,
@@ -29,6 +29,6 @@ data class MovieData(
     }
 
     override fun hashCode(): Int {
-        return id ?: 0
+        return id
     }
 }

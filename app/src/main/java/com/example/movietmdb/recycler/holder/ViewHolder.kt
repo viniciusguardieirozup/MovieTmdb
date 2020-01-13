@@ -9,37 +9,27 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.movietmdb.R
 import com.example.movietmdb.databinding.ItemMovieLayoutBinding
 import com.example.movietmdb.features.description.ui.Description2Activity
-import com.example.movietmdb.recycler.FavButtonListener
 import com.example.movietmdb.recycler.data.MoviePresentation
-import kotlinx.android.synthetic.main.item_movie_layout.view.*
 
 class ViewHolder(val binding: ItemMovieLayoutBinding) : RecyclerView.ViewHolder(binding.root) {
-    private val moviePoster = itemView.moviePoster
-    private val movieFav = itemView.favoriteButton
     private lateinit var movieItem: MoviePresentation
-    private lateinit var myListener: FavButtonListener
 
     fun bind(
-        movieItem: MoviePresentation,
-        favButtonListener: FavButtonListener
+        movieItem: MoviePresentation
     ) {
         binding.item = movieItem
-        myListener = favButtonListener
         this.movieItem = movieItem
         movieItem.posterPath?.let {
             val request = RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL)
             Glide.with(itemView.context)
                 .load(movieItem.posterPath).apply(request)
-                .into(moviePoster)
+                .into(binding.itemMovieImage)
         }
-        setFavImage()
         binding.executePendingBindings()
     }
 
     init {
         itemClick()
-        favButtonClick()
-
     }
 
     private fun itemClick() {
@@ -54,18 +44,4 @@ class ViewHolder(val binding: ItemMovieLayoutBinding) : RecyclerView.ViewHolder(
         }
     }
 
-    private fun favButtonClick() {
-        movieFav.setOnClickListener {
-            myListener.favButtonClicked(movieItem)
-            setFavImage()
-        }
-    }
-
-    private fun setFavImage() {
-        if (movieItem.favorite) {
-            movieFav.setBackgroundResource(R.drawable.ic_favorite_white_24dp)
-        } else {
-            movieFav.setBackgroundResource(R.drawable.ic_favorite_border_white_24dp)
-        }
-    }
 }

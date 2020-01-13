@@ -9,82 +9,15 @@
             type="com.example.movietmdb.recycler.data.MoviePresentation" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:background="@color/colorBlack"
-        android:orientation="vertical"
-
-        >
-
-        <TextView
-            android:id="@+id/movieNote"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/text_circle_view"
-            android:elevation="2dp"
-            android:gravity="center"
-            android:text="@{item.voteAverage + `%`}"
-            android:textColor="@color/colorWhite"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@id/moviePoster"
-            app:layout_constraintEnd_toEndOf="@id/moviePoster" />
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp">
 
         <ImageView
-            android:id="@+id/moviePoster"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            app:layout_constraintEnd_toStartOf="@+id/movieTitle"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.586"
-             />
-
-        <ImageButton
-            android:id="@+id/favoriteButton"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            app:layout_constraintBottom_toTopOf="@id/movieDescription"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/movieTitle"
-            app:layout_constraintTop_toTopOf="@id/movieTitle" />
-
-
-        <TextView
-            android:id="@+id/movieTitle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textColor="@color/colorWhite"
-            android:textSize="20sp"
-            android:text="@{item.title}"
-            app:layout_constraintEnd_toEndOf="@id/favoriteButton"
-            app:layout_constraintStart_toEndOf="@id/moviePoster"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/movieDescription"
-            android:layout_width="0dp"
-            android:layout_height="100dp"
-            android:layout_marginTop="5dp"
-            android:textColor="@color/colorWhite"
-            android:text="@{item.overView}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@id/moviePoster"
-            app:layout_constraintTop_toBottomOf="@+id/movieTitle" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toTopOf="@id/movieDescription"
-            app:layout_constraintGuide_begin="159dp"
-            app:layout_constraintTop_toBottomOf="@id/movieDescription" />
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:id="@+id/itemMovieImage"
+            android:layout_width="100dp"
+            android:layout_height="150dp" />
+    </LinearLayout>
 </layout>

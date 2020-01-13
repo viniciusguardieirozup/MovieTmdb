@@ -11,7 +11,7 @@ data class MoviePresentation(
     val overView: String?,
     val releaseData: String?,
     val genreIds: ArrayList<Int>,
-    val id: Int?,
+    val id: Int,
     val originalTitle: String?,
     val originalLanguage: String?,
     val title: String?,

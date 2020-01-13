@@ -8,7 +8,7 @@ import kotlin.math.roundToInt
 
 class MoviePresentationMapper {
 
-    private fun mapFromData(dataMovie: MovieData, fav: Boolean): MoviePresentation {
+    private fun mapFromService(dataMovie: MovieData, fav: Boolean): MoviePresentation {
         return MoviePresentation(
             dataMovie.posterPath,
             dataMovie.adult,
@@ -24,6 +24,26 @@ class MoviePresentationMapper {
             dataMovie.voteCount,
             dataMovie.video,
             (dataMovie.voteAverage*10).roundToInt().toString(),
+            fav
+        )
+    }
+
+    private fun mapFromData(dataMovie: MovieData, fav: Boolean): MoviePresentation {
+        return MoviePresentation(
+            dataMovie.posterPath,
+            dataMovie.adult,
+            dataMovie.overView,
+            dataMovie.releaseData,
+            stringToArray(dataMovie.genreIds),
+            dataMovie.id,
+            dataMovie.originalTitle,
+            dataMovie.originalLanguage,
+            dataMovie.title,
+            dataMovie.backdropPath,
+            dataMovie.popularity,
+            dataMovie.voteCount,
+            dataMovie.video,
+            dataMovie.voteAverage.roundToInt().toString(),
             fav
         )
     }
@@ -58,9 +78,9 @@ class MoviePresentationMapper {
         val size = movies.size - 1
         for (i in 0..size) {
             if (fav.contains(moviesData[i])) {
-                moviesList.add(mapFromData(moviesData[i], true))
+                moviesList.add(mapFromService(moviesData[i], true))
             } else {
-                moviesList.add(mapFromData(moviesData[i], false))
+                moviesList.add(mapFromService(moviesData[i], false))
             }
         }
         return moviesList

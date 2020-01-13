@@ -20,6 +20,8 @@ class RepositoryRules {
         MovieTmdbApplication.db.movieDao().insertMovie(movie)
     }
 
+    suspend fun getSimilar(id : Int, page : Int) = RetrofitInitializer().retrofitServices.getSimilars(id,page)
+
     suspend fun removeMovie(movie: MovieData) {
         MovieTmdbApplication.db.movieDao().removeMovie(movie)
     }

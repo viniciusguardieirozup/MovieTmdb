@@ -43,11 +43,7 @@ class GenreFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         adapter = CustomAdapter()
-        adapter.setListener(object : FavButtonListener {
-            override fun favButtonClicked(moviePresentation: MoviePresentation) {
-                viewModel.setFavorite(moviePresentation)
-            }
-        })
+
         binding.rcGenre.adapter = adapter
         viewModel = ViewModelProviders.of(this).get(GenreViewModel::class.java)
         configObserverViewModel()

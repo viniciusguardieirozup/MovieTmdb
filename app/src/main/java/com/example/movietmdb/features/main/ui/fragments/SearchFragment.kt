@@ -50,12 +50,7 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         adapter = CustomAdapter()
-        adapter.setListener(object : FavButtonListener {
-            override fun favButtonClicked(moviePresentation: MoviePresentation) {
-                viewModel.setFavorite(moviePresentation)
-            }
 
-        })
         binding.recylerSearchMovie.adapter = adapter
         configViewModel()
         configSearchView()
