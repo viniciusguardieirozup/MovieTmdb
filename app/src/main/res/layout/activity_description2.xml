@@ -13,6 +13,7 @@
     </data>
 
     <FrameLayout
+        android:id="@+id/descriptionFrame1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".features.description.ui.Description2Activity">
@@ -77,8 +78,7 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_marginTop="5dp"
-                        android:background="@android:color/transparent"
-                        android:src="@drawable/ic_favorite_white_24dp" />
+                        android:background="@android:color/transparent" />
 
                     <ImageButton
                         android:id="@+id/description2ShareButton"
@@ -102,31 +102,21 @@
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/description2RecyclerView"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-                    <androidx.core.widget.ContentLoadingProgressBar
-                        android:id="@+id/description2ProgressBar"
-                        style="?android:attr/progressBarStyleLarge"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:visibility="gone"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/description2RecyclerView"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                <androidx.core.widget.ContentLoadingProgressBar
+                    android:id="@+id/description2ProgressBar"
+                    style="?android:attr/progressBarStyleLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:visibility="gone" />
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 
@@ -138,6 +128,7 @@
             android:background="@drawable/toolbar_color"
             android:gravity="center_vertical"
             android:paddingStart="50dp"
+            android:paddingEnd="0dp"
             android:textColor="@color/colorWhite"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -150,4 +141,5 @@
             android:background="@drawable/ripple_effect"
             android:src="@drawable/ic_arrow_back_black_24dp" />
     </FrameLayout>
+
 </layout>

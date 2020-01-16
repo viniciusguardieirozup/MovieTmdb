@@ -23,7 +23,7 @@ class MoviePresentationMapper {
             dataMovie.popularity,
             dataMovie.voteCount,
             dataMovie.video,
-            (dataMovie.voteAverage*10).roundToInt().toString(),
+            (dataMovie.voteAverage * 10).roundToInt().toString(),
             fav
         )
     }

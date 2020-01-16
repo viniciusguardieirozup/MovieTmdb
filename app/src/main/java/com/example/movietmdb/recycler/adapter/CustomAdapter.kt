@@ -11,9 +11,12 @@ import com.example.movietmdb.recycler.holder.ViewHolder
 
 class CustomAdapter : RecyclerView.Adapter<ViewHolder>() {
 
-    private var list = ArrayList<MoviePresentation>()
+    private val HEADER = 0
+    private val DEFAULT = 1
 
+    private var list = ArrayList<MoviePresentation>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+
         val binding: ItemMovieLayoutBinding =
             DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context),
@@ -22,6 +25,10 @@ class CustomAdapter : RecyclerView.Adapter<ViewHolder>() {
                 false
             )
         return ViewHolder(binding)
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return if (position == 0) HEADER else DEFAULT
     }
 
     override fun getItemCount(): Int {

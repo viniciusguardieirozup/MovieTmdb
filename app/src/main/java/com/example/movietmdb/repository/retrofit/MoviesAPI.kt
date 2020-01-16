@@ -6,7 +6,7 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 //interface to use retrofit
-interface MoviesServices {
+interface MoviesAPI {
     @GET("search/movie?api_key=" + BuildConfig.TMDB_KEY)
     suspend fun searchMoviesByUser(@Query("query") name: String, @Query("page") number :Int): SearchResults
 

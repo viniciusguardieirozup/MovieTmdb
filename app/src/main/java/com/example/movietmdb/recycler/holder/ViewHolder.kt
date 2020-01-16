@@ -26,11 +26,9 @@ class ViewHolder(val binding: ItemMovieLayoutBinding) : RecyclerView.ViewHolder(
                 .into(binding.itemMovieImage)
         }
         binding.executePendingBindings()
-    }
-
-    init {
         itemClick()
     }
+
 
     private fun itemClick() {
         itemView.setOnClickListener {

@@ -7,7 +7,7 @@ import androidx.fragment.app.Fragment
 import com.example.movietmdb.R
 import com.example.movietmdb.databinding.ActivityMainBinding
 import com.example.movietmdb.features.main.ui.fragments.FavoritesFragment
-import com.example.movietmdb.features.main.ui.fragments.MovieByGenresFragment
+import com.example.movietmdb.features.main.ui.fragments.GenreFragment
 import com.example.movietmdb.features.main.ui.fragments.SearchFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.registered -> {
-                    replaceFragment(MovieByGenresFragment.newInstance())
+                    replaceFragment(GenreFragment.newInstance())
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.register -> {
@@ -30,6 +30,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 else -> return@OnNavigationItemSelectedListener false
             }
+
         }
     private lateinit var binding: ActivityMainBinding
 

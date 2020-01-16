@@ -1,17 +1,19 @@
 package com.example.movietmdb.features.description.ui
 
+import android.Manifest
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.graphics.Rect
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.view.View
-import android.widget.GridLayout
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
@@ -20,19 +22,22 @@ import com.example.movietmdb.databinding.ActivityDescription2Binding
 import com.example.movietmdb.features.main.viewmodel.ViewState
 import com.example.movietmdb.recycler.adapter.CustomAdapter
 import com.example.movietmdb.recycler.data.MoviePresentation
+import org.koin.android.ext.android.inject
 
 
 class Description2Activity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityDescription2Binding
-    private lateinit var viewModel: DescriptionViewModel
-    private lateinit var movie: MoviePresentation
+    private val REQUESTSTORAGE = 111
 
+    private lateinit var binding: ActivityDescription2Binding
+    private val viewModel: DescriptionViewModel by inject()
+    private lateinit var movie: MoviePresentation
 
     //variables to toolbar
     private val scrollBounds = Rect()
     private var similarVisible = false
     private var similarText = false
+    private var isInSimilar = false
 
     //variables to nestedScroll
     private var density: Float = 0f
@@ -40,8 +45,8 @@ class Description2Activity : AppCompatActivity() {
     private var newScrollValue = 0
 
     //variables to recyclerView
-    private val adapter = CustomAdapter()
-    private var page = 1
+    private val adapter: CustomAdapter by inject()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         movie = intent?.extras?.getParcelable<MoviePresentation>("movie") as MoviePresentation
@@ -52,29 +57,90 @@ class Description2Activity : AppCompatActivity() {
         configRecycler()
         configNestedScrollListener()
         configImage()
+        configFavButton()
         configBackButton()
-
+        configShareButtonClick()
+        configFavButtonClick()
     }
 
     private fun configBinding() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_description2)
     }
 
+    private fun configRecycler() {
+        binding.description2RecyclerView.layoutManager = GridLayoutManager(this, 3)
+        binding.description2RecyclerView.adapter = adapter
+        viewModel.getSimilar(movie.id)
+    }
+
+    //functions to configure the images
     private fun configImage() {
         val request = RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL)
         Glide.with(applicationContext).load(movie.backdropPath).apply(request)
             .into(binding.description2Image)
     }
 
+    private fun configFavButton() {
+        if (viewModel.movie.favorite) {
+            binding.description2FavoriteButton.setBackgroundResource(R.drawable.ic_favorite_white_24dp)
+        } else {
+            binding.description2FavoriteButton.setBackgroundResource(R.drawable.ic_favorite_border_white_24dp)
+        }
+    }
+
+    //functions to config viewButtons
     private fun configBackButton() {
         binding.description2BackButton.setOnClickListener {
             super.onBackPressed()
         }
     }
 
+    private fun configFavButtonClick() {
+        binding.description2FavoriteButton.setOnClickListener {
+            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                viewModel.setFavorite(movie)
+                configFavButton()
+            } else {
+                Toast.makeText(
+                    this,
+                    "The write external storage is necessary to save the movies on database",
+                    Toast.LENGTH_LONG
+                ).show()
+                val intent = Intent(
+                    Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                    Uri.fromParts("package", packageName, null)
+                )
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
+            }
+        }
+
+
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        if (requestCode == REQUESTSTORAGE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                viewModel.setFavorite(movie)
+                configFavButton()
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
+
+    private fun configShareButtonClick() {
+        binding.description2ShareButton.setOnClickListener {
+            val bottomSheet = ActionBottomDialogFragment()
+            bottomSheet.show(supportFragmentManager, "teste")
+        }
+    }
+
     //functions to configure viewModel
     private fun configViewModel() {
-        viewModel = ViewModelProviders.of(this).get(DescriptionViewModel::class.java)
         viewModel.movie = movie
         binding.viewModelDescription2 = viewModel
         configViewModelObserver()
@@ -83,36 +149,52 @@ class Description2Activity : AppCompatActivity() {
     private fun configViewModelObserver() {
         viewModel.mutable.observe(this, Observer {
             if (it is ViewState.Data) {
-
                 adapter.addAll(it.movies as ArrayList<MoviePresentation>)
-            }
-            if (it is ViewState.Loading) {
+            } else if (it is ViewState.Loading) {
                 if (it.loading) {
                     binding.description2ProgressBar.visibility = View.VISIBLE
                 } else {
                     binding.description2ProgressBar.visibility = View.GONE
                 }
             }
-        }
-        )
+        })
     }
 
     //functions to configure nestedScroll animates
     private fun configNestedScrollListener() {
         binding.description2NestedScroll.viewTreeObserver.addOnScrollChangedListener {
-            val aux = binding.description2NestedScroll.scrollY
+            pagination()
             oldScrollValue = newScrollValue
-            newScrollValue = aux
-            val dislocate =
-                (aux * density + 0.5f)
-            var alpha = (0.0008 * dislocate + 0.2).toFloat()
-            if (alpha > 1)
-                alpha = 1f
-            binding.description2View.alpha = alpha
+            newScrollValue = binding.description2NestedScroll.scrollY
+            configAlpha(alphaCalculation(newScrollValue))
             isViewVisible(binding.description2SimilarText)
         }
     }
 
+    private fun pagination() {
+        if (!binding.description2NestedScroll.canScrollVertically(1) && isInSimilar) {
+            viewModel.getSimilar(movie.id)
+        }
+    }
+
+    private fun configAlpha(alpha: Float) {
+        if (alpha > 1)
+            binding.description2View.alpha = 1f
+        binding.description2View.alpha = alpha
+
+    }
+
+    private fun alphaCalculation(scrollValue: Int): Float {
+        val dislocate =
+            (scrollValue * density + 0.5f)
+        return (0.0008 * dislocate + 0.2).toFloat()
+    }
+
+    private fun screenUp(): Boolean {
+        return newScrollValue >= oldScrollValue
+    }
+
+    //function to set the text in the similarView
     private fun configSimilarText() {
         if (similarText) {
             binding.description2View.text = "Similar"
@@ -130,6 +212,7 @@ class Description2Activity : AppCompatActivity() {
                 if (similarVisible) {
                     similarVisible = false
                     similarText = true
+                    isInSimilar = true
                 }
 
             }
@@ -139,35 +222,12 @@ class Description2Activity : AppCompatActivity() {
                 if (!similarVisible) {
                     similarVisible = true
                     similarText = false
+                    isInSimilar = true
                 }
             }
             //visible
             similarVisible = true
         }
         configSimilarText()
-    }
-
-    private fun screenUp(): Boolean {
-        return newScrollValue >= oldScrollValue
-    }
-
-    //functions to configure recyclerview
-    private fun configRecycler() {
-        binding.description2RecyclerView.layoutManager = GridLayoutManager(this, 3)
-        binding.description2RecyclerView.adapter = adapter
-        viewModel.getSimilars(movie.id)
-        pagination()
-    }
-
-    private fun pagination() {
-        binding.description2RecyclerView.addOnScrollListener(object :
-            RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
-                if (!recyclerView.canScrollVertically(1)) {
-                    viewModel.getSimilars(movie.id)
-                }
-            }
-        })
     }
 }

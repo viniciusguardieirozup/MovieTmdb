@@ -3,9 +3,9 @@ package com.example.movietmdb.features.main.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.movietmdb.BaseMovieViewModel
-import com.example.movietmdb.MovieTmdbApplication
 import com.example.movietmdb.mappers.MoviePresentationMapper
 import com.example.movietmdb.recycler.data.MoviePresentation
+import com.example.movietmdb.repository.RepositoryRules
 import kotlinx.coroutines.launch
 
 sealed class ViewState {
@@ -14,7 +14,8 @@ sealed class ViewState {
     class Error(val message: String) : ViewState()
 }
 
-class SearchFragmentViewModel : BaseMovieViewModel() {
+class SearchFragmentViewModel(private val repositoryRules: RepositoryRules) :
+    BaseMovieViewModel(repositoryRules) {
 
     val moviesLiveData: MutableLiveData<ViewState> = MutableLiveData()
     private var page = 1
@@ -28,8 +29,8 @@ class SearchFragmentViewModel : BaseMovieViewModel() {
             viewModelScope.launch {
                 loading = true
 
-                val moviesResults = MovieTmdbApplication.repository.getMovies(name, page)
-                val favMovies = MovieTmdbApplication.repository.getFavMovies()
+                val moviesResults = repositoryRules.getMovies(name, page)
+                val favMovies = repositoryRules.getFavMovies()
 
                 moviesLiveData.value = ViewState.Data(
                     MoviePresentationMapper().convertListMovieService(

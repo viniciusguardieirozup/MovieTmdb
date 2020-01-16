@@ -1,39 +1,43 @@
 package com.example.movietmdb.repository
 
-import com.example.movietmdb.MovieTmdbApplication
 import com.example.movietmdb.mappers.MoviePresentationMapper
 import com.example.movietmdb.recycler.data.MoviePresentation
+import com.example.movietmdb.repository.db.DAO.MovieDao
 import com.example.movietmdb.repository.db.entity.MovieData
-import com.example.movietmdb.repository.retrofit.RetrofitInitializer
+import com.example.movietmdb.repository.retrofit.GenresList
+import com.example.movietmdb.repository.retrofit.MoviesAPI
 import com.example.movietmdb.repository.retrofit.SearchResults
 import java.lang.Exception
 
-class RepositoryRules {
-
-    suspend fun getMovies(name: String, page: Int) =
-        RetrofitInitializer().retrofitServices.searchMoviesByUser(name, page)
-
-
-    suspend fun getFavMovies() = MovieTmdbApplication.db.movieDao().getAll()
+class RepositoryRules(private val moviesAPI: MoviesAPI, private val movieDAO : MovieDao) {
 
     suspend fun insertMovie(movie: MovieData) {
-        MovieTmdbApplication.db.movieDao().insertMovie(movie)
+        movieDAO.insertMovie(movie)
     }
-
-    suspend fun getSimilar(id : Int, page : Int) = RetrofitInitializer().retrofitServices.getSimilars(id,page)
 
     suspend fun removeMovie(movie: MovieData) {
-        MovieTmdbApplication.db.movieDao().removeMovie(movie)
+        movieDAO.removeMovie(movie)
     }
+
+    suspend fun getMovies(name: String, page: Int) =
+        moviesAPI.searchMoviesByUser(name, page)
+
+    suspend fun getFavMovies() = movieDAO.getAll()
+
+    suspend fun getSimilar(id : Int, page : Int) = moviesAPI.getSimilars(id,page)
 
     suspend fun getMoviesByGenres(id: Int, page: Int): ArrayList<MoviePresentation> {
         val resultsRetrofit: SearchResults =
-            RetrofitInitializer().retrofitServices.getMoviesByGenres(id, page)
+            moviesAPI.getMoviesByGenres(id, page)
         if (resultsRetrofit.results.size == 0) {
             throw Exception("Movies not found")
         }
         return MoviePresentationMapper().convertListMovieService(
-            resultsRetrofit.results, MovieTmdbApplication.db.movieDao().getAll()
+            resultsRetrofit.results, movieDAO.getAll()
         )
+    }
+
+    suspend fun getGenres(): GenresList {
+        return moviesAPI.getGenres()
     }
 }

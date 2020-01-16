@@ -1,31 +1,35 @@
 package com.example.movietmdb
 
 import android.app.Application
-import androidx.room.Room
-import com.example.movietmdb.di.viewModel
-import com.example.movietmdb.repository.RepositoryRules
-import com.example.movietmdb.repository.db.AppDatabase
-import org.koin.android.ext.android.startKoin
-import org.koin.standalone.StandAloneContext.stopKoin
+import com.example.movietmdb.di.*
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.startKoin
+import org.koin.core.context.stopKoin
+import org.koin.core.logger.Level
 
 class MovieTmdbApplication : Application() {
 
-    companion object {
-        lateinit var db: AppDatabase
-        var repository = RepositoryRules()
-
-    }
-
     override fun onCreate() {
         super.onCreate()
-
-        db = Room.databaseBuilder(this, AppDatabase::class.java, "fav_movies").build()
-        startKoin(this, listOf(viewModel))
+        startKoin {
+            androidLogger(Level.DEBUG)
+            androidContext(this@MovieTmdbApplication)
+            modules(
+                listOf(
+                    viewModelsModule,
+                    databaseModule,
+                    netModule,
+                    apiModule,
+                    repositoryModule,
+                    adapter
+                )
+            )
+        }
     }
 
     override fun onTerminate() {
-        stopKoin()
         super.onTerminate()
-
+        stopKoin()
     }
 }

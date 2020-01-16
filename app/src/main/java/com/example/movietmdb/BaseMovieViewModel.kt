@@ -4,9 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movietmdb.mappers.MovieDataMapper
 import com.example.movietmdb.recycler.data.MoviePresentation
+import com.example.movietmdb.repository.RepositoryRules
 import kotlinx.coroutines.launch
 
-open class BaseMovieViewModel : ViewModel() {
+open class BaseMovieViewModel(private val repositoryRules: RepositoryRules) : ViewModel() {
 
     lateinit var movie: MoviePresentation
 
@@ -14,7 +15,7 @@ open class BaseMovieViewModel : ViewModel() {
         if (movie.favorite) {
             movie.favorite = false
             viewModelScope.launch {
-                MovieTmdbApplication.repository.removeMovie(
+                repositoryRules.removeMovie(
                     MovieDataMapper().mapFromPresentation(
                         movie
                     )
@@ -23,7 +24,7 @@ open class BaseMovieViewModel : ViewModel() {
         } else {
             movie.favorite = true
             viewModelScope.launch {
-                MovieTmdbApplication.repository.insertMovie(
+                repositoryRules.insertMovie(
                     MovieDataMapper().mapFromPresentation(
                         movie
                     )
