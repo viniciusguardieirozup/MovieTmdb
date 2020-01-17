@@ -18,8 +18,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.example.movietmdb.R
+import com.example.movietmdb.ViewState
 import com.example.movietmdb.databinding.ActivityDescription2Binding
-import com.example.movietmdb.features.main.viewmodel.ViewState
 import com.example.movietmdb.recycler.adapter.CustomAdapter
 import com.example.movietmdb.recycler.data.MoviePresentation
 import org.koin.android.ext.android.inject
@@ -148,13 +148,19 @@ class Description2Activity : AppCompatActivity() {
 
     private fun configViewModelObserver() {
         viewModel.mutable.observe(this, Observer {
-            if (it is ViewState.Data) {
-                adapter.addAll(it.movies as ArrayList<MoviePresentation>)
-            } else if (it is ViewState.Loading) {
-                if (it.loading) {
-                    binding.description2ProgressBar.visibility = View.VISIBLE
-                } else {
-                    binding.description2ProgressBar.visibility = View.GONE
+            when (it) {
+                is ViewState.Data -> {
+                    adapter.addAll(it.movies as ArrayList<MoviePresentation>)
+                }
+                is ViewState.Loading -> {
+                    if (it.loading) {
+                        binding.description2ProgressBar.visibility = View.VISIBLE
+                    } else {
+                        binding.description2ProgressBar.visibility = View.GONE
+                    }
+                }
+                is ViewState.Error ->{
+                    Toast.makeText(applicationContext,it.message,Toast.LENGTH_LONG).show()
                 }
             }
         })

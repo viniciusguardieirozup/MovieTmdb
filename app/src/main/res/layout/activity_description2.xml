@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
@@ -8,8 +10,6 @@
         <variable
             name="viewModelDescription2"
             type="com.example.movietmdb.BaseMovieViewModel" />
-
-
     </data>
 
     <FrameLayout
@@ -141,5 +141,4 @@
             android:background="@drawable/ripple_effect"
             android:src="@drawable/ic_arrow_back_black_24dp" />
     </FrameLayout>
-
 </layout>

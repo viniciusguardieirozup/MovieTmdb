@@ -7,10 +7,11 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.movietmdb.R
+import com.example.movietmdb.ViewState
 import com.example.movietmdb.databinding.FavoritesFragmentBinding
 import com.example.movietmdb.features.main.viewmodel.FavoritesViewModel
-import com.example.movietmdb.features.main.viewmodel.ViewState
 import com.example.movietmdb.recycler.adapter.CustomAdapter
 import com.example.movietmdb.recycler.data.MoviePresentation
 import org.koin.android.ext.android.inject
@@ -57,7 +58,7 @@ class FavoritesFragment : Fragment() {
 
     private fun configRecycler(favMovies: ArrayList<MoviePresentation>) {
         val adapter = CustomAdapter()
-
+        binding.rc.layoutManager = GridLayoutManager(context,3)
         adapter.addAll(favMovies)
         binding.rc.adapter = adapter
     }

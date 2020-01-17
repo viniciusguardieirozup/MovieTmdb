@@ -3,8 +3,8 @@ package com.example.movietmdb.recycler.holder
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
+import com.example.movietmdb.ViewState
 import com.example.movietmdb.databinding.ItemMoviesGenresLayoutBinding
-import com.example.movietmdb.features.main.viewmodel.ViewState
 import com.example.movietmdb.recycler.adapter.CustomAdapter
 import com.example.movietmdb.recycler.data.GenrePresentation
 import com.example.movietmdb.recycler.data.MoviePresentation
@@ -40,6 +40,17 @@ class GenresViewHolder(val binding: ItemMoviesGenresLayoutBinding, val lifecycle
 
     private fun configRecycler() {
         recyclerViewModel.getMoviesByGenres(genre.id)
+        pagination()
+    }
 
+    private fun pagination(){
+        binding.itemGenresRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if(!recyclerView.canScrollHorizontally(1)){
+                    recyclerViewModel.getMoviesByGenres(genre.id)
+                }
+            }
+        })
     }
 }

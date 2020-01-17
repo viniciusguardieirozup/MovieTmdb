@@ -1,26 +1,23 @@
 package com.example.movietmdb.features.main.viewmodel
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import com.example.movietmdb.BaseMovieViewModel
+import com.example.movietmdb.ViewState
 import com.example.movietmdb.repository.RepositoryRules
-import com.example.movietmdb.repository.retrofit.GenresList
-import kotlinx.coroutines.launch
 
-sealed class ViewStateGenre {
-    class Data(val genres: GenresList) : ViewStateGenre()
-}
 
 class GenreViewModel(private val repositoryRules: RepositoryRules) :
-    BaseMovieViewModel(repositoryRules) {
+    BaseMovieViewModel() {
 
-    val genreLiveData = MutableLiveData<ViewStateGenre>()
+    val genreLiveData = MutableLiveData<ViewState>()
 
 
     fun getGenres() {
-        viewModelScope.launch {
+        genreLiveData.value = ViewState.Loading(true)
+        load {
             val result = repositoryRules.getGenres()
-            genreLiveData.value = ViewStateGenre.Data(result)
+            genreLiveData.value = ViewState.Genre(result)
+            genreLiveData.value = ViewState.Loading(false)
         }
     }
 

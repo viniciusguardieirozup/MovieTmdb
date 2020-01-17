@@ -9,7 +9,7 @@ import com.example.movietmdb.repository.retrofit.MoviesAPI
 import com.example.movietmdb.repository.retrofit.SearchResults
 import java.lang.Exception
 
-class RepositoryRules(private val moviesAPI: MoviesAPI, private val movieDAO : MovieDao) {
+class RepositoryRules(private val moviesAPI: MoviesAPI, private val movieDAO: MovieDao) {
 
     suspend fun insertMovie(movie: MovieData) {
         movieDAO.insertMovie(movie)
@@ -24,18 +24,10 @@ class RepositoryRules(private val moviesAPI: MoviesAPI, private val movieDAO : M
 
     suspend fun getFavMovies() = movieDAO.getAll()
 
-    suspend fun getSimilar(id : Int, page : Int) = moviesAPI.getSimilars(id,page)
+    suspend fun getSimilar(id: Int, page: Int) = moviesAPI.getSimilars(id, page)
 
-    suspend fun getMoviesByGenres(id: Int, page: Int): ArrayList<MoviePresentation> {
-        val resultsRetrofit: SearchResults =
-            moviesAPI.getMoviesByGenres(id, page)
-        if (resultsRetrofit.results.size == 0) {
-            throw Exception("Movies not found")
-        }
-        return MoviePresentationMapper().convertListMovieService(
-            resultsRetrofit.results, movieDAO.getAll()
-        )
-    }
+    suspend fun getMoviesByGenres(id: Int, page: Int) = moviesAPI.getMoviesByGenres(id, page)
+
 
     suspend fun getGenres(): GenresList {
         return moviesAPI.getGenres()

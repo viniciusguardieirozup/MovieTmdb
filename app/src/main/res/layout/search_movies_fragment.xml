@@ -7,19 +7,28 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clroot"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorBackground"
         android:orientation="vertical">
 
-        <SearchView
-            android:id="@+id/searchMovie"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolBarSearch"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@color/colorWhite"
+            android:background="@drawable/toolbar_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <SearchView
+                android:id="@+id/searchMovie"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@color/colorWhite" />
+        </androidx.appcompat.widget.Toolbar>
 
 
         <androidx.recyclerview.widget.RecyclerView
@@ -27,11 +36,11 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:orientation="vertical"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/searchMovie" />
+            app:layout_constraintTop_toBottomOf="@id/toolBarSearch" />
 
         <ProgressBar
             android:id="@+id/pbSearch"

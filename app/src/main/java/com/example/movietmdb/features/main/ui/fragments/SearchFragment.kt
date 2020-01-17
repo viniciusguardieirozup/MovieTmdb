@@ -9,11 +9,12 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movietmdb.R
+import com.example.movietmdb.ViewState
 import com.example.movietmdb.databinding.SearchMoviesFragmentBinding
 import com.example.movietmdb.features.main.viewmodel.SearchFragmentViewModel
-import com.example.movietmdb.features.main.viewmodel.ViewState
 import com.example.movietmdb.recycler.adapter.CustomAdapter
 import com.example.movietmdb.recycler.data.MoviePresentation
 import org.koin.android.ext.android.inject
@@ -49,7 +50,7 @@ class SearchFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
+        binding.recylerSearchMovie.layoutManager = GridLayoutManager(context, 3)
         binding.recylerSearchMovie.adapter = adapter
         configViewModel()
         configSearchView()
@@ -59,7 +60,11 @@ class SearchFragment : Fragment() {
         binding.searchMovie.clearFocus()
         movieName = binding.searchMovie.query.toString()
         adapter.reset()
-        viewModel.searchMovies(movieName)
+        try {
+            viewModel.searchMovies(movieName)
+        }catch (e : Exception){
+            Toast.makeText(context, e.message, Toast.LENGTH_LONG).show()
+        }
     }
 
     private fun configureRecycler(results: ArrayList<MoviePresentation>?) {
@@ -74,7 +79,11 @@ class SearchFragment : Fragment() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (!recyclerView.canScrollVertically(1)) {
-                    viewModel.searchMovies(movieName)
+                    try {
+                        viewModel.searchMovies(movieName)
+                    }catch (e : Exception){
+                        Toast.makeText(context, e.message, Toast.LENGTH_LONG).show()
+                    }
                 }
             }
         })
@@ -82,20 +91,24 @@ class SearchFragment : Fragment() {
 
     private fun configViewModel() {
         viewModel.moviesLiveData.observe(viewLifecycleOwner, Observer {
-            if (it is ViewState.Loading) {
-                if (it.loading) {
-                    binding.pbSearch.visibility = View.VISIBLE
-                } else {
-                    binding.pbSearch.visibility = View.GONE
+            when (it) {
+                is ViewState.Loading -> {
+                    if (it.loading) {
+                        binding.pbSearch.visibility = View.VISIBLE
+                    } else {
+                        binding.pbSearch.visibility = View.GONE
+                    }
                 }
-            } else if (it is ViewState.Data) {
-                try {
-                    configureRecycler(it.movies as ArrayList<MoviePresentation>)
-                } catch (e: Exception) {
-                    Toast.makeText(context, e.message, Toast.LENGTH_LONG).show()
+                is ViewState.Data -> {
+                    try {
+                        configureRecycler(it.movies as ArrayList<MoviePresentation>)
+                    } catch (e: Exception) {
+                        Toast.makeText(context, e.message, Toast.LENGTH_LONG).show()
+                    }
                 }
-            } else if (it is ViewState.Error) {
-                Toast.makeText(context, it.message, Toast.LENGTH_LONG).show()
+                is ViewState.Error -> {
+                    Toast.makeText(context, it.message, Toast.LENGTH_LONG).show()
+                }
             }
         })
     }
