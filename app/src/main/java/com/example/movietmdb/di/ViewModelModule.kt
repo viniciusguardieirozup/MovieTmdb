@@ -3,7 +3,8 @@ package com.example.movietmdb.di
 import android.app.Application
 import androidx.room.Room
 import com.example.movietmdb.BaseMovieViewModel
-import com.example.movietmdb.features.description.ui.DescriptionViewModel
+import com.example.movietmdb.BuildConfig
+import com.example.movietmdb.features.description.viewmodel.DescriptionViewModel
 import com.example.movietmdb.features.main.viewmodel.FavoritesViewModel
 import com.example.movietmdb.features.main.viewmodel.GenreViewModel
 import com.example.movietmdb.features.main.viewmodel.SearchFragmentViewModel
@@ -14,14 +15,22 @@ import com.example.movietmdb.repository.RepositoryRules
 import com.example.movietmdb.repository.db.AppDatabase
 import com.example.movietmdb.repository.db.DAO.MovieDao
 import com.example.movietmdb.repository.retrofit.MoviesAPI
+import okhttp3.*
+import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+
 val viewModelsModule = module {
-    viewModel { DescriptionViewModel(get()) }
+    viewModel {
+        DescriptionViewModel(
+            get()
+        )
+    }
     viewModel { BaseMovieViewModel() }
     viewModel { FavoritesViewModel(get()) }
     viewModel { GenreViewModel(get()) }
@@ -48,11 +57,37 @@ val apiModule = module {
 }
 
 val netModule = module {
-    fun provideRetrofit(): Retrofit {
-        return Retrofit.Builder().baseUrl("https://api.themoviedb.org/3/")
-            .addConverterFactory(GsonConverterFactory.create()).build()
+    single{
+        HttpLoggingInterceptor().apply { this.level = HttpLoggingInterceptor.Level.BODY}
     }
-    single { provideRetrofit() }
+    single(named("INTERCEPTOR")) {
+        object : Interceptor{
+            override fun intercept(chain: Interceptor.Chain): Response {
+                val original: Request = chain.request()
+                val originalHttpUrl: HttpUrl = original.url()
+
+                val url:HttpUrl = originalHttpUrl.newBuilder()
+                    .addQueryParameter("api_key", BuildConfig.TMDB_KEY)
+                    .build()
+                val requestBuilder = original.newBuilder()
+                    .url(url)
+
+                val request = requestBuilder.build()
+                return chain.proceed(request)
+            }
+
+        }
+    }
+    single {
+        OkHttpClient
+            .Builder()
+            .addInterceptor(get<HttpLoggingInterceptor>())
+            .addInterceptor(get<Interceptor>(named("INTERCEPTOR")))
+            .build()
+    }
+
+    single { Retrofit.Builder().baseUrl("https://api.themoviedb.org/3/")
+        .addConverterFactory(GsonConverterFactory.create()).client(get<OkHttpClient>()).build() }
 }
 
 val databaseModule = module {

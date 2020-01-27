@@ -20,17 +20,17 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.movietmdb.R
 import com.example.movietmdb.ViewState
 import com.example.movietmdb.databinding.ActivityDescription2Binding
-import com.example.movietmdb.recycler.adapter.CustomAdapter
+import com.example.movietmdb.features.description.viewmodel.DescriptionViewModel
+import com.example.movietmdb.recycler.adapter.DescriptionAdapter
 import com.example.movietmdb.recycler.data.MoviePresentation
-import org.koin.android.ext.android.inject
-
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class Description2Activity : AppCompatActivity() {
 
     private val REQUESTSTORAGE = 111
 
     private lateinit var binding: ActivityDescription2Binding
-    private val viewModel: DescriptionViewModel by inject()
+    private val viewModel: DescriptionViewModel by viewModel()
     private lateinit var movie: MoviePresentation
 
     //variables to toolbar
@@ -45,7 +45,7 @@ class Description2Activity : AppCompatActivity() {
     private var newScrollValue = 0
 
     //variables to recyclerView
-    private val adapter: CustomAdapter by inject()
+    private val adapter = DescriptionAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,8 +59,8 @@ class Description2Activity : AppCompatActivity() {
         configImage()
         configFavButton()
         configBackButton()
-        configShareButtonClick()
         configFavButtonClick()
+
     }
 
     private fun configBinding() {
@@ -70,7 +70,7 @@ class Description2Activity : AppCompatActivity() {
     private fun configRecycler() {
         binding.description2RecyclerView.layoutManager = GridLayoutManager(this, 3)
         binding.description2RecyclerView.adapter = adapter
-        viewModel.getSimilar(movie.id)
+        binding.description2RecyclerView.isNestedScrollingEnabled = false
     }
 
     //functions to configure the images
@@ -114,8 +114,6 @@ class Description2Activity : AppCompatActivity() {
                 startActivity(intent)
             }
         }
-
-
     }
 
     override fun onRequestPermissionsResult(
@@ -132,25 +130,23 @@ class Description2Activity : AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
-    private fun configShareButtonClick() {
-        binding.description2ShareButton.setOnClickListener {
-            val bottomSheet = ActionBottomDialogFragment()
-            bottomSheet.show(supportFragmentManager, "teste")
-        }
-    }
-
     //functions to configure viewModel
     private fun configViewModel() {
         viewModel.movie = movie
         binding.viewModelDescription2 = viewModel
+        viewModel.getSimilar(movie.id)
         configViewModelObserver()
     }
 
     private fun configViewModelObserver() {
+        viewModel.itemPagedList.observe(this, Observer {
+            adapter.submitList(it)
+        })
         viewModel.mutable.observe(this, Observer {
+
             when (it) {
                 is ViewState.Data -> {
-                    adapter.addAll(it.movies as ArrayList<MoviePresentation>)
+                    //adapter.addAll(it.movies as ArrayList<MoviePresentation>)
                 }
                 is ViewState.Loading -> {
                     if (it.loading) {
@@ -159,8 +155,8 @@ class Description2Activity : AppCompatActivity() {
                         binding.description2ProgressBar.visibility = View.GONE
                     }
                 }
-                is ViewState.Error ->{
-                    Toast.makeText(applicationContext,it.message,Toast.LENGTH_LONG).show()
+                is ViewState.Error -> {
+                    Toast.makeText(applicationContext, it.message, Toast.LENGTH_LONG).show()
                 }
             }
         })
@@ -187,7 +183,6 @@ class Description2Activity : AppCompatActivity() {
         if (alpha > 1)
             binding.description2View.alpha = 1f
         binding.description2View.alpha = alpha
-
     }
 
     private fun alphaCalculation(scrollValue: Int): Float {

@@ -14,11 +14,11 @@ import com.example.movietmdb.databinding.FavoritesFragmentBinding
 import com.example.movietmdb.features.main.viewmodel.FavoritesViewModel
 import com.example.movietmdb.recycler.adapter.CustomAdapter
 import com.example.movietmdb.recycler.data.MoviePresentation
-import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FavoritesFragment : Fragment() {
 
-    private val viewModel: FavoritesViewModel by inject()
+    private val viewModel: FavoritesViewModel by viewModel()
     private lateinit var binding: FavoritesFragmentBinding
 
     companion object {

@@ -16,7 +16,7 @@ sealed class ViewState {
     class Genre(val genres: GenresList) : ViewState()
 }
 
-open class BaseMovieViewModel() : ViewModel() {
+open class BaseMovieViewModel : ViewModel() {
 
     lateinit var movie : MoviePresentation
     protected var loading = false

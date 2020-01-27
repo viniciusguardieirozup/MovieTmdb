@@ -18,7 +18,6 @@ import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class GenreFragment : Fragment() {
-
     private val viewModel: GenreViewModel by viewModel()
     private val adapter: GenreAdapter by inject()
     private lateinit var binding: GenresFragmentBinding
