@@ -64,7 +64,7 @@ val netModule = module {
         object : Interceptor{
             override fun intercept(chain: Interceptor.Chain): Response {
                 val original: Request = chain.request()
-                val originalHttpUrl: HttpUrl = original.url()
+                val originalHttpUrl: HttpUrl = original.url
 
                 val url:HttpUrl = originalHttpUrl.newBuilder()
                     .addQueryParameter("api_key", BuildConfig.TMDB_KEY)
