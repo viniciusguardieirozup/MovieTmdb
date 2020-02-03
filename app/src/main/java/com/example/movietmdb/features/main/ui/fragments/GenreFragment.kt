@@ -22,12 +22,6 @@ class GenreFragment : Fragment() {
     private val adapter: GenreAdapter by inject()
     private lateinit var binding: GenresFragmentBinding
 
-    companion object {
-        fun newInstance(): GenreFragment {
-            return GenreFragment()
-        }
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -49,12 +43,10 @@ class GenreFragment : Fragment() {
         viewModel.genreLiveData.observe(viewLifecycleOwner, Observer {
             if (it is ViewState.Genre) {
                 configureRecycler(it.genres)
-            }
-            else if(it is ViewState.Loading){
-                if (it.loading){
+            } else if (it is ViewState.Loading) {
+                if (it.loading) {
                     binding.progressBar.visibility = View.VISIBLE
-                }
-                else{
+                } else {
                     binding.progressBar.visibility = View.GONE
                 }
             }
@@ -62,7 +54,7 @@ class GenreFragment : Fragment() {
     }
 
     private fun configureRecycler(results: GenresList) {
-        adapter.addAll(GenrePresentationMapper().convertList(results))
+        adapter.addAll(GenrePresentationMapper.convertList(results))
         binding.rcGenre.adapter = adapter
     }
 }

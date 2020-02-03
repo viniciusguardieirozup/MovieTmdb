@@ -9,5 +9,4 @@ import com.example.movietmdb.repository.db.entity.MovieData
 @Database(entities = [MovieData::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun movieDao(): MovieDao
-
 }

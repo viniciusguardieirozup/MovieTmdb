@@ -6,7 +6,7 @@ import com.example.movietmdb.repository.db.entity.MovieData
 import com.example.movietmdb.repository.retrofit.MovieService
 import kotlin.math.roundToInt
 
-class MoviePresentationMapper {
+object MoviePresentationMapper {
 
     private fun mapFromService(dataMovie: MovieData, fav: Boolean): MoviePresentation {
         return MoviePresentation(
@@ -24,7 +24,8 @@ class MoviePresentationMapper {
             dataMovie.voteCount,
             dataMovie.video,
             (dataMovie.voteAverage * 10).roundToInt().toString(),
-            fav
+            fav,
+            1
         )
     }
 
@@ -44,12 +45,12 @@ class MoviePresentationMapper {
             dataMovie.voteCount,
             dataMovie.video,
             dataMovie.voteAverage.roundToInt().toString(),
-            fav
+            fav,
+            1
         )
     }
 
     private fun stringToArray(ids: String): ArrayList<Int> {
-        Log.v("ee", ids)
         val aux = ArrayList<Int>(0)
         val auxS = ids.replace("[", "").replace("]", "").split(",")
         val size = auxS.size - 1
@@ -74,7 +75,7 @@ class MoviePresentationMapper {
         fav: List<MovieData>
     ): ArrayList<MoviePresentation> {
         val moviesList = ArrayList<MoviePresentation>()
-        val moviesData = MovieDataMapper().convertListMovieService(movies)
+        val moviesData = MovieDataMapper.convertListMovieService(movies)
         val size = movies.size - 1
         for (i in 0..size) {
             if (fav.contains(moviesData[i])) {

@@ -50,7 +50,7 @@ class SearchFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.recylerSearchMovie.layoutManager = GridLayoutManager(context, 3)
+        binding.recylerSearchMovie.layoutManager =  GridLayoutManager(requireContext(), 3)
         binding.recylerSearchMovie.adapter = adapter
         configViewModel()
         configSearchView()

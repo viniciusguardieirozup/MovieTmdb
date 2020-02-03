@@ -43,11 +43,12 @@ class GenresViewHolder(val binding: ItemMoviesGenresLayoutBinding, val lifecycle
         pagination()
     }
 
-    private fun pagination(){
-        binding.itemGenresRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+    private fun pagination() {
+        binding.itemGenresRecyclerView.addOnScrollListener(object :
+            RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
-                if(!recyclerView.canScrollHorizontally(1)){
+                if (!recyclerView.canScrollHorizontally(1)) {
                     recyclerViewModel.getMoviesByGenres(genre.id)
                 }
             }

@@ -22,7 +22,8 @@ class MovieTmdbApplication : Application() {
                     netModule,
                     apiModule,
                     repositoryModule,
-                    adapter
+                    adapter,
+                    request
                 )
             )
         }

@@ -3,9 +3,7 @@ package com.example.movietmdb
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.movietmdb.mappers.MovieDataMapper
 import com.example.movietmdb.recycler.data.MoviePresentation
-import com.example.movietmdb.repository.RepositoryRules
 import com.example.movietmdb.repository.retrofit.GenresList
 import kotlinx.coroutines.launch
 
@@ -18,7 +16,7 @@ sealed class ViewState {
 
 open class BaseMovieViewModel : ViewModel() {
 
-    lateinit var movie : MoviePresentation
+    lateinit var movie: MoviePresentation
     protected var loading = false
     val moviesLiveData: MutableLiveData<ViewState> = MutableLiveData()
 

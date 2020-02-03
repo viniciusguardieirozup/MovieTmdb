@@ -4,26 +4,28 @@ import androidx.lifecycle.MutableLiveData
 import com.example.movietmdb.BaseMovieViewModel
 import com.example.movietmdb.ViewState
 import com.example.movietmdb.mappers.MoviePresentationMapper
-import com.example.movietmdb.repository.RepositoryRules
+import com.example.movietmdb.repository.MoviesRepository
 
 class GenreRecyclerViewModel(
-    private val repositoryRules: RepositoryRules
+    private val moviesRepository: MoviesRepository
 ) : BaseMovieViewModel() {
 
     val mutableLiveData = MutableLiveData<ViewState>()
     private var lastPage: Boolean = false
     private var page = 1
 
+
+
     fun getMoviesByGenres(id: Int) {
         if (!loading && !lastPage) {
             mutableLiveData.value = ViewState.Loading(true)
             load {
                 loading = true
-                val moviesResults = repositoryRules.getMoviesByGenres(id, page)
-                val favMovies = repositoryRules.getFavMovies()
+                val moviesResults = moviesRepository.getMoviesByGenres(id, page)
+                val favMovies = moviesRepository.getFavMovies()
 
                 mutableLiveData.value = ViewState.Data(
-                    MoviePresentationMapper().convertListMovieService(
+                    MoviePresentationMapper.convertListMovieService(
                         moviesResults.results,
                         favMovies
                     )

@@ -4,7 +4,7 @@ import com.example.movietmdb.recycler.data.GenrePresentation
 import com.example.movietmdb.repository.retrofit.Genres
 import com.example.movietmdb.repository.retrofit.GenresList
 
-class GenrePresentationMapper {
+object GenrePresentationMapper {
     fun convertFromGenre(genre: Genres): GenrePresentation {
         return GenrePresentation(genre.id, genre.name)
     }

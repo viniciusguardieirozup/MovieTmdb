@@ -4,14 +4,17 @@ import android.app.Activity
 import android.content.Intent
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.BitmapImageViewTarget
 import com.example.movietmdb.R
 import com.example.movietmdb.databinding.ItemMovieLayoutBinding
 import com.example.movietmdb.features.description.ui.Description2Activity
 import com.example.movietmdb.recycler.data.MoviePresentation
 
+
 class ViewHolder(val binding: ItemMovieLayoutBinding) : RecyclerView.ViewHolder(binding.root) {
+
     private lateinit var movieItem: MoviePresentation
 
     fun bind(
@@ -19,20 +22,21 @@ class ViewHolder(val binding: ItemMovieLayoutBinding) : RecyclerView.ViewHolder(
     ) {
         binding.item = movieItem
         this.movieItem = movieItem
-        movieItem.posterPath?.let {
-            val request = RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL)
+        if (movieItem.posterPath == null) {
+            binding.itemMovieImage.setImageResource(R.drawable.ic_not_found)
+        } else {
             Glide.with(itemView.context)
-                .load(movieItem.posterPath).apply(request)
+                .load(movieItem.posterPath)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(binding.itemMovieImage)
         }
-        binding.executePendingBindings()
         itemClick()
     }
-
 
     private fun itemClick() {
         itemView.setOnClickListener {
             val intent = Intent(itemView.context, Description2Activity::class.java)
+            movieItem.type = 0
             intent.putExtra("movie", movieItem)
             itemView.context.startActivity(intent)
             (itemView.context as Activity).overridePendingTransition(

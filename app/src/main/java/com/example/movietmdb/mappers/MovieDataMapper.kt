@@ -5,7 +5,7 @@ import com.example.movietmdb.repository.db.entity.MovieData
 import com.example.movietmdb.repository.retrofit.MovieService
 
 //Mapper for DataMovies
-class MovieDataMapper {
+object MovieDataMapper {
 
     private fun mapFromMovieService(seacrhMovie: MovieService): MovieData {
         return MovieData(

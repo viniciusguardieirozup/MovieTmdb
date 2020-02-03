@@ -4,13 +4,12 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.example.movietmdb.features.description.viewmodel.DescriptionViewModel
 import com.example.movietmdb.recycler.data.MoviePresentation
-import com.example.movietmdb.repository.RepositoryRules
+import com.example.movietmdb.repository.MoviesRepository
 import com.example.movietmdb.repository.retrofit.SearchResults
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
-import io.mockk.verify
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.resetMain
@@ -26,11 +25,11 @@ class DescriptionViewModelTest {
     val instantExecutorRule = InstantTaskExecutorRule()
     val testCoroutineDispatcher = TestCoroutineDispatcher()
 
-    @InjectMockKs
+
     private lateinit var viewModel: DescriptionViewModel
 
     @MockK
-    private lateinit var repositoryRules: RepositoryRules
+    private lateinit var moviesRepository: MoviesRepository
     @MockK
     private lateinit var response: SearchResults
     @MockK
@@ -42,7 +41,6 @@ class DescriptionViewModelTest {
     fun setup() {
         MockKAnnotations.init(this)
         Dispatchers.setMain(testCoroutineDispatcher)
-
     }
 
     @After
@@ -53,9 +51,9 @@ class DescriptionViewModelTest {
     @Test
     fun testGetSimilar() {
         //GIVEN
-        coEvery { repositoryRules.getSimilar(1, 1) } returns response
+        coEvery { moviesRepository.getSimilar(1, 1) } returns response
         //WHEN
-        viewModel.getSimilar(1)
+        viewModel.getSimilar()
         //THEN
 
     }

@@ -1,5 +1,6 @@
 package com.example.movietmdb.recycler.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -11,10 +12,9 @@ import com.example.movietmdb.recycler.holder.ViewHolder
 
 class CustomAdapter : RecyclerView.Adapter<ViewHolder>() {
 
-    private val HEADER = 0
-    private val DEFAULT = 1
 
     private var list = ArrayList<MoviePresentation>()
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
         val binding: ItemMovieLayoutBinding =
@@ -27,18 +27,13 @@ class CustomAdapter : RecyclerView.Adapter<ViewHolder>() {
         return ViewHolder(binding)
     }
 
-    override fun getItemViewType(position: Int): Int {
-        return if (position == 0) HEADER else DEFAULT
-    }
-
     override fun getItemCount(): Int {
         return list.size
     }
 
     fun addAll(newMovies: ArrayList<MoviePresentation>) {
-        val oldSize = list.size
         list.addAll(newMovies)
-        notifyItemRangeChanged(oldSize, newMovies.size)
+        notifyDataSetChanged()
     }
 
     fun reset() {

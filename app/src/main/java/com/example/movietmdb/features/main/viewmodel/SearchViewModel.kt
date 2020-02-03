@@ -3,26 +3,30 @@ package com.example.movietmdb.features.main.viewmodel
 import com.example.movietmdb.BaseMovieViewModel
 import com.example.movietmdb.ViewState
 import com.example.movietmdb.mappers.MoviePresentationMapper
-import com.example.movietmdb.repository.RepositoryRules
+import com.example.movietmdb.repository.MoviesRepository
 
-class SearchFragmentViewModel(private val repositoryRules: RepositoryRules) :
+class SearchFragmentViewModel(private val moviesRepository: MoviesRepository) :
     BaseMovieViewModel() {
-
 
     private var page = 1
     private var lastPage = false
+    private var oldName = ""
 
     fun searchMovies(name: String) {
+        if(oldName!=name){
+            lastPage = false
+            page = 1
+        }
         if (!loading && !lastPage) {
             moviesLiveData.value = ViewState.Loading(true)
             load {
                 loading = true
 
-                val moviesResults = repositoryRules.getMovies(name, page)
-                val favMovies = repositoryRules.getFavMovies()
+                val moviesResults = moviesRepository.getMovies(name, page)
+                val favMovies = moviesRepository.getFavMovies()
 
                 moviesLiveData.value = ViewState.Data(
-                    MoviePresentationMapper().convertListMovieService(
+                    MoviePresentationMapper.convertListMovieService(
                         moviesResults.results,
                         favMovies
                     )
@@ -42,6 +46,4 @@ class SearchFragmentViewModel(private val repositoryRules: RepositoryRules) :
         }
         moviesLiveData.value = ViewState.Loading(false)
     }
-
-
 }

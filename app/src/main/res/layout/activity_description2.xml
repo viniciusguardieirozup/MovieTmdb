@@ -107,16 +107,10 @@
                     android:id="@+id/description2RecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:nestedScrollingEnabled="false"
                     app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                     app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-                <androidx.core.widget.ContentLoadingProgressBar
-                    android:id="@+id/description2ProgressBar"
-                    style="?android:attr/progressBarStyleLarge"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:visibility="gone" />
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 
