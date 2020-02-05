@@ -3,6 +3,7 @@ package com.example.movietmdb.features.description.ui
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
@@ -15,8 +16,11 @@ import com.example.movietmdb.databinding.ActivityDescription3Binding
 import com.example.movietmdb.features.description.viewmodel.DescriptionViewModel
 import com.example.movietmdb.recycler.adapter.DescriptionAdapter
 import com.example.movietmdb.recycler.data.MoviePresentation
+import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
+
 
 class Description2Activity : AppCompatActivity() {
 
@@ -37,7 +41,7 @@ class Description2Activity : AppCompatActivity() {
         pagination()
     }
 
-    private fun configViewModel() {
+   private fun configViewModel() {
         viewModel.movie = movie
         val array = ArrayList<MoviePresentation>()
         array.add(movie)

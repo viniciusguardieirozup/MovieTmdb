@@ -27,30 +27,5 @@
             android:paddingTop="180dp"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager" />
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <com.google.android.material.appbar.CollapsingToolbarLayout
-                android:id="@+id/description2View"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:gravity="center_vertical"
-                android:paddingStart="50dp"
-                android:paddingEnd="0dp"
-                android:textColor="@color/colorWhite"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                app:layout_scrollFlags="enterAlways">
-
-                <androidx.appcompat.widget.Toolbar
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:backgroundTint="@color/colorToolBar"
-                    app:layout_collapseMode="parallax"/>
-
-            </com.google.android.material.appbar.CollapsingToolbarLayout>
-        </com.google.android.material.appbar.AppBarLayout>
-
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

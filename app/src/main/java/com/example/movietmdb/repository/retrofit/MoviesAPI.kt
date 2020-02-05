@@ -17,5 +17,5 @@ interface MoviesAPI {
     suspend fun getMoviesByGenres(@Query("with_genres") id: Int, @Query("page") page: Int): SearchResults
 
     @GET("movie/{movie_id}/similar?")
-    suspend fun getSimilars(@Path("movie_id") id: Int, @Query("page") page: Int): SearchResults
+    suspend fun getSimilar(@Path("movie_id") id: Int, @Query("page") page: Int): SearchResults
 }

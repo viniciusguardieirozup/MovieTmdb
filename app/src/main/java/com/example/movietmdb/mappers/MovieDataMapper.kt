@@ -7,22 +7,27 @@ import com.example.movietmdb.repository.retrofit.MovieService
 //Mapper for DataMovies
 object MovieDataMapper {
 
-    private fun mapFromMovieService(seacrhMovie: MovieService): MovieData {
+    private fun mapFromMovieService(searchMovie: MovieService): MovieData {
+        val posterPath : String? = if(searchMovie.posterPath == null){
+            null
+        } else{
+            "https://image.tmdb.org/t/p/w185/" + searchMovie.posterPath
+        }
         return MovieData(
-            "https://image.tmdb.org/t/p/w185/" + seacrhMovie.posterPath,
-            seacrhMovie.adult,
-            seacrhMovie.overView,
-            seacrhMovie.releaseData,
-            seacrhMovie.genreIds.toString(),
-            seacrhMovie.id,
-            seacrhMovie.originalTitle,
-            seacrhMovie.originalLanguage,
-            seacrhMovie.title,
-            "https://image.tmdb.org/t/p/original/" + seacrhMovie.backdropPath,
-            seacrhMovie.popularity,
-            seacrhMovie.voteCount,
-            seacrhMovie.video,
-            seacrhMovie.voteAverage
+            posterPath,
+            searchMovie.adult,
+            searchMovie.overView,
+            searchMovie.releaseData,
+            searchMovie.genreIds.toString(),
+            searchMovie.id,
+            searchMovie.originalTitle,
+            searchMovie.originalLanguage,
+            searchMovie.title,
+            "https://image.tmdb.org/t/p/original/" + searchMovie.backdropPath,
+            searchMovie.popularity,
+            searchMovie.voteCount,
+            searchMovie.video,
+            searchMovie.voteAverage
         )
     }
 

@@ -17,7 +17,7 @@ sealed class ViewState {
 open class BaseMovieViewModel : ViewModel() {
 
     lateinit var movie: MoviePresentation
-    protected var loading = false
+    var loading = false
     val moviesLiveData: MutableLiveData<ViewState> = MutableLiveData()
 
     fun load(block: suspend () -> Unit) {
