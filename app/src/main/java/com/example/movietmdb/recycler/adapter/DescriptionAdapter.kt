@@ -7,8 +7,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.movietmdb.R
 import com.example.movietmdb.databinding.HeaderLayoutBinding
 import com.example.movietmdb.databinding.ItemMovieLayoutBinding
+import com.example.movietmdb.databinding.ItemMovieSimilarLayoutBinding
+import com.example.movietmdb.databinding.ItemMoviesGenresLayoutBinding
 import com.example.movietmdb.recycler.data.MoviePresentation
 import com.example.movietmdb.recycler.holder.HeaderViewHolder
+import com.example.movietmdb.recycler.holder.SimilarBodyViewHolder
 import com.example.movietmdb.recycler.holder.ViewHolder
 
 class DescriptionAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -27,7 +30,7 @@ class DescriptionAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         if (viewType == HEADER) {
-            val binding : HeaderLayoutBinding =
+            val binding: HeaderLayoutBinding =
                 DataBindingUtil.inflate(
                     LayoutInflater.from(parent.context),
                     R.layout.header_layout,
@@ -36,14 +39,14 @@ class DescriptionAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 )
             return HeaderViewHolder(binding)
         } else {
-            val binding: ItemMovieLayoutBinding =
+            val binding: ItemMovieSimilarLayoutBinding =
                 DataBindingUtil.inflate(
                     LayoutInflater.from(parent.context),
-                    R.layout.item_movie_layout,
+                    R.layout.item_movie_similar_layout,
                     parent,
                     false
                 )
-            return ViewHolder(binding)
+            return SimilarBodyViewHolder(binding)
         }
     }
 
@@ -59,7 +62,7 @@ class DescriptionAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 (holder as HeaderViewHolder).bind(item)
             }
             BODY -> {
-                (holder as ViewHolder).bind(item)
+                (holder as SimilarBodyViewHolder).bind(item)
             }
         }
     }

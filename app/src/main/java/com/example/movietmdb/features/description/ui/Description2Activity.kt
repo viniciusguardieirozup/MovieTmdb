@@ -1,9 +1,9 @@
 package com.example.movietmdb.features.description.ui
 
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
@@ -11,13 +11,11 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.example.movietmdb.R
-import com.example.movietmdb.ViewState
+import com.example.movietmdb.viewModel.ViewState
 import com.example.movietmdb.databinding.ActivityDescription3Binding
 import com.example.movietmdb.features.description.viewmodel.DescriptionViewModel
 import com.example.movietmdb.recycler.adapter.DescriptionAdapter
 import com.example.movietmdb.recycler.data.MoviePresentation
-import com.google.android.material.appbar.AppBarLayout
-import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -33,6 +31,7 @@ class Description2Activity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         movie = intent?.extras?.getParcelable<MoviePresentation>("movie") as MoviePresentation
+        changeToHeader()
         binding = DataBindingUtil.setContentView(this, R.layout.activity_description3)
         configViewModel()
         configViewModelObserver()
@@ -51,7 +50,7 @@ class Description2Activity : AppCompatActivity() {
     }
 
     private fun configViewModelObserver() {
-        viewModel.mutable.observe(this, Observer {
+        viewModel.moviesLiveData.observe(this, Observer {
             when (it) {
                 is ViewState.Data -> {
                     adapter.addAll(it.movies as ArrayList<MoviePresentation>)
@@ -64,7 +63,6 @@ class Description2Activity : AppCompatActivity() {
             }
         })
     }
-
 
     private fun configRecycler() {
         val aux = GridLayoutManager(applicationContext, 3)
@@ -96,5 +94,38 @@ class Description2Activity : AppCompatActivity() {
             }
 
         }
+    }
+
+    override fun onBackPressed() {
+        changeToBody()
+        super.onBackPressed()
+    }
+
+    override fun onPause() {
+        changeToBody()
+        super.onPause()
+    }
+
+    override fun onStop() {
+        changeToBody()
+        super.onStop()
+    }
+
+    override fun onRestart() {
+        changeToHeader()
+        super.onRestart()
+    }
+
+    override fun onStart() {
+        changeToHeader()
+        super.onStart()
+    }
+
+    private fun changeToHeader(){
+        movie.type = 0
+    }
+
+    private fun changeToBody(){
+        movie.type = 1
     }
 }

@@ -3,7 +3,7 @@ package com.example.movietmdb.recycler.holder
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
-import com.example.movietmdb.ViewState
+import com.example.movietmdb.viewModel.ViewState
 import com.example.movietmdb.databinding.ItemMoviesGenresLayoutBinding
 import com.example.movietmdb.recycler.adapter.CustomAdapter
 import com.example.movietmdb.recycler.data.GenrePresentation
@@ -30,7 +30,7 @@ class GenresViewHolder(val binding: ItemMoviesGenresLayoutBinding, val lifecycle
 
     private fun configObserver() {
 
-        recyclerViewModel.mutableLiveData.observe(lifecycle, Observer {
+        recyclerViewModel.moviesLiveData.observe(lifecycle, Observer {
             if (it is ViewState.Data) {
                 adapter.addAll(it.movies as ArrayList<MoviePresentation>)
             }

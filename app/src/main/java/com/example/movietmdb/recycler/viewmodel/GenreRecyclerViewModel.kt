@@ -1,46 +1,48 @@
 package com.example.movietmdb.recycler.viewmodel
 
 import androidx.lifecycle.MutableLiveData
-import com.example.movietmdb.BaseMovieViewModel
-import com.example.movietmdb.ViewState
+import com.example.movietmdb.viewModel.BaseMovieViewModel
+import com.example.movietmdb.viewModel.ViewState
 import com.example.movietmdb.mappers.MoviePresentationMapper
 import com.example.movietmdb.repository.MoviesRepository
+import com.example.movietmdb.repository.retrofit.SearchResults
+import com.example.movietmdb.viewModel.PaginationViewModel
 
 class GenreRecyclerViewModel(
     private val moviesRepository: MoviesRepository
-) : BaseMovieViewModel() {
-
-    val mutableLiveData = MutableLiveData<ViewState>()
-    private var lastPage: Boolean = false
-    private var page = 1
-
+) : PaginationViewModel() {
 
 
     fun getMoviesByGenres(id: Int) {
+        moviesLiveData.value = ViewState.Loading(true)
         if (!loading && !lastPage) {
-            mutableLiveData.value = ViewState.Loading(true)
-            load {
-                loading = true
-                val moviesResults = moviesRepository.getMoviesByGenres(id, page)
-                val favMovies = moviesRepository.getFavMovies()
-
-                mutableLiveData.value = ViewState.Data(
-                    MoviePresentationMapper.convertListMovieService(
-                        moviesResults.results,
-                        favMovies
-                    )
-                )
-                if (moviesResults.totalPages == page) {
-                    lastPage = true
-                } else {
-                    page++
-                }
-                mutableLiveData.value = ViewState.Loading(false)
-                loading = false
-                if (moviesResults.totalResults == 0) {
-                    lastPage = true
-                }
-            }
+            loadSimilar(id)
         }
+        else{
+            noMorePageAvailable()
+        }
+        moviesLiveData.value = ViewState.Loading(false)
+    }
+
+    private fun loadSimilar(id : Int){
+        load {
+            loading = true
+            val moviesResults = accessRepositoryMapResult(id)
+            checkLastPage(moviesResults)
+            loading = false
+            noMoviesAvailable(moviesResults)
+        }
+    }
+
+    private suspend fun accessRepositoryMapResult(id : Int): SearchResults {
+        val moviesResults = moviesRepository.getMoviesByGenres(id, page)
+        val favMovies = moviesRepository.getFavMovies()
+        moviesLiveData.value = ViewState.Data(
+            MoviePresentationMapper.convertListMovieService(
+                moviesResults.results,
+                favMovies
+            )
+        )
+        return moviesResults
     }
 }

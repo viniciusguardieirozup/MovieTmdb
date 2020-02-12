@@ -1,4 +1,4 @@
-package com.example.movietmdb
+package com.example.movietmdb.viewModel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -25,7 +25,8 @@ open class BaseMovieViewModel : ViewModel() {
             try {
                 block()
             } catch (e: Exception) {
-                moviesLiveData.value = ViewState.Error("Problem to find this movie")
+                moviesLiveData.value =
+                    ViewState.Error("Problem to find this movie")
             } finally {
                 loading = false
             }

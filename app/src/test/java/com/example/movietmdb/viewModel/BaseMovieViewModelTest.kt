@@ -1,8 +1,9 @@
-package com.example.movietmdb
+package com.example.movietmdb.viewModel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import io.mockk.coEvery
-import io.mockk.every
+import com.example.movietmdb.BaseCoroutineTest
+import com.example.movietmdb.viewModel.BaseMovieViewModel
+import com.example.movietmdb.viewModel.ViewState
 import io.mockk.impl.annotations.InjectMockKs
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.suspendCancellableCoroutine

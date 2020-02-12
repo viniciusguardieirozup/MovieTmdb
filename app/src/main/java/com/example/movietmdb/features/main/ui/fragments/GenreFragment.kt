@@ -8,7 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.example.movietmdb.R
-import com.example.movietmdb.ViewState
+import com.example.movietmdb.viewModel.ViewState
 import com.example.movietmdb.databinding.GenresFragmentBinding
 import com.example.movietmdb.features.main.viewmodel.GenreViewModel
 import com.example.movietmdb.mappers.GenrePresentationMapper
@@ -40,7 +40,7 @@ class GenreFragment : Fragment() {
     }
 
     private fun configObserverViewModel() {
-        viewModel.genreLiveData.observe(viewLifecycleOwner, Observer {
+        viewModel.moviesLiveData.observe(viewLifecycleOwner, Observer {
             if (it is ViewState.Genre) {
                 configureRecycler(it.genres)
             } else if (it is ViewState.Loading) {

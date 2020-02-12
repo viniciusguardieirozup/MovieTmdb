@@ -1,7 +1,7 @@
 package com.example.movietmdb.recycler.viewmodel
 
 import androidx.lifecycle.viewModelScope
-import com.example.movietmdb.BaseMovieViewModel
+import com.example.movietmdb.viewModel.BaseMovieViewModel
 import com.example.movietmdb.mappers.MovieDataMapper
 import com.example.movietmdb.recycler.data.MoviePresentation
 import com.example.movietmdb.repository.MoviesRepository

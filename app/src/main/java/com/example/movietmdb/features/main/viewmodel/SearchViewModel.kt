@@ -1,49 +1,55 @@
 package com.example.movietmdb.features.main.viewmodel
 
-import com.example.movietmdb.BaseMovieViewModel
-import com.example.movietmdb.ViewState
 import com.example.movietmdb.mappers.MoviePresentationMapper
 import com.example.movietmdb.repository.MoviesRepository
+import com.example.movietmdb.repository.retrofit.SearchResults
+import com.example.movietmdb.viewModel.PaginationViewModel
+import com.example.movietmdb.viewModel.ViewState
 
-class SearchFragmentViewModel(private val moviesRepository: MoviesRepository) :
-    BaseMovieViewModel() {
+class SearchViewModel(private val moviesRepository: MoviesRepository) :
+    PaginationViewModel() {
 
-    private var page = 1
-    private var lastPage = false
     private var oldName = ""
 
     fun searchMovies(name: String) {
-        if(oldName!=name){
-            lastPage = false
-            page = 1
-        }
+        checkNewSearch(name)
         if (!loading && !lastPage) {
             moviesLiveData.value = ViewState.Loading(true)
-            load {
-                loading = true
-
-                val moviesResults = moviesRepository.getMovies(name, page)
-                val favMovies = moviesRepository.getFavMovies()
-
-                moviesLiveData.value = ViewState.Data(
-                    MoviePresentationMapper.convertListMovieService(
-                        moviesResults.results,
-                        favMovies
-                    )
-                )
-                if (moviesResults.totalPages == page) {
-                    lastPage = true
-                } else {
-                    page++
-                }
-                loading = false
-                if (moviesResults.totalResults == 0) {
-                    moviesLiveData.value = ViewState.Error("Movies not found")
-                }
-            }
-        } else if (lastPage && !loading) {
-            moviesLiveData.value = ViewState.Error("No more movies")
+            loadSimilar(name)
+        } else {
+            noMorePageAvailable()
         }
         moviesLiveData.value = ViewState.Loading(false)
     }
+
+    private fun checkNewSearch(name: String) {
+        if (oldName != name) {
+            lastPage = false
+            page = 1
+        }
+    }
+
+    private suspend fun accessRepositoryMapResult(name: String): SearchResults {
+        val moviesResults = moviesRepository.getMovies(name, page)
+        val favMovies = moviesRepository.getFavMovies()
+        moviesLiveData.value = ViewState.Data(
+            MoviePresentationMapper.convertListMovieService(
+                moviesResults.results,
+                favMovies
+            )
+        )
+        return moviesResults
+    }
+
+    private fun loadSimilar(name: String) {
+        load {
+            loading = true
+            val moviesResults = accessRepositoryMapResult(name)
+            checkLastPage(moviesResults)
+            loading = false
+            noMoviesAvailable(moviesResults)
+        }
+    }
+
+
 }

@@ -14,5 +14,4 @@ interface MovieDao {
 
     @Delete
     suspend fun removeMovie(movie: MovieData)
-
 }

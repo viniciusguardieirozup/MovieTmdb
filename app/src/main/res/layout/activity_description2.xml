@@ -9,7 +9,7 @@
 
         <variable
             name="viewModelDescription2"
-            type="com.example.movietmdb.BaseMovieViewModel" />
+            type="com.example.movietmdb.viewModel.BaseMovieViewModel" />
     </data>
 
     <FrameLayout
