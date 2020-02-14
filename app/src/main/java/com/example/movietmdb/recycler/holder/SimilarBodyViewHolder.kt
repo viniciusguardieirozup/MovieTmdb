@@ -6,13 +6,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.movietmdb.R
-import com.example.movietmdb.databinding.ItemMovieLayoutBinding
-import com.example.movietmdb.databinding.ItemMovieSimilarLayoutBinding
-import com.example.movietmdb.features.description.ui.Description2Activity
+import com.example.movietmdb.databinding.LayoutItemMovieSimilarBinding
+import com.example.movietmdb.features.description.ui.DescriptionActivity
 import com.example.movietmdb.recycler.data.MoviePresentation
 
 
-class SimilarBodyViewHolder(val binding: ItemMovieSimilarLayoutBinding) : RecyclerView.ViewHolder(binding.root) {
+class SimilarBodyViewHolder(val binding: LayoutItemMovieSimilarBinding) : RecyclerView.ViewHolder(binding.root) {
 
     private lateinit var movieItem: MoviePresentation
 
@@ -34,7 +33,7 @@ class SimilarBodyViewHolder(val binding: ItemMovieSimilarLayoutBinding) : Recycl
 
     private fun itemClick() {
         itemView.setOnClickListener {
-            val intent = Intent(itemView.context, Description2Activity::class.java)
+            val intent = Intent(itemView.context, DescriptionActivity::class.java)
             movieItem.type = 0
             intent.putExtra("movie", movieItem)
             itemView.context.startActivity(intent)

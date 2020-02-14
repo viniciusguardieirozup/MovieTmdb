@@ -5,14 +5,11 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movietmdb.R
-import com.example.movietmdb.databinding.HeaderLayoutBinding
-import com.example.movietmdb.databinding.ItemMovieLayoutBinding
-import com.example.movietmdb.databinding.ItemMovieSimilarLayoutBinding
-import com.example.movietmdb.databinding.ItemMoviesGenresLayoutBinding
+import com.example.movietmdb.databinding.LayoutHeaderBinding
+import com.example.movietmdb.databinding.LayoutItemMovieSimilarBinding
 import com.example.movietmdb.recycler.data.MoviePresentation
 import com.example.movietmdb.recycler.holder.HeaderViewHolder
 import com.example.movietmdb.recycler.holder.SimilarBodyViewHolder
-import com.example.movietmdb.recycler.holder.ViewHolder
 
 class DescriptionAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -30,19 +27,19 @@ class DescriptionAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         if (viewType == HEADER) {
-            val binding: HeaderLayoutBinding =
+            val binding: LayoutHeaderBinding =
                 DataBindingUtil.inflate(
                     LayoutInflater.from(parent.context),
-                    R.layout.header_layout,
+                    R.layout.layout_header,
                     parent,
                     false
                 )
             return HeaderViewHolder(binding)
         } else {
-            val binding: ItemMovieSimilarLayoutBinding =
+            val binding: LayoutItemMovieSimilarBinding =
                 DataBindingUtil.inflate(
                     LayoutInflater.from(parent.context),
-                    R.layout.item_movie_similar_layout,
+                    R.layout.layout_item_movie_similar,
                     parent,
                     false
                 )

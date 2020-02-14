@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movietmdb.R
-import com.example.movietmdb.databinding.ItemMovieLayoutBinding
+import com.example.movietmdb.databinding.LayoutItemMovieBinding
 import com.example.movietmdb.recycler.data.MoviePresentation
 import com.example.movietmdb.recycler.holder.ViewHolder
 
@@ -16,10 +16,10 @@ class CustomAdapter : RecyclerView.Adapter<ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
-        val binding: ItemMovieLayoutBinding =
+        val binding: LayoutItemMovieBinding =
             DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context),
-                R.layout.item_movie_layout,
+                R.layout.layout_item_movie,
                 parent,
                 false
             )

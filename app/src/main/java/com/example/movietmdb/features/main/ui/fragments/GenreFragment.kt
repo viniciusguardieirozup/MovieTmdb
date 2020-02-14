@@ -8,8 +8,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.example.movietmdb.R
+import com.example.movietmdb.databinding.FragmentGenresBinding
 import com.example.movietmdb.viewModel.ViewState
-import com.example.movietmdb.databinding.GenresFragmentBinding
 import com.example.movietmdb.features.main.viewmodel.GenreViewModel
 import com.example.movietmdb.mappers.GenrePresentationMapper
 import com.example.movietmdb.recycler.adapter.GenreAdapter
@@ -20,7 +20,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class GenreFragment : Fragment() {
     private val viewModel: GenreViewModel by viewModel()
     private val adapter: GenreAdapter by inject()
-    private lateinit var binding: GenresFragmentBinding
+    private lateinit var binding: FragmentGenresBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,7 +28,7 @@ class GenreFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding =
-            DataBindingUtil.inflate(layoutInflater, R.layout.genres_fragment, container, false)
+            DataBindingUtil.inflate(layoutInflater, R.layout.fragment_genres, container, false)
         return binding.root
     }
 

@@ -12,8 +12,8 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movietmdb.R
+import com.example.movietmdb.databinding.FragmentSearchMoviesBinding
 import com.example.movietmdb.viewModel.ViewState
-import com.example.movietmdb.databinding.SearchMoviesFragmentBinding
 import com.example.movietmdb.features.main.viewmodel.SearchViewModel
 import com.example.movietmdb.recycler.adapter.CustomAdapter
 import com.example.movietmdb.recycler.data.MoviePresentation
@@ -22,7 +22,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchFragment : Fragment() {
 
-    private lateinit var binding: SearchMoviesFragmentBinding
+    private lateinit var binding: FragmentSearchMoviesBinding
     private val adapter: CustomAdapter by inject()
     private lateinit var movieName: String
     private val viewModel: SearchViewModel by viewModel()
@@ -42,7 +42,7 @@ class SearchFragment : Fragment() {
         binding =
             DataBindingUtil.inflate(
                 layoutInflater,
-                R.layout.search_movies_fragment,
+                R.layout.fragment_search_movies,
                 container,
                 false
             )

@@ -9,8 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.movietmdb.R
+import com.example.movietmdb.databinding.FragmentFavoritesBinding
 import com.example.movietmdb.viewModel.ViewState
-import com.example.movietmdb.databinding.FavoritesFragmentBinding
 import com.example.movietmdb.features.main.viewmodel.FavoritesViewModel
 import com.example.movietmdb.recycler.adapter.CustomAdapter
 import com.example.movietmdb.recycler.data.MoviePresentation
@@ -19,7 +19,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class FavoritesFragment : Fragment() {
 
     private val viewModel: FavoritesViewModel by viewModel()
-    private lateinit var binding: FavoritesFragmentBinding
+    private lateinit var binding: FragmentFavoritesBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,7 +27,7 @@ class FavoritesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding =
-            DataBindingUtil.inflate(layoutInflater, R.layout.favorites_fragment, container, false)
+            DataBindingUtil.inflate(layoutInflater, R.layout.fragment_favorites, container, false)
         return binding.root
     }
 

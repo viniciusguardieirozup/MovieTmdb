@@ -3,16 +3,16 @@ package com.example.movietmdb.recycler.holder
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
-import com.example.movietmdb.viewModel.ViewState
-import com.example.movietmdb.databinding.ItemMoviesGenresLayoutBinding
+import com.example.movietmdb.databinding.LayoutItemMoviesGenresBinding
 import com.example.movietmdb.recycler.adapter.CustomAdapter
 import com.example.movietmdb.recycler.data.GenrePresentation
 import com.example.movietmdb.recycler.data.MoviePresentation
 import com.example.movietmdb.recycler.viewmodel.GenreRecyclerViewModel
+import com.example.movietmdb.viewModel.ViewState
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 
-class GenresViewHolder(val binding: ItemMoviesGenresLayoutBinding, val lifecycle: LifecycleOwner) :
+class GenresViewHolder(val binding: LayoutItemMoviesGenresBinding, val lifecycle: LifecycleOwner) :
     RecyclerView.ViewHolder(binding.root), KoinComponent {
 
     private lateinit var genre: GenrePresentation

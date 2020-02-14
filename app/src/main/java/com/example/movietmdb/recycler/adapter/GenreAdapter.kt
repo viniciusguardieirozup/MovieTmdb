@@ -6,7 +6,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movietmdb.R
-import com.example.movietmdb.databinding.ItemMoviesGenresLayoutBinding
+import com.example.movietmdb.databinding.LayoutItemMoviesGenresBinding
 import com.example.movietmdb.recycler.data.GenrePresentation
 import com.example.movietmdb.recycler.holder.GenresViewHolder
 
@@ -16,10 +16,10 @@ class GenreAdapter : RecyclerView.Adapter<GenresViewHolder>() {
     lateinit var lifeCicle: LifecycleOwner
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenresViewHolder {
-        val binding: ItemMoviesGenresLayoutBinding =
+        val binding: LayoutItemMoviesGenresBinding =
             DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context),
-                R.layout.item_movies_genres_layout,
+                R.layout.layout_item_movies_genres,
                 parent,
                 false
             )

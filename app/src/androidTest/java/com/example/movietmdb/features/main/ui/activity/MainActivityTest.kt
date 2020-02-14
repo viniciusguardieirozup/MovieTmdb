@@ -1,10 +1,38 @@
 package com.example.movietmdb.features.main.ui.activity
 
+import android.content.res.Resources
+import android.widget.EditText
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.*
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import org.junit.Assert.*
+import androidx.test.rule.ActivityTestRule
+import com.example.movietmdb.R
+import org.junit.Rule
+import org.junit.Test
 import org.junit.runner.RunWith
 
-@RunWith(AndroidJUnit4::class)
-class MainActivityTest{
 
+@RunWith(AndroidJUnit4::class)
+class MainActivityTest {
+
+    @get:Rule
+    val mActivityRule = ActivityTestRule<MainActivity>(
+        MainActivity::class.java,
+        false,
+        true
+    )
+
+    @Test
+    fun views_viewIsVisible() {
+        //onView(withId(R.id.searchMovie)).check(matches(isDisplayed()))
+        onView(withId(R.id.recylerSearchMovie)).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun searchMovie_itemDisplayed() {
+
+
+    }
 }

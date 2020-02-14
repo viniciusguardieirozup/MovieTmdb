@@ -1,6 +1,7 @@
 package com.example.movietmdb.features.description.viewmodel
 
 import com.example.movietmdb.mappers.MoviePresentationMapper
+import com.example.movietmdb.recycler.data.MoviePresentation
 import com.example.movietmdb.repository.MoviesRepository
 import com.example.movietmdb.repository.retrofit.SearchResults
 import com.example.movietmdb.viewModel.PaginationViewModel

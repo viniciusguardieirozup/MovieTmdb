@@ -15,7 +15,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
 
-        <activity android:name=".features.description.ui.Description2Activity"
+        <activity android:name=".features.description.ui.DescriptionActivity"
             android:theme="@style/DescriptionTheme"/>
 
 
