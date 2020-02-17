@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movietmdb.recycler.data.MoviePresentation
 import com.example.movietmdb.repository.retrofit.GenresList
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 sealed class ViewState {
@@ -19,12 +21,18 @@ open class BaseMovieViewModel : ViewModel() {
     lateinit var movie: MoviePresentation
     var loading = false
     val moviesLiveData: MutableLiveData<ViewState> = MutableLiveData()
+     protected var job : Job = Job()
+
 
     fun load(block: suspend () -> Unit) {
-        viewModelScope.launch {
+        job = viewModelScope.launch {
             try {
                 block()
-            } catch (e: Exception) {
+            }
+            catch (e : CancellationException){
+
+            }
+            catch (e: Exception) {
                 moviesLiveData.value =
                     ViewState.Error("Problem to find this movie")
             } finally {

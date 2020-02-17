@@ -10,76 +10,60 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class MoviePresentation(
     private val _posterPath: String?,
-    private val _adult: Boolean?,
     private val _overView: String?,
-    private val _releaseData: String?,
     private val _genreIds: ArrayList<Int>,
     private val _id: Int,
-    private val _originalTitle: String?,
-    private val _originalLanguage: String?,
     private val _title: String?,
     private val _backdropPath: String?,
     private val _popularity: Double?,
     private val _voteCount: Int?,
-    private val _video: Boolean?,
     private val _voteAverage: String,
     private var _favorite: Boolean,
     private var _type: Int
 ) : Parcelable, BaseObservable() {
 
     val posterPath: String?
-        @Bindable get() = _posterPath
-
-    val adult: Boolean?
-        @Bindable get() = _adult
+        @get:Bindable get() = _posterPath
 
     val overView: String?
-        @Bindable get() = _overView
-
-    val releaseData
-        @Bindable get() = _releaseData
+        @get:Bindable get() = _overView
 
     val genreIds: ArrayList<Int>
-        @Bindable get() = _genreIds
+        @get:Bindable get() = _genreIds
 
     val id: Int
-        @Bindable get() = _id
-
-    val originalTitle: String?
-        @Bindable get() = _originalTitle
-
-    val originalLanguage
-        @Bindable get() = _originalLanguage
+        @get:Bindable get() = _id
 
     val title
-        @Bindable get() = _title
+        @get:Bindable get() = _title
 
     val backdropPath
-        @Bindable get() = _backdropPath
+        @get:Bindable get() = _backdropPath
 
     val popularity
-        @Bindable get() = _popularity
+        @get:Bindable get() = _popularity
 
     val voteCount
-        @Bindable get() = _voteCount
-
-    val video
-        @Bindable get() = _video
+        @get:Bindable get() = _voteCount
 
     val voteAverage
-        @Bindable get() = _voteAverage
+        @get:Bindable get() = _voteAverage
 
     var favorite
-        @Bindable get() = _favorite
+        @get:Bindable get() = _favorite
         set(value) {
-            _favorite = value
-            notifyPropertyChanged(BR.favorite)
+            if(_favorite != value){
+                _favorite = value
+//                notifyPropertyChanged()
+            }
         }
 
     var type
-        @Bindable get() = _type
+        @get:Bindable get() = _type
         set(value) {
-            _type = value
-            notifyPropertyChanged(BR.type)
+            if(_type != value){
+                _type = value
+//                notifyPropertyChanged(BR.type)
+            }
         }
 }

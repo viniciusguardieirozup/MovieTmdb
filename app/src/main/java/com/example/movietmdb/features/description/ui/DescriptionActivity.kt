@@ -1,6 +1,7 @@
 package com.example.movietmdb.features.description.ui
 
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -28,14 +29,18 @@ class DescriptionActivity : AppCompatActivity() {
 
     private val adapter: DescriptionAdapter by inject()
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         movie = intent?.extras?.getParcelable<MoviePresentation>("movie") as MoviePresentation
         changeToHeader()
         binding = DataBindingUtil.setContentView(this, R.layout.activity_description)
+        binding.lifecycleOwner = this
         setSupportActionBar(toolbar)
+
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_white_24dp)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         configViewModel()
         configViewModelObserver()
         configRecycler()

@@ -4,12 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SearchView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movietmdb.R
 import com.example.movietmdb.databinding.FragmentSearchMoviesBinding
@@ -24,16 +22,8 @@ class SearchFragment : Fragment() {
 
     private lateinit var binding: FragmentSearchMoviesBinding
     private val adapter: CustomAdapter by inject()
-    private lateinit var movieName: String
     private val viewModel: SearchViewModel by viewModel()
 
-    companion object {
-        fun newInstance(): SearchFragment {
-            return SearchFragment()
-        }
-    }
-
-    //function to inflate layout into this fragment
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -50,28 +40,22 @@ class SearchFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.recylerSearchMovie.layoutManager =  GridLayoutManager(requireContext(), 3)
         binding.recylerSearchMovie.adapter = adapter
+        pagination()
         configViewModel()
-        configSearchView()
+        observerMovieName()
     }
 
-    private fun getTextToSearch() {
-        binding.searchMovie.clearFocus()
-        movieName = binding.searchMovie.query.toString()
-        adapter.reset()
-        try {
-            viewModel.searchMovies(movieName)
-        }catch (e : Exception){
-            Toast.makeText(context, e.message, Toast.LENGTH_LONG).show()
-        }
+    private fun observerMovieName() {
+        viewModel.movieName.observe(this, Observer {
+            viewModel.searchMovies()
+        })
     }
 
     private fun configureRecycler(results: ArrayList<MoviePresentation>?) {
         results?.let {
             adapter.addAll(results)
         }
-        pagination()
     }
 
     private fun pagination() {
@@ -80,7 +64,7 @@ class SearchFragment : Fragment() {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (!recyclerView.canScrollVertically(1)) {
                     try {
-                        viewModel.searchMovies(movieName)
+                        viewModel.searchMovies()
                     }catch (e : Exception){
                         Toast.makeText(context, e.message, Toast.LENGTH_LONG).show()
                     }
@@ -90,6 +74,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun configViewModel() {
+        binding.viewModel = viewModel
         viewModel.moviesLiveData.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is ViewState.Loading -> {
@@ -111,17 +96,10 @@ class SearchFragment : Fragment() {
                 }
             }
         })
-    }
 
-    private fun configSearchView() {
-        binding.searchMovie.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                getTextToSearch()
-                return true
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                return false
+        viewModel.resetAdapter.observe(this, Observer {
+            if (it){
+                adapter.reset()
             }
         })
     }

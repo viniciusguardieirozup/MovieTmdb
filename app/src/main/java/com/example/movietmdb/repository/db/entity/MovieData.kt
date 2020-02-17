@@ -10,18 +10,13 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class MovieData(
     val posterPath: String?,
-    val adult: Boolean?,
     val overView: String?,
-    val releaseData: String?,
     val genreIds: String,
     @PrimaryKey val id: Int,
-    val originalTitle: String?,
-    val originalLanguage: String?,
     val title: String?,
     val backdropPath: String?,
     val popularity: Double?,
     val voteCount: Int?,
-    val video: Boolean?,
     val voteAverage: Double
 ) : Parcelable {
     override fun equals(other: Any?): Boolean {

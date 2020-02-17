@@ -8,20 +8,38 @@
         android:id="@+id/searchFragment"
         android:name="com.example.movietmdb.features.main.ui.fragments.SearchFragment"
         android:label="SearchFragment"
-        tools:layout="@layout/fragment_search_movies"/>
+        tools:layout="@layout/fragment_search_movies">
+        <action
+            android:id="@+id/actionSearchFragmentToDescription"
+            app:destination="@id/descriptionActivity"/>
+    </fragment>
     <fragment
         android:id="@+id/favoritesFragment"
         android:name="com.example.movietmdb.features.main.ui.fragments.FavoritesFragment"
         android:label="FavoritesFragment"
-        tools:layout="@layout/fragment_favorites"/>
+        tools:layout="@layout/fragment_favorites">
+        <action
+            android:id="@+id/action_favoritesFragment_to_descriptionActivity"
+            app:destination="@id/descriptionActivity" />
+    </fragment>
     <fragment
         android:id="@+id/genreFragment"
         android:name="com.example.movietmdb.features.main.ui.fragments.GenreFragment"
         android:label="GenreFragment"
-        tools:layout="@layout/fragment_genres"/>
+        tools:layout="@layout/fragment_genres">
+        <action
+            android:id="@+id/action_genreFragment_to_descriptionActivity"
+            app:destination="@id/descriptionActivity" />
+    </fragment>
     <activity
-        android:id="@+id/description2Activity"
+        android:id="@+id/descriptionActivity"
         android:name="com.example.movietmdb.features.description.ui.DescriptionActivity"
         android:label="Description2Activity"
-        tools:layout="@layout/activity_description2"/>
+        tools:layout="@layout/activity_description">
+        <argument
+            android:name="movie"
+            app:argType="com.example.movietmdb.recycler.data.MoviePresentation"/>
+    </activity>
+
+
 </navigation>

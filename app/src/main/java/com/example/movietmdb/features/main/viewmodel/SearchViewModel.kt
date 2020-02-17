@@ -1,21 +1,33 @@
 package com.example.movietmdb.features.main.viewmodel
 
+import android.text.Editable
+import android.text.TextWatcher
+import android.widget.EditText
+import androidx.databinding.Bindable
+import androidx.databinding.BindingAdapter
+import androidx.databinding.adapters.TextViewBindingAdapter.setPassword
+import androidx.lifecycle.MutableLiveData
 import com.example.movietmdb.mappers.MoviePresentationMapper
 import com.example.movietmdb.repository.MoviesRepository
 import com.example.movietmdb.repository.retrofit.SearchResults
 import com.example.movietmdb.viewModel.PaginationViewModel
 import com.example.movietmdb.viewModel.ViewState
 
+
 class SearchViewModel(private val moviesRepository: MoviesRepository) :
     PaginationViewModel() {
 
+    val movieName = MutableLiveData<String>()
+
+    val resetAdapter = MutableLiveData<Boolean>()
+
     private var oldName = ""
 
-    fun searchMovies(name: String) {
-        checkNewSearch(name)
+    fun searchMovies() {
+        checkNewSearch(movieName.value.toString())
         if (!loading && !lastPage) {
             moviesLiveData.value = ViewState.Loading(true)
-            loadSimilar(name)
+            loadSimilar(movieName.value.toString())
         } else {
             noMorePageAvailable()
         }
@@ -26,6 +38,13 @@ class SearchViewModel(private val moviesRepository: MoviesRepository) :
         if (oldName != name) {
             lastPage = false
             page = 1
+            oldName = name
+
+            job.cancel()
+
+            resetAdapter.value = true
+        } else {
+            resetAdapter.value = false
         }
     }
 
@@ -50,6 +69,5 @@ class SearchViewModel(private val moviesRepository: MoviesRepository) :
             noMoviesAvailable(moviesResults)
         }
     }
-
 
 }

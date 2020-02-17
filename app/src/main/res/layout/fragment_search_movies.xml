@@ -4,6 +4,9 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.example.movietmdb.features.main.viewmodel.SearchViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,18 +19,22 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolBarSearch"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="?attr/actionBarSize"
             android:background="@drawable/toolbar_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <SearchView
+            <EditText
                 android:id="@+id/searchMovie"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_margin="10dp"
-                android:background="@color/colorWhite" />
+                android:background="@color/colorWhite"
+                android:hint="Movie name"
+                android:inputType="text"
+                android:labelFor="@id/recylerSearchMovie"
+                android:text="@={viewModel.movieName}" />
         </androidx.appcompat.widget.Toolbar>
 
 
@@ -35,14 +42,13 @@
             android:id="@+id/recylerSearchMovie"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:clipToPadding="false"
             android:orientation="vertical"
-            android:paddingTop="70dp"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolBarSearch" />
+            app:layout_constraintTop_toBottomOf="@id/toolBarSearch"
+            app:spanCount="3" />
 
         <ProgressBar
             android:id="@+id/pbSearch"

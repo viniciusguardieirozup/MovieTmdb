@@ -52,7 +52,6 @@ class FavoritesFragment : Fragment() {
 
     private fun configRecycler(favMovies: ArrayList<MoviePresentation>) {
         val adapter = CustomAdapter()
-        binding.rc.layoutManager = GridLayoutManager(context, 3)
         adapter.addAll(favMovies)
         binding.rc.adapter = adapter
     }

@@ -11,18 +11,13 @@ object MoviePresentationMapper {
     private fun mapFromService(dataMovie: MovieData, fav: Boolean): MoviePresentation {
         return MoviePresentation(
             dataMovie.posterPath,
-            dataMovie.adult,
             dataMovie.overView,
-            dataMovie.releaseData,
             stringToArray(dataMovie.genreIds),
             dataMovie.id,
-            dataMovie.originalTitle,
-            dataMovie.originalLanguage,
             dataMovie.title,
             dataMovie.backdropPath,
             dataMovie.popularity,
             dataMovie.voteCount,
-            dataMovie.video,
             (dataMovie.voteAverage * 10).roundToInt().toString(),
             fav,
             1
@@ -32,18 +27,13 @@ object MoviePresentationMapper {
     private fun mapFromData(dataMovie: MovieData, fav: Boolean): MoviePresentation {
         return MoviePresentation(
             dataMovie.posterPath,
-            dataMovie.adult,
             dataMovie.overView,
-            dataMovie.releaseData,
             stringToArray(dataMovie.genreIds),
             dataMovie.id,
-            dataMovie.originalTitle,
-            dataMovie.originalLanguage,
             dataMovie.title,
             dataMovie.backdropPath,
             dataMovie.popularity,
             dataMovie.voteCount,
-            dataMovie.video,
             dataMovie.voteAverage.roundToInt().toString(),
             fav,
             1
