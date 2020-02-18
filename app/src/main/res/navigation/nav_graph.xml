@@ -19,8 +19,8 @@
         android:label="FavoritesFragment"
         tools:layout="@layout/fragment_favorites">
         <action
-            android:id="@+id/action_favoritesFragment_to_descriptionActivity"
-            app:destination="@id/descriptionActivity" />
+            android:id="@+id/actionSearchFragmentToDescription"
+            app:destination="@id/descriptionActivity"/>
     </fragment>
     <fragment
         android:id="@+id/genreFragment"
@@ -28,8 +28,8 @@
         android:label="GenreFragment"
         tools:layout="@layout/fragment_genres">
         <action
-            android:id="@+id/action_genreFragment_to_descriptionActivity"
-            app:destination="@id/descriptionActivity" />
+            android:id="@+id/actionSearchFragmentToDescription"
+            app:destination="@id/descriptionActivity"/>
     </fragment>
     <activity
         android:id="@+id/descriptionActivity"

@@ -11,12 +11,13 @@ import com.example.movietmdb.viewModel.ViewState
 
 class DescriptionViewModel(val moviesRepository: MoviesRepository) : PaginationViewModel() {
 
-    var id = 0
-    private val similar: MutableLiveData<List<MoviePresentation>> = MutableLiveData()
+    private var id = 0
 
-    fun startViewModel(){
-        movie.type = 0
-        similar.value = listOf(movie)
+    fun startViewModel(movie : MoviePresentation){
+        this.id = movie.id
+        this.movie = movie
+        this.movie.type = 0
+        moviesLiveData.value = ViewState.Data(arrayListOf(movie))
     }
 
     fun getSimilar() {
@@ -32,7 +33,6 @@ class DescriptionViewModel(val moviesRepository: MoviesRepository) : PaginationV
     suspend fun accessRepositoryMapResult(): SearchResults {
         val moviesResults = moviesRepository.getSimilar(id, page)
         val favMovies = moviesRepository.getFavMovies()
-
         moviesLiveData.value = ViewState.Data(
             MoviePresentationMapper.convertListMovieService(
                 moviesResults.results,

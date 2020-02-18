@@ -1,7 +1,6 @@
 package com.example.movietmdb.features.description.ui
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -12,10 +11,10 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.example.movietmdb.R
 import com.example.movietmdb.databinding.ActivityDescriptionBinding
-import com.example.movietmdb.viewModel.ViewState
 import com.example.movietmdb.features.description.viewmodel.DescriptionViewModel
 import com.example.movietmdb.recycler.adapter.DescriptionAdapter
 import com.example.movietmdb.recycler.data.MoviePresentation
+import com.example.movietmdb.viewModel.ViewState
 import kotlinx.android.synthetic.main.activity_description.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -29,32 +28,33 @@ class DescriptionActivity : AppCompatActivity() {
 
     private val adapter: DescriptionAdapter by inject()
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        movie = intent?.extras?.getParcelable<MoviePresentation>("movie") as MoviePresentation
-        changeToHeader()
         binding = DataBindingUtil.setContentView(this, R.layout.activity_description)
-        binding.lifecycleOwner = this
-        setSupportActionBar(toolbar)
-
-        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_white_24dp)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
+        configBinding()
+        configToolBar()
         configViewModel()
-        configViewModelObserver()
         configRecycler()
         configImage()
         pagination()
     }
 
-   private fun configViewModel() {
-        viewModel.movie = movie
-        val array = ArrayList<MoviePresentation>()
-        array.add(movie)
-        adapter.addAll(array)
-        viewModel.id = movie.id
-        viewModel.getSimilar()
+    private fun configBinding() {
+        movie = intent?.extras?.getParcelable<MoviePresentation>("movie") as MoviePresentation
+        binding.lifecycleOwner = this
+    }
+
+    private fun configToolBar() {
+        setSupportActionBar(toolbar)
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_white_24dp)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = ""
+    }
+
+    private fun configViewModel() {
+        viewModel.startViewModel(movie)
+        binding.viewModel = viewModel
+        configViewModelObserver()
     }
 
     private fun configViewModelObserver() {
@@ -63,7 +63,6 @@ class DescriptionActivity : AppCompatActivity() {
                 is ViewState.Data -> {
                     adapter.addAll(it.movies as ArrayList<MoviePresentation>)
                     adapter.notifyDataSetChanged()
-
                 }
                 is ViewState.Error -> {
                     Toast.makeText(applicationContext, it.message, Toast.LENGTH_LONG).show()
@@ -85,7 +84,6 @@ class DescriptionActivity : AppCompatActivity() {
         }
         binding.description3RecyclerView.layoutManager = aux
         binding.description3RecyclerView.adapter = adapter
-
     }
 
     private fun configImage() {
@@ -99,41 +97,7 @@ class DescriptionActivity : AppCompatActivity() {
             if (!binding.description3RecyclerView.canScrollVertically(1)) {
                 viewModel.getSimilar()
             }
-
         }
-    }
-
-    override fun onBackPressed() {
-        changeToBody()
-        super.onBackPressed()
-    }
-
-    override fun onPause() {
-        changeToBody()
-        super.onPause()
-    }
-
-    override fun onStop() {
-        changeToBody()
-        super.onStop()
-    }
-
-    override fun onRestart() {
-        changeToHeader()
-        super.onRestart()
-    }
-
-    override fun onStart() {
-        changeToHeader()
-        super.onStart()
-    }
-
-    private fun changeToHeader(){
-        movie.type = 0
-    }
-
-    private fun changeToBody(){
-        movie.type = 1
     }
 
     override fun onSupportNavigateUp(): Boolean {

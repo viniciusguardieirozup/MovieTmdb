@@ -1,9 +1,11 @@
 package com.example.movietmdb.recycler.holder
 
+import android.view.View
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.example.movietmdb.DebouncedOnClickListener
 import com.example.movietmdb.R
 import com.example.movietmdb.databinding.LayoutItemMovieBinding
 import com.example.movietmdb.features.main.ui.fragments.SearchFragmentDirections
@@ -31,10 +33,15 @@ class ViewHolder(val binding: LayoutItemMovieBinding) : RecyclerView.ViewHolder(
     }
 
     private fun itemClick() {
-        itemView.setOnClickListener { view ->
-            val action = SearchFragmentDirections.actionSearchFragmentToDescription(movieItem)
-            view.findNavController().navigate(action)
-        }
+        itemView.setOnClickListener(object : DebouncedOnClickListener() {
+            override fun onDebouncedClick(v: View) {
+                val action =
+                    SearchFragmentDirections
+                        .actionSearchFragmentToDescription(movieItem)
+                v.findNavController().navigate(action)
+            }
+
+        })
     }
 
 }

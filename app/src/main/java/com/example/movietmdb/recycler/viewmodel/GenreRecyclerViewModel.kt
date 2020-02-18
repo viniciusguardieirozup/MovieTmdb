@@ -1,12 +1,10 @@
 package com.example.movietmdb.recycler.viewmodel
 
-import androidx.lifecycle.MutableLiveData
-import com.example.movietmdb.viewModel.BaseMovieViewModel
-import com.example.movietmdb.viewModel.ViewState
 import com.example.movietmdb.mappers.MoviePresentationMapper
 import com.example.movietmdb.repository.MoviesRepository
 import com.example.movietmdb.repository.retrofit.SearchResults
 import com.example.movietmdb.viewModel.PaginationViewModel
+import com.example.movietmdb.viewModel.ViewState
 
 class GenreRecyclerViewModel(
     private val moviesRepository: MoviesRepository
@@ -17,14 +15,13 @@ class GenreRecyclerViewModel(
         moviesLiveData.value = ViewState.Loading(true)
         if (!loading && !lastPage) {
             loadSimilar(id)
-        }
-        else{
+        } else {
             noMorePageAvailable()
         }
         moviesLiveData.value = ViewState.Loading(false)
     }
 
-    private fun loadSimilar(id : Int){
+    private fun loadSimilar(id: Int) {
         load {
             loading = true
             val moviesResults = accessRepositoryMapResult(id)
@@ -34,7 +31,7 @@ class GenreRecyclerViewModel(
         }
     }
 
-    private suspend fun accessRepositoryMapResult(id : Int): SearchResults {
+    private suspend fun accessRepositoryMapResult(id: Int): SearchResults {
         val moviesResults = moviesRepository.getMoviesByGenres(id, page)
         val favMovies = moviesRepository.getFavMovies()
         moviesLiveData.value = ViewState.Data(
