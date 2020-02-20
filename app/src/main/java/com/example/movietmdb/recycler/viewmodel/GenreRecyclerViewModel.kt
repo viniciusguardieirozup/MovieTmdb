@@ -33,11 +33,9 @@ class GenreRecyclerViewModel(
 
     private suspend fun accessRepositoryMapResult(id: Int): SearchResults {
         val moviesResults = moviesRepository.getMoviesByGenres(id, page)
-        val favMovies = moviesRepository.getFavMovies()
         moviesLiveData.value = ViewState.Data(
             MoviePresentationMapper.convertListMovieService(
-                moviesResults.results,
-                favMovies
+                moviesResults.results
             )
         )
         return moviesResults

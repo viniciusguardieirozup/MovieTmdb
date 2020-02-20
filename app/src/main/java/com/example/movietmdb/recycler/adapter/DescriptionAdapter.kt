@@ -6,6 +6,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movietmdb.R
 import com.example.movietmdb.databinding.LayoutHeaderBinding
+import com.example.movietmdb.databinding.LayoutItemMovieBinding
 import com.example.movietmdb.databinding.LayoutItemMovieSimilarBinding
 import com.example.movietmdb.recycler.data.MoviePresentation
 import com.example.movietmdb.recycler.holder.HeaderViewHolder
@@ -36,10 +37,10 @@ class DescriptionAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 )
             return HeaderViewHolder(binding)
         } else {
-            val binding: LayoutItemMovieSimilarBinding =
+            val binding: LayoutItemMovieBinding =
                 DataBindingUtil.inflate(
                     LayoutInflater.from(parent.context),
-                    R.layout.layout_item_movie_similar,
+                    R.layout.layout_item_movie,
                     parent,
                     false
                 )

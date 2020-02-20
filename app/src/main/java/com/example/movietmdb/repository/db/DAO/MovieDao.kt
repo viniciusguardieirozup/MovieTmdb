@@ -14,4 +14,7 @@ interface MovieDao {
 
     @Delete
     suspend fun removeMovie(movie: MovieData)
+
+    @Query("SELECT * FROM fav_movies WHERE id = :movieID")
+    suspend fun searchMovie(movieID : Int) : MovieData
 }

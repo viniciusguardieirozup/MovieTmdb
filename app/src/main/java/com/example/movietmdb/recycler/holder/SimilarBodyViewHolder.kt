@@ -1,18 +1,16 @@
 package com.example.movietmdb.recycler.holder
 
 import android.content.Intent
-import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.example.movietmdb.DebouncedOnClickListener
 import com.example.movietmdb.R
-import com.example.movietmdb.databinding.LayoutItemMovieSimilarBinding
+import com.example.movietmdb.databinding.LayoutItemMovieBinding
 import com.example.movietmdb.features.description.ui.DescriptionActivity
 import com.example.movietmdb.recycler.data.MoviePresentation
 
-//bindingadapter glide melhor forma?
-class SimilarBodyViewHolder(val binding: LayoutItemMovieSimilarBinding) :
+
+class SimilarBodyViewHolder(val binding: LayoutItemMovieBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
     private lateinit var movieItem: MoviePresentation
@@ -20,24 +18,26 @@ class SimilarBodyViewHolder(val binding: LayoutItemMovieSimilarBinding) :
     fun bind(
         movieItem: MoviePresentation
     ) {
+        binding.itemClick.isEnabled = true
         binding.item = movieItem
         this.movieItem = movieItem
         if (movieItem.posterPath == null) {
-            binding.itemSimilarMovieImage.setImageResource(R.drawable.ic_not_found)
+            binding.itemMovieImage.setImageResource(R.drawable.ic_not_found)
         } else {
             Glide.with(itemView.context)
                 .load(movieItem.posterPath)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(binding.itemSimilarMovieImage)
+                .into(binding.itemMovieImage)
         }
         itemClick()
     }
 
     private fun itemClick() {
-        itemView.setOnClickListener {
+        binding.itemClick.setOnClickListener {
+            it.isEnabled = false
             val intent = Intent(it.context, DescriptionActivity::class.java)
             intent.putExtra("movie", movieItem)
-            it.context.startActivity(intent)
+            itemView.context.startActivity(intent)
         }
     }
 }

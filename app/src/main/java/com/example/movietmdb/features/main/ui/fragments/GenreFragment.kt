@@ -57,6 +57,8 @@ class GenreFragment : Fragment() {
 
     private fun configureRecycler(results: GenresList) {
         adapter.addAll(GenrePresentationMapper.convertList(results))
+        binding.rcGenre.setHasFixedSize(true)
+        binding.rcGenre.setItemViewCacheSize(results.genres.size)
         binding.rcGenre.adapter = adapter
     }
 }

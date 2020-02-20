@@ -18,7 +18,6 @@ data class MoviePresentation(
     private val _popularity: Double?,
     private val _voteCount: Int?,
     private val _voteAverage: String,
-    private var _favorite: Boolean,
     private var _type: Int
 ) : Parcelable, BaseObservable() {
 
@@ -48,15 +47,6 @@ data class MoviePresentation(
 
     val voteAverage
         @get:Bindable get() = _voteAverage
-
-    var favorite
-        @get:Bindable get() = _favorite
-        set(value) {
-            if(_favorite != value){
-                _favorite = value
-//                notifyPropertyChanged()
-            }
-        }
 
     var type
         @get:Bindable get() = _type

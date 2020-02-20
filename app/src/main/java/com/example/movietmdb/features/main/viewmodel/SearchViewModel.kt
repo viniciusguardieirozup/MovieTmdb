@@ -50,11 +50,9 @@ class SearchViewModel(private val moviesRepository: MoviesRepository) :
 
     private suspend fun accessRepositoryMapResult(name: String): SearchResults {
         val moviesResults = moviesRepository.getMovies(name, page)
-        val favMovies = moviesRepository.getFavMovies()
         moviesLiveData.value = ViewState.Data(
             MoviePresentationMapper.convertListMovieService(
-                moviesResults.results,
-                favMovies
+                moviesResults.results
             )
         )
         return moviesResults

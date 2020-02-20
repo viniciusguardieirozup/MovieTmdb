@@ -16,7 +16,6 @@ import kotlinx.android.synthetic.main.activity_description.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-
 class DescriptionActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDescriptionBinding
@@ -36,7 +35,6 @@ class DescriptionActivity : AppCompatActivity() {
 
     private fun configBinding() {
         movie = intent?.extras?.getParcelable<MoviePresentation>("movie") as MoviePresentation
-        binding.lifecycleOwner = this
     }
 
     private fun configToolBar() {
@@ -44,6 +42,25 @@ class DescriptionActivity : AppCompatActivity() {
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_white_24dp)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = ""
+        configObserverToolBarImage()
+        configToolBarImageClick()
+    }
+
+    private fun configObserverToolBarImage(){
+        viewModel.favorite.observe(this, Observer {
+            if(it){
+                binding.imageToolBar.setBackgroundResource(R.drawable.ic_favorite_white_24dp)
+            }
+            else{
+                binding.imageToolBar.setBackgroundResource(R.drawable.ic_favorite_border_white_24dp)
+            }
+        })
+    }
+
+    private fun configToolBarImageClick(){
+        binding.imageToolBar.setOnClickListener {
+            viewModel.setFavorite()
+        }
     }
 
     private fun configViewModel() {

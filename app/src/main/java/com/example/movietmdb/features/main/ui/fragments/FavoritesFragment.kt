@@ -33,6 +33,10 @@ class FavoritesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         configObserver()
+    }
+
+    override fun onStart() {
+        super.onStart()
         viewModel.getFavMovies()
     }
 
@@ -52,6 +56,7 @@ class FavoritesFragment : Fragment() {
 
     private fun configRecycler(favMovies: ArrayList<MoviePresentation>) {
         val adapter = CustomAdapter()
+        adapter.reset()
         adapter.addAll(favMovies)
         binding.rc.adapter = adapter
     }

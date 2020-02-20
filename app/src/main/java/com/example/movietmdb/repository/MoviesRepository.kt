@@ -27,4 +27,6 @@ class MoviesRepository(private val moviesAPI: MoviesAPI, private val movieDAO: M
     suspend fun getGenres(): GenresList {
         return moviesAPI.getGenres()
     }
+
+    suspend fun getAMovie(movieId : Int) : MovieData = movieDAO.searchMovie(movieId)
 }

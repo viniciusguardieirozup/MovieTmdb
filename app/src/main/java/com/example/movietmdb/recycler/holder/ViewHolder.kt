@@ -1,17 +1,15 @@
 package com.example.movietmdb.recycler.holder
 
-import android.view.View
+import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.example.movietmdb.DebouncedOnClickListener
 import com.example.movietmdb.R
 import com.example.movietmdb.databinding.LayoutItemMovieBinding
 import com.example.movietmdb.features.main.ui.fragments.SearchFragmentDirections
 import com.example.movietmdb.recycler.data.MoviePresentation
 
-//bindingadapter glide melhor forma?
 class ViewHolder(val binding: LayoutItemMovieBinding) : RecyclerView.ViewHolder(binding.root) {
 
     private lateinit var movieItem: MoviePresentation
@@ -19,6 +17,7 @@ class ViewHolder(val binding: LayoutItemMovieBinding) : RecyclerView.ViewHolder(
     fun bind(
         movieItem: MoviePresentation
     ) {
+        binding.itemClick.isEnabled = true
         binding.item = movieItem
         this.movieItem = movieItem
         if (movieItem.posterPath == null) {
@@ -33,10 +32,12 @@ class ViewHolder(val binding: LayoutItemMovieBinding) : RecyclerView.ViewHolder(
     }
 
     private fun itemClick() {
-        itemView.setOnClickListener {
+        binding.itemClick.setOnClickListener {
+            it.isEnabled = false
             val action =
                 SearchFragmentDirections
                     .actionSearchFragmentToDescription(movieItem)
+
             it.findNavController().navigate(action)
         }
     }
