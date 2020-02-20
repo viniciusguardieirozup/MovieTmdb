@@ -18,7 +18,7 @@ object MoviePresentationMapper {
             dataMovie.backdropPath,
             dataMovie.popularity,
             dataMovie.voteCount,
-            (dataMovie.voteAverage * 10).roundToInt().toString(),
+            (dataMovie.voteAverage*10).roundToInt().toString(),
             fav,
             1
         )
@@ -34,7 +34,7 @@ object MoviePresentationMapper {
             dataMovie.backdropPath,
             dataMovie.popularity,
             dataMovie.voteCount,
-            dataMovie.voteAverage.roundToInt().toString(),
+            (dataMovie.voteAverage*10).roundToInt().toString(),
             fav,
             1
         )

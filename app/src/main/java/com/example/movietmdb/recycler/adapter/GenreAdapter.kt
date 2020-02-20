@@ -12,8 +12,7 @@ import com.example.movietmdb.recycler.holder.GenresViewHolder
 
 class GenreAdapter : RecyclerView.Adapter<GenresViewHolder>() {
 
-    private val genresList = ArrayList<GenrePresentation>()
-    lateinit var lifeCicle: LifecycleOwner
+    private var genresList = ArrayList<GenrePresentation>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenresViewHolder {
         val binding: LayoutItemMoviesGenresBinding =
@@ -23,7 +22,7 @@ class GenreAdapter : RecyclerView.Adapter<GenresViewHolder>() {
                 parent,
                 false
             )
-        return GenresViewHolder(binding, lifeCicle)
+        return GenresViewHolder(binding)
     }
 
     override fun getItemCount(): Int {
@@ -35,7 +34,8 @@ class GenreAdapter : RecyclerView.Adapter<GenresViewHolder>() {
     }
 
     fun addAll(aux: ArrayList<GenrePresentation>) {
-        genresList.addAll(aux)
+        genresList = aux
+        notifyDataSetChanged()
     }
 
 }

@@ -12,7 +12,7 @@ import com.example.movietmdb.viewModel.ViewState
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 
-class GenresViewHolder(val binding: LayoutItemMoviesGenresBinding, val lifecycle: LifecycleOwner) :
+class GenresViewHolder(val binding: LayoutItemMoviesGenresBinding) :
     RecyclerView.ViewHolder(binding.root), KoinComponent {
 
     private lateinit var genre: GenrePresentation
@@ -25,17 +25,14 @@ class GenresViewHolder(val binding: LayoutItemMoviesGenresBinding, val lifecycle
         binding.itemGenresRecyclerView.adapter = adapter
         configObserver()
         configRecycler()
-        binding.executePendingBindings()
     }
 
     private fun configObserver() {
-
-        recyclerViewModel.moviesLiveData.observe(lifecycle, Observer {
+        recyclerViewModel.moviesLiveData.observe(itemView.context as LifecycleOwner, Observer {
             if (it is ViewState.Data) {
                 adapter.addAll(it.movies as ArrayList<MoviePresentation>)
             }
         })
-
     }
 
     private fun configRecycler() {

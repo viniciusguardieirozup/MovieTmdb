@@ -2,9 +2,10 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
+
         <variable
-            name="movie"
-            type="com.example.movietmdb.recycler.data.MoviePresentation" />
+            name="viewModel"
+            type="com.example.movietmdb.recycler.viewmodel.HeaderViewModel" />
     </data>
 
     <LinearLayout
@@ -16,11 +17,11 @@
         <TextView
             android:id="@+id/titleHeaderText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="16dp"
             android:background="@drawable/scroll_color"
             android:paddingStart="5dp"
             android:paddingEnd="5dp"
-            android:text="@{movie.title}"
+            android:text="@{viewModel.movie.title}"
             android:textSize="24sp"
             android:textStyle="bold" />
 
@@ -30,7 +31,7 @@
             android:layout_height="wrap_content"
             android:paddingStart="7dp"
             android:paddingEnd="7dp"
-            android:text="@{movie.voteAverage + `% relevance`}"
+            android:text="@{viewModel.movie.voteAverage + `% relevance`}"
             android:textColor="@color/colorVote"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -40,18 +41,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="7dp"
-            android:text="@{movie.overView}"
+            android:text="@{viewModel.movie.overView}"
             android:textSize="14sp" />
 
 
-
-            <ImageButton
-                android:id="@+id/favoriteHeaderButton"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="5dp"
-                android:layout_gravity="center"
-                android:background="@android:color/transparent" />
+        <ImageButton
+            android:id="@+id/favoriteHeaderButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:background="@android:color/transparent" />
 
         <TextView
             android:id="@+id/similarHeaderText"

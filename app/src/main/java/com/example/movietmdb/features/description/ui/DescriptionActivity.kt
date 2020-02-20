@@ -6,9 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.request.RequestOptions
 import com.example.movietmdb.R
 import com.example.movietmdb.databinding.ActivityDescriptionBinding
 import com.example.movietmdb.features.description.viewmodel.DescriptionViewModel
@@ -25,7 +22,6 @@ class DescriptionActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDescriptionBinding
     private val viewModel: DescriptionViewModel by viewModel()
     private lateinit var movie: MoviePresentation
-
     private val adapter: DescriptionAdapter by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,7 +31,6 @@ class DescriptionActivity : AppCompatActivity() {
         configToolBar()
         configViewModel()
         configRecycler()
-        configImage()
         pagination()
     }
 
@@ -86,11 +81,6 @@ class DescriptionActivity : AppCompatActivity() {
         binding.description3RecyclerView.adapter = adapter
     }
 
-    private fun configImage() {
-        val request = RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL)
-        Glide.with(applicationContext).load(movie.backdropPath).apply(request)
-            .into(binding.description3Image)
-    }
 
     private fun pagination() {
         binding.description3RecyclerView.viewTreeObserver.addOnScrollChangedListener {

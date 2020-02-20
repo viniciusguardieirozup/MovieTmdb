@@ -5,4 +5,7 @@
     <string name="info_request_storage">WRITE EXTERNAL STORAGE it is necessary to save the favorite movie on a database</string>
     <string name="yes_please">YES</string>
     <string name="no_please">NO</string>
+    <string name="movies">Movies</string>
+    <string name="search">Search</string>
+    <string name="favorite">Favorite</string>
 </resources>

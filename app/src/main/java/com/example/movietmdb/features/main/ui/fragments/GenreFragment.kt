@@ -33,8 +33,8 @@ class GenreFragment : Fragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        adapter.lifeCicle = viewLifecycleOwner
+    override fun onStart() {
+        super.onStart()
         viewModel.getGenres()
         configObserverViewModel()
     }
@@ -46,8 +46,10 @@ class GenreFragment : Fragment() {
             } else if (it is ViewState.Loading) {
                 if (it.loading) {
                     binding.progressBar.visibility = View.VISIBLE
+                    binding.rcGenre.visibility = View.GONE
                 } else {
                     binding.progressBar.visibility = View.GONE
+                    binding.rcGenre.visibility = View.VISIBLE
                 }
             }
         })

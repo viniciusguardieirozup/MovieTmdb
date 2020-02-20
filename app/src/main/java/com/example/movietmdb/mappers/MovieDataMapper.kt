@@ -36,7 +36,7 @@ object MovieDataMapper {
             moviePresentation.backdropPath,
             moviePresentation.popularity,
             moviePresentation.voteCount,
-            moviePresentation.voteAverage.toDouble()
+            moviePresentation.voteAverage.toDouble()/10
         )
     }
 

@@ -1,6 +1,6 @@
 package com.example.movietmdb.features.description.viewmodel
 
-import androidx.databinding.ObservableField
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.movietmdb.mappers.MoviePresentationMapper
 import com.example.movietmdb.recycler.data.MoviePresentation
@@ -12,12 +12,16 @@ import com.example.movietmdb.viewModel.ViewState
 class DescriptionViewModel(val moviesRepository: MoviesRepository) : PaginationViewModel() {
 
     private var id = 0
+    private val _url = MutableLiveData<String>()
+    val url: LiveData<String>
+        get() = _url
 
-    fun startViewModel(movie : MoviePresentation){
+    fun startViewModel(movie: MoviePresentation) {
         this.id = movie.id
         this.movie = movie
         this.movie.type = 0
         moviesLiveData.value = ViewState.Data(arrayListOf(movie))
+        _url.value = movie.backdropPath
     }
 
     fun getSimilar() {

@@ -11,7 +11,7 @@ import com.example.movietmdb.databinding.LayoutItemMovieSimilarBinding
 import com.example.movietmdb.features.description.ui.DescriptionActivity
 import com.example.movietmdb.recycler.data.MoviePresentation
 
-
+//bindingadapter glide melhor forma?
 class SimilarBodyViewHolder(val binding: LayoutItemMovieSimilarBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
@@ -34,13 +34,11 @@ class SimilarBodyViewHolder(val binding: LayoutItemMovieSimilarBinding) :
     }
 
     private fun itemClick() {
-        itemView.setOnClickListener(object : DebouncedOnClickListener() {
-            override fun onDebouncedClick(v: View) {
-                val intent = Intent(v.context,DescriptionActivity::class.java)
-                intent.putExtra("movie",movieItem)
-                v.context.startActivity(intent)
-            }
-        })
+        itemView.setOnClickListener {
+            val intent = Intent(it.context, DescriptionActivity::class.java)
+            intent.putExtra("movie", movieItem)
+            it.context.startActivity(intent)
+        }
     }
-
 }
+

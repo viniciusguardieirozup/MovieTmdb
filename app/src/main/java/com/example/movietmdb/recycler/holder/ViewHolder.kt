@@ -11,7 +11,7 @@ import com.example.movietmdb.databinding.LayoutItemMovieBinding
 import com.example.movietmdb.features.main.ui.fragments.SearchFragmentDirections
 import com.example.movietmdb.recycler.data.MoviePresentation
 
-
+//bindingadapter glide melhor forma?
 class ViewHolder(val binding: LayoutItemMovieBinding) : RecyclerView.ViewHolder(binding.root) {
 
     private lateinit var movieItem: MoviePresentation
@@ -33,15 +33,12 @@ class ViewHolder(val binding: LayoutItemMovieBinding) : RecyclerView.ViewHolder(
     }
 
     private fun itemClick() {
-        itemView.setOnClickListener(object : DebouncedOnClickListener() {
-            override fun onDebouncedClick(v: View) {
-                val action =
-                    SearchFragmentDirections
-                        .actionSearchFragmentToDescription(movieItem)
-                v.findNavController().navigate(action)
-            }
-
-        })
+        itemView.setOnClickListener {
+            val action =
+                SearchFragmentDirections
+                    .actionSearchFragmentToDescription(movieItem)
+            it.findNavController().navigate(action)
+        }
     }
 
 }

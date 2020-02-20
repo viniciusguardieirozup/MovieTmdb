@@ -13,27 +13,29 @@ class HeaderViewHolder(val binding: LayoutHeaderBinding) : RecyclerView.ViewHold
     KoinComponent {
 
     private val viewModel: HeaderViewModel by inject()
+    private lateinit var movie : MoviePresentation
 
     fun bind(movie: MoviePresentation) {
-        binding.movie = movie
-        configImage(movie)
-        configButton(movie)
+        this.movie = movie
+        configImage()
+        viewModel.movie = this.movie
+        binding.viewModel = viewModel
+        buttonClick()
     }
 
-    private fun configButton(movie: MoviePresentation) {
+    private fun buttonClick(){
         binding.favoriteHeaderButton.setOnClickListener {
-            viewModel.setFavorite(movie)
-            configImage(movie)
+            viewModel.setFavorite()
+            configImage()
         }
     }
 
-    private fun configImage(movie: MoviePresentation) {
-        if (movie.favorite) {
+    private fun configImage(){
+        if(movie.favorite){
             binding.favoriteHeaderButton.setImageResource(R.drawable.ic_favorite_white_24dp)
-        } else {
+        }
+        else{
             binding.favoriteHeaderButton.setImageResource(R.drawable.ic_favorite_border_white_24dp)
         }
-
     }
-
 }
