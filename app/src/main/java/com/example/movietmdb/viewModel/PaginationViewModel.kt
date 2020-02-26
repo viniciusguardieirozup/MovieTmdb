@@ -2,9 +2,12 @@ package com.example.movietmdb.viewModel
 
 import com.example.movietmdb.repository.retrofit.SearchResults
 
-abstract class PaginationViewModel : BaseMovieViewModel(){
+abstract class PaginationViewModel : BaseMovieViewModel() {
+
+
     protected var lastPage = false
     protected var page = 1
+
 
     fun noMorePageAvailable() {
         if (lastPage && !loading) {

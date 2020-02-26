@@ -1,56 +1,29 @@
 package com.example.movietmdb.mappers
 
-import com.example.movietmdb.BaseJUnitTest
-import com.example.movietmdb.recycler.data.GenrePresentation
-import com.example.movietmdb.repository.retrofit.Genres
-import com.example.movietmdb.repository.retrofit.GenresList
-import io.mockk.Matcher
-import io.mockk.every
-import io.mockk.impl.annotations.InjectMockKs
-import io.mockk.impl.annotations.MockK
-import org.junit.Assert.*
-import org.junit.Rule
 import org.junit.Test
-import java.lang.reflect.Array
 
-class GenrePresentationMapperTest : BaseJUnitTest() {
-
-    @MockK
-    lateinit var genre: Genres
-    @MockK
-    lateinit var genreList: GenresList
+class GenrePresentationMapperTest : BaseMapper() {
 
     @Test
-    fun convertFromGenre_genre_GenrePresentation() {
+    fun convertFromGenre_genres_genrePresentation() {
         //GIVEN
-        val genre = Genres(id = 0, name = "Stub")
-
+        val genres = returnGenre()
         //WHEN
-        val result = GenrePresentationMapper.convertFromGenre(genre)
-
+        val result = GenrePresentationMapper.convertFromGenre(genres)
         //THEN
-        assertEquals(0, result.id)
-        assertEquals("Stub", result.name)
+        assertGenre(genres, result)
     }
 
     @Test
-    fun convertList_genreList_ArrayListGenrePresentation() {
+    fun convertList_arrayGenres_arrayGenrePresentation() {
         //GIVEN
-        every { genreList.genres.size } returns 10
-        for (i in 0..9)
-            every { genreList.genres[i] } returns genre
-        every { genre.id } returns 0
-        every { genre.name } returns "Stub"
+        val genresList = returnGenreList()
 
         //WHEN
-        val result = GenrePresentationMapper.convertList(genreList)
+        val result = GenrePresentationMapper.convertList(genresList)
 
         //THEN
-        for(i in 0..9){
-            assertEquals(0,result[i].id)
-            assertEquals("Stub",result[i].name)
-        }
-
+        for (i in 1..10)
+            assertGenre(genresList.genres[i], result = result[i])
     }
-
 }

@@ -1,0 +1,4 @@
+dokka {
+    outputFormat = 'markdown'
+    outputDirectory = "$buildDir/javadoc"
+}

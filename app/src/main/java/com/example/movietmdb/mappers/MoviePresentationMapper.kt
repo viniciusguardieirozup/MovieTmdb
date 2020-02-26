@@ -1,6 +1,5 @@
 package com.example.movietmdb.mappers
 
-import android.util.Log
 import com.example.movietmdb.recycler.data.MoviePresentation
 import com.example.movietmdb.repository.db.entity.MovieData
 import com.example.movietmdb.repository.retrofit.MovieService
@@ -18,7 +17,7 @@ object MoviePresentationMapper {
             dataMovie.backdropPath,
             dataMovie.popularity,
             dataMovie.voteCount,
-            (dataMovie.voteAverage*10).roundToInt().toString(),
+            (dataMovie.voteAverage * 10).roundToInt().toString(),
             1
         )
     }
@@ -33,7 +32,7 @@ object MoviePresentationMapper {
             dataMovie.backdropPath,
             dataMovie.popularity,
             dataMovie.voteCount,
-            (dataMovie.voteAverage*10).roundToInt().toString(),
+            (dataMovie.voteAverage * 10).roundToInt().toString(),
             1
         )
     }
@@ -65,7 +64,7 @@ object MoviePresentationMapper {
         val moviesData = MovieDataMapper.convertListMovieService(movies)
         val size = movies.size - 1
         for (i in 0..size) {
-                moviesList.add(mapFromService(moviesData[i]))
+            moviesList.add(mapFromService(moviesData[i]))
 
         }
         return moviesList

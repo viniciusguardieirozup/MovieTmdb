@@ -4,118 +4,68 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.movietmdb.BaseJUnitTest
 import com.example.movietmdb.repository.retrofit.SearchResults
 import io.mockk.every
-import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
-import org.junit.*
 import org.junit.Assert.*
+import org.junit.Rule
+import org.junit.Test
 
-class PaginationViewModelTest : BaseJUnitTest() {
+class PaginationViewModelTest : BaseJUnitTest(){
 
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
 
-    @InjectMockKs
-    private lateinit var viewModel: createPaginationViewModel
+    private val viewModel = pagination()
 
     @MockK
-    private lateinit var moviesResults: SearchResults
-
-
-    private val viewStateResults: (t: ViewState) -> Unit = {
-        mutable.add(it)
-    }
-
-    private val mutable: MutableList<ViewState> = mutableListOf()
-
-    @Before
-    fun configObserver() {
-        mutable.clear()
-        viewModel.moviesLiveData.observeForever(viewStateResults)
-    }
-
-    @After
-    fun removeObserver() {
-        viewModel.moviesLiveData.removeObserver(viewStateResults)
-    }
+    private lateinit var searchResult : SearchResults
 
     @Test
-    fun checkLastPage_isLastPage_lastPageTruePageDontIncrement() {
+    fun checkLastPage_isntLastPage_pageIncrement(){
+
         //GIVEN
-        every { moviesResults.totalPages } returns 1
-
+        every { searchResult.totalPages } returns 3
         //WHEN
-        viewModel.checkLastPage(moviesResults)
-        val result = viewModel.returnLastPage()
-        val page = viewModel.returnPage()
-
+        viewModel.checkLastPage(searchResult)
         //THEN
-        assertTrue(result)
-        assertEquals(1, page)
+        assertEquals(2,viewModel.returnPage())
+        assertEquals(false,viewModel.returnLastPage())
     }
 
     @Test
-    fun checkLastPage_isntLastPage_lastPageFalsePageIncrement() {
+    fun checkLastPage_isLastPage_pageIncrement(){
+
         //GIVEN
-        every { moviesResults.totalPages } returns 2
-
+        every { searchResult.totalPages } returns 1
         //WHEN
-        viewModel.checkLastPage(moviesResults)
-        val result = viewModel.returnLastPage()
-        val page = viewModel.returnPage()
-
+        viewModel.checkLastPage(searchResult)
         //THEN
-        assertFalse(result)
-        assertEquals(2, page)
+        assertEquals(1,viewModel.returnPage())
+        assertEquals(true,viewModel.returnLastPage())
     }
 
     @Test
-    fun noMoviesAvailable_moviesFounded_noError() {
-        //GIVEN
-        every { moviesResults.totalResults } returns 1
+    fun noMoviesAvailable_noMoviesFound_error(){
 
+        //GIVEN
+        every { searchResult.totalResults } returns 0
         //WHEN
-        viewModel.noMoviesAvailable(moviesResults)
-        val mutableSize = mutable.size
+        viewModel.noMoviesAvailable(searchResult)
         //THEN
-        assertEquals(0, mutableSize)
+        assertEquals("Movies not found", (viewModel.moviesLiveData.value as ViewState.Error).message)
     }
 
     @Test
-    fun noMoviesAvailable_moviesNotFounded_Error() {
+    fun noMorePageAvailable_noMorePages_error(){
         //GIVEN
-        every { moviesResults.totalResults } returns 0
+        every { searchResult.totalPages } returns 1
 
         //WHEN
-        viewModel.noMoviesAvailable(moviesResults)
-        //THEN
-        assertEquals("Movies not found", (mutable[0] as ViewState.Error).message)
-    }
-
-    @Test
-    fun noMorePageAvailable_isntLastPage_noError(){
-        //GIVEN
-
-        //WHEN
+        viewModel.checkLastPage(searchResult)
         viewModel.noMorePageAvailable()
-        val mutableSize = mutable.size
-
         //THEN
-        assertEquals(0,mutableSize)
+        assertEquals("No more movies", (viewModel.moviesLiveData.value as ViewState.Error).message)
     }
 
-    @Test
-    fun noMorePageAvailable_isLastPage_error(){
-        //GIVEN
-        every { moviesResults.totalPages } returns 1
-        //WHEN
-        viewModel.checkLastPage(moviesResults)
-        viewModel.noMorePageAvailable()
-
-        //THEN
-        assertEquals("No more movies",(mutable[0] as ViewState.Error).message)
-    }
-
-    class createPaginationViewModel : PaginationViewModel() {
-
-    }
 }
+
+class pagination : PaginationViewModel()
