@@ -43,7 +43,7 @@ class DescriptionViewModel(val moviesRepository: MoviesRepository) : PaginationV
         moviesLiveData.value = ViewState.Loading(false)
     }
 
-    suspend fun accessRepositoryMapResult(): SearchResults {
+    private suspend fun accessRepositoryMapResult(): SearchResults {
         val moviesResults = moviesRepository.getSimilar(movie.id, page)
         moviesLiveData.value = ViewState.Data(
             MoviePresentationMapper.convertListMovieService(

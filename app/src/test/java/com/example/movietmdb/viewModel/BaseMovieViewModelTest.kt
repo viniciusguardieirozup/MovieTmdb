@@ -2,9 +2,9 @@ package com.example.movietmdb.viewModel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.movietmdb.BaseCoroutineTest
-import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
+import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 
