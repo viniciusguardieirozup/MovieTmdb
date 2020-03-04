@@ -1,6 +1,6 @@
 package com.example.movietmdb.mappers
 
-import com.example.movietmdb.recycler.data.GenrePresentation
+import com.example.movietmdb.presentation.recycler.data.GenrePresentation
 import com.example.movietmdb.repository.retrofit.Genres
 import com.example.movietmdb.repository.retrofit.GenresList
 

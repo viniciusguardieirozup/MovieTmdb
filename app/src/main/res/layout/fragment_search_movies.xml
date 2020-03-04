@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.movietmdb.features.main.viewmodel.SearchViewModel" />
+            type="com.example.movietmdb.presentation.viewmodel.SearchViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -15,11 +15,11 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
 
-        <activity android:name=".features.description.ui.DescriptionActivity"
+        <activity android:name=".presentation.activity.DescriptionActivity"
             android:theme="@style/DescriptionTheme"/>
 
 
-        <activity android:name=".features.main.ui.activity.MainActivity">
+        <activity android:name=".presentation.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />

@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.movietmdb.features.description.viewmodel.DescriptionViewModel" />
+            type="com.example.movietmdb.presentation.viewmodel.DescriptionViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

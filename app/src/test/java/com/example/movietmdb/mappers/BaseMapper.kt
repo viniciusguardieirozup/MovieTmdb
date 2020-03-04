@@ -1,8 +1,8 @@
 package com.example.movietmdb.mappers
 
 import com.example.movietmdb.BaseJUnitTest
-import com.example.movietmdb.recycler.data.GenrePresentation
-import com.example.movietmdb.recycler.data.MoviePresentation
+import com.example.movietmdb.presentation.recycler.data.GenrePresentation
+import com.example.movietmdb.presentation.recycler.data.MoviePresentation
 import com.example.movietmdb.repository.db.entity.MovieData
 import com.example.movietmdb.repository.retrofit.Genres
 import com.example.movietmdb.repository.retrofit.GenresList
@@ -118,8 +118,38 @@ open class BaseMapper : BaseJUnitTest() {
         )
     }
 
+    private fun returnMovieServicePosterPathNotNull(): MovieService {
+        val aux = ArrayList<Int>()
+        aux.add(10)
+        return MovieService(
+            "123",
+            null,
+            "teste",
+            null,
+            aux,
+            42,
+            null,
+            null,
+            "10",
+            null,
+            null,
+            null,
+            null,
+            10.0
+        )
+    }
+
     protected fun returnListService(): List<MovieService> {
         val aux = returnMovieService()
+        val list = ArrayList<MovieService>()
+        for (i in 0..10) {
+            list.add(aux)
+        }
+        return list
+    }
+
+    protected fun returnListServicePathNotNull(): List<MovieService> {
+        val aux = returnMovieServicePosterPathNotNull()
         val list = ArrayList<MovieService>()
         for (i in 0..10) {
             list.add(aux)

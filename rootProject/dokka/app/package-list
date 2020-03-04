@@ -9,10 +9,10 @@ com.example.movietmdb.features.main.ui.activity
 com.example.movietmdb.features.main.ui.fragments
 com.example.movietmdb.features.main.viewmodel
 com.example.movietmdb.mappers
-com.example.movietmdb.recycler.adapter
-com.example.movietmdb.recycler.data
-com.example.movietmdb.recycler.holder
-com.example.movietmdb.recycler.viewmodel
+com.example.movietmdb.presentation.recycler.adapter
+com.example.movietmdb.presentation.recycler.data
+com.example.movietmdb.presentation.recycler.holder
+com.example.movietmdb.presentation.recycler.viewmodel
 com.example.movietmdb.repository
 com.example.movietmdb.repository.db
 com.example.movietmdb.repository.db.DAO

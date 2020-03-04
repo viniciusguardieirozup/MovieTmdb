@@ -6,7 +6,7 @@
 
         <variable
             name="item"
-            type="com.example.movietmdb.recycler.data.MoviePresentation" />
+            type="com.example.movietmdb.presentation.recycler.data.MoviePresentation" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

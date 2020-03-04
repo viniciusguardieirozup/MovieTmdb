@@ -5,7 +5,7 @@
     <data>
         <variable
             name="genresName"
-            type="com.example.movietmdb.recycler.data.GenrePresentation" />
+            type="com.example.movietmdb.presentation.recycler.data.GenrePresentation" />
     </data>
 
     <LinearLayout

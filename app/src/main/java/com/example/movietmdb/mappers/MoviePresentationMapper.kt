@@ -1,6 +1,6 @@
 package com.example.movietmdb.mappers
 
-import com.example.movietmdb.recycler.data.MoviePresentation
+import com.example.movietmdb.presentation.recycler.data.MoviePresentation
 import com.example.movietmdb.repository.db.entity.MovieData
 import com.example.movietmdb.repository.retrofit.MovieService
 import kotlin.math.roundToInt

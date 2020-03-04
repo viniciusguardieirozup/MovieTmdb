@@ -6,7 +6,7 @@
     app:startDestination="@id/genreFragment">
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.example.movietmdb.features.main.ui.fragments.SearchFragment"
+        android:name="com.example.movietmdb.presentation.fragments.SearchFragment"
         android:label="SearchFragment"
         tools:layout="@layout/fragment_search_movies">
         <action
@@ -15,7 +15,7 @@
     </fragment>
     <fragment
         android:id="@+id/favoritesFragment"
-        android:name="com.example.movietmdb.features.main.ui.fragments.FavoritesFragment"
+        android:name="com.example.movietmdb.presentation.fragments.FavoritesFragment"
         android:label="FavoritesFragment"
         tools:layout="@layout/fragment_favorites">
         <action
@@ -24,7 +24,7 @@
     </fragment>
     <fragment
         android:id="@+id/genreFragment"
-        android:name="com.example.movietmdb.features.main.ui.fragments.GenreFragment"
+        android:name="com.example.movietmdb.presentation.fragments.GenreFragment"
         android:label="GenreFragment"
         tools:layout="@layout/fragment_genres">
         <action
@@ -33,12 +33,12 @@
     </fragment>
     <activity
         android:id="@+id/descriptionActivity"
-        android:name="com.example.movietmdb.features.description.ui.DescriptionActivity"
+        android:name="com.example.movietmdb.presentation.activity.DescriptionActivity"
         android:label="Description2Activity"
         tools:layout="@layout/activity_description">
         <argument
             android:name="movie"
-            app:argType="com.example.movietmdb.recycler.data.MoviePresentation"/>
+            app:argType="com.example.movietmdb.presentation.recycler.data.MoviePresentation"/>
     </activity>
 
 

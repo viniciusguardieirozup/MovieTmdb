@@ -1,5 +1,6 @@
 package com.example.movietmdb.mappers
 
+import org.junit.Assert
 import org.junit.Test
 
 class MovieDataMapperTest : BaseMapper() {
@@ -29,8 +30,16 @@ class MovieDataMapperTest : BaseMapper() {
         }
     }
 
-
-
-
-
+    @Test
+    fun convertListMovieService_moviePathNotNull(){
+        //GIVEN
+        val aux = returnListServicePathNotNull()
+        //WHEN
+        val result = MovieDataMapper.convertListMovieService(aux)
+        //THEN
+        val size = aux.size -1
+        for(i in 0..size){
+            Assert.assertEquals("https://image.tmdb.org/t/p/w185/123",result[i].posterPath)
+        }
+    }
 }
