@@ -22,3 +22,21 @@ platform :android do
     upload_to_play_store
   end
 end
+
+desc "Assemble Build"
+lane :assemble_build do |options|
+    gradle(
+        task: "assemble",
+        flavor: options[:build_flavor],
+        build_type: options[:build_type]
+    )
+end
+
+desc "Unit Test"
+lane :unit_test do |options|
+    gradle(
+        task: "test",
+        flavor: options[:build_flavor],
+        build_type: options[:build_type]
+    )
+end

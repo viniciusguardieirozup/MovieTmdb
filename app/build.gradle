@@ -23,6 +23,21 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    flavorDimensions "version"
+    productFlavors{
+        dev{
+            applicationId 'com.example.movietmdb.dev'
+            buildConfigField("String", "APP_MODE", "\"Dev\"")
+        }
+
+        beta{
+            buildConfigField("String", "APP_MODE", "\"Beta\"")
+        }
+
+        pro{
+            buildConfigField("String", "APP_MODE", "\"Pro\"")
+        }
+    }
 
 
     sourceSets {
